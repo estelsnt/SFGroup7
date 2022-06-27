@@ -1,0 +1,3 @@
+# SFGroup7
+Service Finder Web App - Capstone Project 2022
+#GROUP 7 CAPSTONE PROJECT FOR COLEGIO DE MONTALBAN
