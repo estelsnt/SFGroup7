@@ -1,0 +1,90 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #0073ff;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: #f5f5dc;
+    box-shadow: rgba(254, 140, 0, 0.4) 5px 5px, rgba(254, 140, 0, 0.3) 10px 10px, rgba(254, 140, 0, 0.2) 15px 15px, rgba(254, 140, 0, 0.1) 20px 20px, rgba(254, 140, 0, 0.05) 25px 25px;    
+}
+
+.login h3{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2em;
+}
+
+.login form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-items: center;
+}
+
+.login form label{
+    flex: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2em;
+    margin: 0 2px 5px 0;
+}
+
+.login form input{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.login form button{
+    align-self: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.5em;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    margin: 10px;
+    background-color: #ff8c00;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.login form a{
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.1em;
+}
+
+.login form a{
+    align-self: center;
+}
+
+.login form p{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.1em;
+}
+
+.login form button:hover{
+    cursor: pointer;
+    background-color: #ffb253;
+}
+
+
+
+

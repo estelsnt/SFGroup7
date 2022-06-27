@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Service Finder</title>
+        <link rel="stylesheet" type="text/css" href="../styles/dashboard-page.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="heading">
+                <div class="slide-menu">
+                    <img src="../images/list.png"  id="menu">
+                    <div class="side-menu">
+                        <h2>Services Finder</h2>
+                        <ul>
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Messages</a></li>
+                            <li><a href="#">Post your service</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <h1 onclick="gotoTop()">Service Finder</h1>
+                <ul class="navigation">
+                    <li id="profile">Profile</li>
+                    <li id="messages">Messages</li>
+                    <li id="posts">Post your service</li>
+                    <li>
+                        <button class="search-button" onclick="showSearch()"></button>
+                    </li>
+                </ul>
+            </div>
+            <div class="search-container" id="searchContainer">
+                <div class="search" id="search">
+                    <div class="search-header">
+                        <img src="../images/close.png" onclick="closeSearch()">
+                    </div>
+                    <form>
+                        <h2>Filter search</h2>
+                        <div class="services">
+                            <h3>Services: </h3>
+                            <select name="services" id="services">
+                                <option disabled>Select service type</option>
+                                <option selected value="all">All</option>
+                                <option value="offers">Offers</option>
+                                <option value="orders">Orders</option>
+                            </select>
+                        </div>
+                        <div class="coverage">
+                            <h3>Coverage: </h3>
+                            <select name="coverage" id="coverage">
+                                <option disabled>Select coverage</option>
+                                <option selected value="barangay">Barangay</option>
+                                <option value="cityMunicipality">City/Municipality</option>
+                                <option value="province">Province</option>
+                                <option value="region">Region</option>
+                            </select>
+                        </div>
+                        <input type="text" placeholder="Search service name">
+                        <button>Search</button>
+                    </form>
+                </div>
+            </div>
+            <div class="main">
+                <div class="filter-info">
+                    <h3>Services: All</h3>
+                    <h3>Coverage: City/Municipality</h3>
+                </div>
+                <!--SERVICES POSTS GOES HERE-->
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+                <div class="post">
+                    <span>
+						service
+					</span>
+                </div>
+            </div>
+        </div>
+        <script src="../js/dashboardBehavior.js"></script>
+    </body>
+</html>
