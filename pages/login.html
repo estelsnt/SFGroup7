@@ -10,12 +10,13 @@
         <div class="container">
             <div class="login">
                 <h3>Service Finder</h3>
-                <form>
+                <!--loging should go to a script for validation then redirect this page to dashboard-->
+                <form action="dashboard.html">
                     <label for="userName">Username</label>
                     <input type="text"  id="userName" placeholder="username">
                     <label for="passWord">Password</label>
                     <input type="text" id="passWord" placeholder="password">
-                    <button onclick="location.href='dashboard.html'" type="button">Login</button>
+                    <input type="submit" value="login" id="login">
                     <a href="#">forgot password?</a>
                     <p>Need account? <a href="#">Register</a></p>
                 </form>

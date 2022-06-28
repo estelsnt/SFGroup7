@@ -53,16 +53,17 @@ html, body{
     box-sizing: border-box;
 }
 
-.login form button{
+.login form #login{
+    cursor: pointer;
+    max-width: 100px;
     align-self: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.5em;
-    padding: 10px;
-    border: none;
-    border-radius: 20px;
-    margin: 10px;
     background-color: #ff8c00;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    border: none;
+}
+
+.login form #login:hover{
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
 }
 
 .login form a{
