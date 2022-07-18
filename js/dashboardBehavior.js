@@ -1,25 +1,24 @@
-let searchBox = document.getElementById("searchContainer");
-let search = document.getElementById("search");
+//dashboard events listener
+$("document").ready(()=>{
+    $(".heading").click(()=>{   //heading scroll to top when clicked
+        window.scrollTo(0, 0);
+    });
 
-searchBox.onclick = function(){
-    closeSearch();
-}
+    $(".search-button").click(()=>{     //display the search panel when search icon is clicked
+        $("#searchContainer").css({display: "block"});
+    });
 
-search.onclick = function(){
-    window.event.stopPropagation();
-}
+    $("#closeSearch").click(()=>{   //closes the search panel on exit button clicked
+        $("#searchContainer").css({display: "none"});
+    });
 
-function showSearch(){
-    searchBox.style.display = "block"
-}
+    $("#searchContainer").click(()=>{       //closes the search panel on click outside the search panel
+        $("#searchContainer").css({display: "none"});
+    });
 
-function closeSearch(){
-    searchBox.style.display = "none"
-}
-
-function gotoTop(){
-    window.scrollTo(0, 0);
-}
-
+    $("#search").click(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
+        window.event.stopPropagation();
+    });
+});
 
 
