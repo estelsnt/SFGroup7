@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Service Finder</title>
+        <link rel="stylesheet" type="text/css" href="../styles/register-page.css">
+        <script src="../js/jquery-3.6.0.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="registerPanel">
+                <h3>Sign up.</h3>
+                <div class="main">
+                    <div class="userInfo">
+                        
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Username:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text">
+                                <span id="usernameMessage"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Password:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="password" id="passWord">
+                                <span id="passwordMessage">show</span>
+                            </div>
+                        </div>
+                        
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Last name:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text">
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>First name:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text">
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Surname:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text">
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Contact #:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text">
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Email:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text">
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Gender:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <select name="gender" id="gender">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Others" disabled>--Others specify--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Birth date:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="date">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="userAddressInfo">
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Region:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <select name="region" id="region">
+                                    
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Province:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <select name="province" id="province">
+                                    
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>City/Municipality:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <select name="cityMunicipality" id="cityMunicipality">
+                                    
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Barangay:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <select name="barangay" id="barangay">
+                                    
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Address Details:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <textarea name="addressDetails" id="addressDetails" placeholder="Blk/Lt. st."></textarea>
+                            </div>
+                        </div>
+
+                        <button id="confirm">Confirm</button>
+
+                    </div>
+                </div>
+                <div class="footer">
+
+                </div>
+            </div>
+        </div>
+        <script src="../js/registerBeavior.js"></script>
+    </body>
+</html>
