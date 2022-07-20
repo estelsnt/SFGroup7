@@ -8,22 +8,44 @@
         <script src="../js/jquery-3.6.0.min.js"></script>
     </head>
     <body>
+        <div class="otpConfirmationContainer">
+            <div class="otpConfirm">
+                <div class="heading">
+                    <span>Confirm contact number.</span>
+                    <img src="../images/close.png" alt="exit" id="exit">
+                </div>
+                <h5 id="otpHeading">Send OTP code to:</h5>
+                <button id="sendOtp">Send</button>
+                <div class="inputContainer">
+                    <div class="inputLabel">
+                        <span>OTP code:</span>
+                    </div>
+                    
+                    <div class="textBoxes">
+                        <input type="text">
+                        <span id="usernameMessage">type 1 to skip (in development)</span>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
         <div class="container">
             <div class="registerPanel">
                 <h3>Sign up.</h3>
                 <div class="main">
                     <div class="userInfo">
-                        
+                        <!--USERNAME-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Username:</span>
                             </div>
                             <div class="textBoxes">
-                                <input type="text">
-                                <span id="usernameMessage"></span>
+                                <input type="text" id="userName">
+                                <span id="userNameMessage" class="inputMessage"></span>
                             </div>
                         </div>
-                        
+                        <!--PASSWORD-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Password:</span>
@@ -33,25 +55,25 @@
                                 <span id="passwordMessage">show</span>
                             </div>
                         </div>
-                        
+                        <!--LAST NAME-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Last name:</span>
                             </div>
                             <div class="textBoxes">
-                                <input type="text">
+                                <input type="text" id="lastName">
                             </div>
                         </div>
-
+                        <!--FIRST NAME-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>First name:</span>
                             </div>
                             <div class="textBoxes">
-                                <input type="text">
+                                <input type="text" id="firstName">
                             </div>
                         </div>
-
+                        <!--MIDDLE NAME-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Surname:</span>
@@ -60,16 +82,16 @@
                                 <input type="text">
                             </div>
                         </div>
-
+                        <!--CONTACT NUMBER-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Contact #:</span>
                             </div>
                             <div class="textBoxes">
-                                <input type="text">
+                                <input type="text" name="contactNumber" id="contactNumber">
                             </div>
                         </div>
-
+                        <!--EMAIL-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Email:</span>
@@ -78,20 +100,20 @@
                                 <input type="text">
                             </div>
                         </div>
-
+                        <!--GENDER-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Gender:</span>
                             </div>
                             <div class="textBoxes">
-                                <select name="gender" id="gender">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Others" disabled>--Others specify--</option>
-                                </select>
+                                <input type="text" list="gender">
+                                <datalist id="gender">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </datalist>
                             </div>
                         </div>
-
+                        <!--BIRTH DATE-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Birth date:</span>
@@ -103,18 +125,18 @@
 
                     </div>
                     <div class="userAddressInfo">
-
+                        <!--REGION-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Region:</span>
                             </div>
                             <div class="textBoxes">
                                 <select name="region" id="region">
-                                    
+                    
                                 </select>
                             </div>
                         </div>
-
+                        <!--PROVINCE-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Province:</span>
@@ -125,7 +147,7 @@
                                 </select>
                             </div>
                         </div>
-
+                        <!--CITY/MUNICIPALITY-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>City/Municipality:</span>
@@ -136,7 +158,7 @@
                                 </select>
                             </div>
                         </div>
-
+                        <!--BARANGAY-->
                         <div class="inputContainer">
                             <div class="inputLabel">
                                 <span>Barangay:</span>

@@ -74,6 +74,11 @@ html, body{
     margin: 0 10px;
 }
 
+.inputMessage{
+    color: red;
+    font-size: 0.7em;
+}
+
 input, select{
     margin-top: 7px;
     padding: 2px;
@@ -116,6 +121,10 @@ input, select{
     border: 1px solid #ccccc4;
 }
 
+.userAddressInfo select{
+    max-width: 250px;
+}
+
 .footer{
     background-color: #fffff6;
     min-height: 2vh;
@@ -123,8 +132,86 @@ input, select{
     border-bottom-right-radius: 20px;
 }
 
+.otpConfirmationContainer{
+    display: none;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.otpConfirm{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+    width: 50vw;
+    top: 25vh;
+    left: 25vw;
+    border-radius: 20px;
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;   
+    background-color: #fffff6;
+}
+
+.otpConfirm .heading{
+    display: flex;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 10px;
+    background-color: #ffab1e;
+    font-size: 1em;
+    font-weight: 700;
+}
+
+.otpConfirm .heading #exit{
+    margin-left: auto;
+    display: inline-block;
+    height: 20px;
+    width: 20px ;
+    cursor: pointer;
+}
+
+.otpConfirm h5{
+    text-align: center;
+}
+
+.otpConfirm #sendOtp{
+    font-size: 1em;
+    font-weight: 700;
+    padding: 10px 20px;
+    align-self: center;
+    border-radius: 10px;
+    border: hidden;
+    background-color: #ffab1e;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    cursor: pointer;
+}
+
+.otpConfirm #sendOtp:hover{
+    background-color: #ffb253;
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;   
+}
+
+.otpConfirm .inputContainer{
+    margin-top: 20px;
+}
+
+.otpConfirm .inputContainer .textBoxes input{
+    max-width: 200px;
+}
+
+@media (max-width: 1000px) {
+    .otpConfirm{
+        width: 80vw;
+        left: 10vw;
+    }
+}
+
 @media (max-width: 480px) {
     .main{
         font-size: 0.7em;
     }
+    .userAddressInfo select{
+        max-width: 200px;
+    }    
 }
