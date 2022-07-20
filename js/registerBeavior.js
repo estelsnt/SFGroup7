@@ -1,8 +1,10 @@
 $("document").ready(()=>{
+
     let region;
     let province;
     let cityMunicipality;
     let barangay;
+    let brgyCode;
 
     $("#passwordMessage").mouseenter(()=>{
         $("#passWord").attr("type", "text");
@@ -15,14 +17,28 @@ $("document").ready(()=>{
     //confirmation on registration
     $("#confirm").click(()=>{
         //check inputs first before opening otp confirmation panel
-        
         if(!validateInput()){
             return;
         }
-        
-        
-        $(".otpConfirmationContainer").css({display: "block"});
-        $("#otpHeading").text("Send OTP code to: " + $("#contactNumber").val());
+        //check if username already existed (di ko mapagana pag hiwalay kasi asynchronous)
+        fetch('../api/checkUsernameDuplicate.php?id=' + $("#userName").val(),{
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            },
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data[0].userName === 0){
+                $(".otpConfirmationContainer").css({display: "block"});
+                $("#otpHeading").text("Send OTP code to: " + $("#contactNumber").val());
+            }else{
+                $("#userName").css({border: "1px solid red"});
+                $("#userNameMessage").text("username already exist*");
+                return;
+            }
+        })
+        .catch(error=>console.log('error' + error));
     });
 
     $(".otpConfirmationContainer").click(()=>{
@@ -40,7 +56,8 @@ $("document").ready(()=>{
     //sending of OTP code
     $("#sendOtp").click(()=>{
         //generate otp and send to database (otp is session variable)
-
+        sessionStorage.setItem("otp","1");//otp is set to 1 for now
+        //once otp is created insert it to database for sms sending
 
         //
         $("#sendOtp").attr("disabled", "true");
@@ -56,9 +73,39 @@ $("document").ready(()=>{
                 counter = 15;
             }
         },1000);
+    });
+    //registration allowed on correct OTP
+    $("#otp").keyup(()=>{
+        if($("#otp").val() == sessionStorage.getItem("otp")){
+            //insert userdata to database here
+            fetch('../api/addNewUser.php', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userName: $("#userName").val(),
+                    passWord: $("#passWord").val(),
+                    lastName: $("#lastName").val(),
+                    fistName: $("#firstName").val(),
+                    middleName: $("#middleName").val(),
+                    contactNumber: $("#contactNumber").val(),
+                    email: $("#email").val(),
+                    gender: $("#gender").val(),
+                    birthDate: $("#birthDate").val(),
+                    brgyCode: brgyCode
+                })
+            })
+            .then(()=>{
+                $(".otpConfirmationContainer").css({display: "none"});
+                $(".registerSuccessContainer").css({display: "block"});
+            })
+            .catch(error=>console.log("hala gago may error di mo alam ayusin yan tanga: " + error));
+        }
+    });
 
-        
-
+    $("#backToLogin").click(()=>{
+        window.location.replace("login.html");//send back to login page
     });
 
     //populate gets data from database, fill updates the options in page
@@ -190,7 +237,7 @@ $("document").ready(()=>{
         }
         $("#cityMunicipality").empty();
         $("#barangay").empty();
-
+        $("#region").css({"border": "1px solid #ccccc4"});
     });
 
     $("#province").change(()=>{     //populate region options when province changes
@@ -201,6 +248,7 @@ $("document").ready(()=>{
             }
         }
         $("#barangay").empty();
+        $("#province").css({"border": "1px solid #ccccc4"});
     });
 
     $("#cityMunicipality").change(()=>{     //populate barangay options when city/municipality changes
@@ -210,9 +258,64 @@ $("document").ready(()=>{
                 break;
             }
         }
+        $("#cityMunicipality").css({"border": "1px solid #ccccc4"});
     });
 
-    //input sanitize, validate, and authenticate
+    $("#barangay").change(()=>{
+        for(let i in barangay){
+            if(barangay[i].description == $("#barangay").val()){
+                brgyCode = barangay[i].brgyCode;
+                break;
+            }
+        }
+        $("#barangay").css({"border": "1px solid #ccccc4"});
+    });
+
+    //input sanitize and validate
+
+    let sanitize = (string)=>{
+        const map = {
+            '&': '',
+            '<': '',
+            '>': '',
+            '"': '',
+            "'": '',
+            "/": '',
+        };
+        const reg = /[&<>"'/]/ig;
+        return string.replace(reg, (match)=>(map[match]));
+      }
+    $("#userName").keyup(()=>{
+        $("#userName").val(sanitize($("#userName").val()));
+        $("#userName").css({"border": "1px solid #ccccc4"});
+        $("#userNameMessage").text("");
+    });
+    $("#passWord").keyup(()=>{
+        $("#passWord").val(sanitize($("#passWord").val()));
+        $("#passWord").css({"border": "1px solid #ccccc4"});
+    });
+    $("#lastName").keyup(()=>{
+        $("#lastName").val(sanitize($("#lastName").val()));
+    });
+    $("#firstName").keyup(()=>{
+        $("#firstName").val(sanitize($("#firstName").val()));
+        $("#firstName").css({"border": "1px solid #ccccc4"});
+    });
+    $("#middleName").keyup(()=>{
+        $("#middleName").val(sanitize($("#middleName").val()));
+    });
+    $("#contactNumber").keyup(()=>{
+        $("#contactNumber").val(sanitize($("#contactNumber").val()));
+        $("#contactNumber").val( $("#contactNumber").val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
+        $("#contactNumber").css({"border": "1px solid #ccccc4"});
+    });
+    $("#email").keyup(()=>{
+        $("#email").val(sanitize($("#email").val()));
+    });
+    $("#gender").keyup(()=>{
+        $("#gender").val(sanitize($("#gender").val()));
+    });
+
     let validateInput = ()=>{
         let valid = true;
         if($("#userName").val().length === 0){
@@ -250,7 +353,7 @@ $("document").ready(()=>{
         }
         return valid;
     };
-
+    
 
     //initial functions call
     populateRegion();

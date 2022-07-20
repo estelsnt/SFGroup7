@@ -14,6 +14,31 @@ html, body{
     background-color: #0073ff;
 }
 
+.registerSuccessContainer{
+    display: none;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background-color:#0073ff;
+}
+
+#backToLogin{
+    margin: auto;
+    max-width: 150px;
+    font-size: 1em;
+    padding: 10px;
+    border-radius: 5px;
+    border: hidden;
+    background-color: #ffab1e;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    cursor: pointer;
+}
+
+#backToLogin:hover{
+    background-color: #ffb253;
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px; 
+}
+
 .registerPanel{
     min-height: 90vh;
     min-width: 90vw;

@@ -8,6 +8,14 @@
         <script src="../js/jquery-3.6.0.min.js"></script>
     </head>
     <body>
+        <div class="registerSuccessContainer">
+            <div class="otpConfirm">
+                <div class="heading">
+                    <span>Registration Success!</span>
+                </div>
+                <button id="backToLogin">back to login</button>
+            </div>
+        </div>
         <div class="otpConfirmationContainer">
             <div class="otpConfirm">
                 <div class="heading">
@@ -22,8 +30,8 @@
                     </div>
                     
                     <div class="textBoxes">
-                        <input type="text">
-                        <span id="usernameMessage">type 1 to skip (in development)</span>
+                        <input type="text" id="otp">
+                        <span id="usernameMessage">click send and type 1 to skip (in development)</span>
                     </div>
                     
                 </div>
@@ -79,7 +87,7 @@
                                 <span>Surname:</span>
                             </div>
                             <div class="textBoxes">
-                                <input type="text">
+                                <input type="text" id="middleName">
                             </div>
                         </div>
                         <!--CONTACT NUMBER-->
@@ -97,7 +105,7 @@
                                 <span>Email:</span>
                             </div>
                             <div class="textBoxes">
-                                <input type="text">
+                                <input type="text" id="email">
                             </div>
                         </div>
                         <!--GENDER-->
@@ -106,8 +114,8 @@
                                 <span>Gender:</span>
                             </div>
                             <div class="textBoxes">
-                                <input type="text" list="gender">
-                                <datalist id="gender">
+                                <input type="text" list="genderList" id="gender">
+                                <datalist id="genderList">
                                     <option>Male</option>
                                     <option>Female</option>
                                 </datalist>
@@ -119,7 +127,7 @@
                                 <span>Birth date:</span>
                             </div>
                             <div class="textBoxes">
-                                <input type="date">
+                                <input type="date" id="birthDate">
                             </div>
                         </div>
 
