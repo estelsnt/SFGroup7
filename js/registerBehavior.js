@@ -13,13 +13,13 @@ $("document").ready(()=>{
     $("#passwordMessage").mouseleave(()=>{
         $("#passWord").attr("type", "password");
     });
-
     //confirmation on registration
     $("#confirm").click(()=>{
         //check inputs first before opening otp confirmation panel
         if(!validateInput()){
             return;
         }
+        let flag = true;
         //check if username already existed (di ko mapagana pag hiwalay kasi asynchronous)
         fetch('../api/checkUsernameDuplicate.php?id=' + $("#userName").val(),{
             method: 'GET',
@@ -30,13 +30,39 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             if(data[0].userName === 0){
-                $(".otpConfirmationContainer").css({display: "block"});
-                $("#otpHeading").text("Send OTP code to: " + $("#contactNumber").val());
-            }else{
+                flag = true;
+                $("#userName").css({border: "1px solid #ccccc4"});
+                $("#userNameMessage").text("");
+            }
+            else{
+                flag = false;
                 $("#userName").css({border: "1px solid red"});
                 $("#userNameMessage").text("username already exist*");
-                return;
             }
+        })
+        .then(()=>{
+            //check contact number
+            fetch('../api/checkContactNumber.php?id=' + $("#contactNumber").val(),{
+                method: 'GET',
+                headers: {
+                    'content-type': 'application/json'
+                },
+            })
+            .then(res=>{return res.json()})
+            .then(data=>{
+                if(data[0].userName === 0){
+                    $("#contactNumber").css({border: "1px solid #ccccc4"});
+                    $("#contactNumberMessage").text("");
+                    if(flag === true){
+                        $(".otpConfirmationContainer").css({display: "block"});
+                        $("#otpHeading").text("Send OTP code to: " + $("#contactNumber").val());
+                    }
+                }else{
+                    $("#contactNumber").css({border: "1px solid red"});
+                    $("#contactNumberMessage").text("this number is already used*");
+                }
+            })
+            .catch(error=>console.log('error' + error));
         })
         .catch(error=>console.log('error' + error));
     });
@@ -97,8 +123,22 @@ $("document").ready(()=>{
                 })
             })
             .then(()=>{
-                $(".otpConfirmationContainer").css({display: "none"});
-                $(".registerSuccessContainer").css({display: "block"});
+                fetch('../api/registerUserAddress.php', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userName: $("#userName").val(),
+                        brgyCode: brgyCode,
+                        address: $("#addressDetails").val()
+                    })
+                })
+                .then(()=>{
+                    $(".otpConfirmationContainer").css({display: "none"});
+                    $(".registerSuccessContainer").css({display: "block"});
+                })
+                .catch(error=>console.log("may error sa pag insert ng address: " + error));
             })
             .catch(error=>console.log("hala gago may error di mo alam ayusin yan tanga: " + error));
         }
@@ -284,7 +324,7 @@ $("document").ready(()=>{
         };
         const reg = /[&<>"'/]/ig;
         return string.replace(reg, (match)=>(map[match]));
-      }
+    }
     $("#userName").keyup(()=>{
         $("#userName").val(sanitize($("#userName").val()));
         $("#userName").css({"border": "1px solid #ccccc4"});
@@ -308,6 +348,7 @@ $("document").ready(()=>{
         $("#contactNumber").val(sanitize($("#contactNumber").val()));
         $("#contactNumber").val( $("#contactNumber").val().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
         $("#contactNumber").css({"border": "1px solid #ccccc4"});
+        $("#contactNumberMessage").text("");
     });
     $("#email").keyup(()=>{
         $("#email").val(sanitize($("#email").val()));

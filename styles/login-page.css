@@ -42,6 +42,12 @@ html, body{
     margin: 0 2px 5px 0;
 }
 
+.login form #loginMessage{
+    font-size: 1em;
+    margin: 0 auto;
+    color: red;
+}
+
 .login form input{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.2em;
