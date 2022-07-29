@@ -40,6 +40,11 @@ html, body{
     margin: 0 20px;
 }
 
+.heading .navigation li a{
+    text-decoration: none;
+    color: black;
+}
+
 .heading .navigation li:hover{
     cursor: pointer;
     border-bottom: 1px solid black;

@@ -1,11 +1,78 @@
 $("document").ready(()=>{
 
+    let userData;
+    let userAddress;
+
     let region;
     let province;
     let cityMunicipality;
     let barangay;
     let brgyCode;
     
+    //
+
+   let loadUserData = (id)=>{
+        fetch('../api/getUserData.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: id
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            userData = data;
+            //write data to fields
+            console.log(userData);
+            $("#profilePicture").attr("src", userData.address);
+            $("#userName").val(userData.userName);
+            $("#passWord").val(userData.passWord);
+            $("#firstName").val(userData.firstName);
+            $("#middleName").val(userData.middleName);
+            $("#lastName").val(userData.lastName);
+            $("#contactNumber").val(userData.contactNumber);
+            $("#email").val(userData.email);
+            $("#gender").val(userData.gender);
+            $("#birthDate").val(userData.birthDate);
+        })
+        .catch(error=>console.log("error on user data fetch: " + error));
+   };
+
+   loadUserData(sessionStorage.getItem("id"));
+
+    $("#backButton").click(()=>{
+        window.location.href = "../pages/dashboard.html";
+    });
+
+    $(".logout").click(()=>{
+        window.localStorage.clear();
+        window.sessionStorage.clear();
+        window.location.reload(true);
+        window.location.replace('/sfa');
+
+    });
+
+    function previewProfileImage( uploader ) {   
+        //ensure a file was selected 
+        if (uploader.files && uploader.files[0]) {
+            var imageFile = uploader.files[0];
+            var reader = new FileReader();    
+            reader.onload = function (e) {
+                //set the image data as source
+                $('#profilePicture').attr('src', e.target.result);
+            }    
+            reader.readAsDataURL( imageFile );
+        }
+    }
+    
+    $("#uploadProfilePicture").change(function(){
+        previewProfileImage( this );
+    });
+
+
+    //the code below is the codes for registration
     $("#passwordMessage").mouseenter(()=>{
         $("#passWord").attr("type", "text");
     });
@@ -54,8 +121,8 @@ $("document").ready(()=>{
                     $("#contactNumber").css({border: "1px solid #ccccc4"});
                     $("#contactNumberMessage").text("");
                     if(flag === true){
-                        $(".otpConfirmationContainer").css({display: "block"});
-                        $("#otpHeading").text("Send OTP code to: " + $("#contactNumber").val());
+                        // $(".otpConfirmationContainer").css({display: "block"});
+                        // $("#otpHeading").text("Send OTP code to: " + $("#contactNumber").val());
                     }
                 }else{
                     $("#contactNumber").css({border: "1px solid red"});
@@ -67,39 +134,39 @@ $("document").ready(()=>{
         .catch(error=>console.log('error' + error));
     });
 
-    $(".otpConfirmationContainer").click(()=>{
-        $(".otpConfirmationContainer").css({display: "none"});
-    });
+    // $(".otpConfirmationContainer").click(()=>{
+    //     $(".otpConfirmationContainer").css({display: "none"});
+    // });
 
-    $(".otpConfirm").click(()=>{
-        window.event.stopPropagation();
-    });
+    // $(".otpConfirm").click(()=>{
+    //     window.event.stopPropagation();
+    // });
 
-    $("#exit").click(()=>{
-        $(".otpConfirmationContainer").css({display: "none"});
-    });
+    // $("#exit").click(()=>{
+    //     $(".otpConfirmationContainer").css({display: "none"});
+    // });
 
     //sending of OTP code
-    $("#sendOtp").click(()=>{
-        //generate otp and send to database (otp is session variable)
-        sessionStorage.setItem("otp","1");//otp is set to 1 for now
-        //once otp is created insert it to database for sms sending
+    // $("#sendOtp").click(()=>{
+    //     //generate otp and send to database (otp is session variable)
+    //     sessionStorage.setItem("otp","1");//otp is set to 1 for now
+    //     //once otp is created insert it to database for sms sending
 
-        //
-        $("#sendOtp").attr("disabled", "true");
-        let counter = 15;
-        const dsC = setInterval(()=>{
+    //     //
+    //     $("#sendOtp").attr("disabled", "true");
+    //     let counter = 15;
+    //     const dsC = setInterval(()=>{
             
-            $("#sendOtp").text("Send(" + counter + ")");
-            counter--;
-            if(counter < 0){
-                clearInterval(dsC);
-                $("#sendOtp").removeAttr("disabled");
-                $("#sendOtp").text("Send");
-                counter = 15;
-            }
-        },1000);
-    });
+    //         $("#sendOtp").text("Send(" + counter + ")");
+    //         counter--;
+    //         if(counter < 0){
+    //             clearInterval(dsC);
+    //             $("#sendOtp").removeAttr("disabled");
+    //             $("#sendOtp").text("Send");
+    //             counter = 15;
+    //         }
+    //     },1000);
+    // });
     //registration allowed on correct OTP
     $("#otp").keyup(()=>{
         if($("#otp").val() == sessionStorage.getItem("otp")){
@@ -113,7 +180,7 @@ $("document").ready(()=>{
                     userName: $("#userName").val(),
                     passWord: $("#passWord").val(),
                     lastName: $("#lastName").val(),
-                    firstName: $("#firstName").val(),
+                    fistName: $("#firstName").val(),
                     middleName: $("#middleName").val(),
                     contactNumber: $("#contactNumber").val(),
                     email: $("#email").val(),
