@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Service Finder</title>
+        <link rel="stylesheet" type="text/css" href="../styles/register-page.css">
+        <link rel="stylesheet" href="../styles/profile-page.css">
+        <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="../js/profileBehavior.js"></script>
+    </head>
+    <body>
+        <!-- <div class="registerSuccessContainer">
+            <div class="otpConfirm">
+                <div class="heading">
+                    <span>Registration Success!</span>
+                </div>
+                <button id="backToLogin">back to login</button>
+            </div>
+        </div> -->
+        <!-- <div class="otpConfirmationContainer">
+            <div class="otpConfirm">
+                <div class="heading">
+                    <span>Confirm contact number.</span>
+                    <img src="../images/close.png" alt="exit" id="exit">
+                </div>
+                <h5 id="otpHeading">Send OTP code to:</h5>
+                <button id="sendOtp">Send</button>
+                <div class="inputContainer">
+                    <div class="inputLabel">
+                        <span>OTP code:</span>
+                    </div>
+                    
+                    <div class="textBoxes">
+                        <input type="text" id="otp">
+                        <span id="usernameMessage">click send and type 1 to skip (in development)</span>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div> -->
+        <div class="container">
+            <div class="registerPanel">
+                <h3>Profile. <img src="../images/icons8-back-64.png" id="backButton"></h3>
+                <div class="main">
+                    <div class="userInfo">
+                        <div class="profilePictureContainer">
+                            <img src="../images/profile-user.png" class="profilePicture" id="profilePicture">
+                            <input type="file" id="uploadProfilePicture">
+                            <a href="#" class="logout">logout </a>
+                        </div>
+                        <!--USERNAME-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Username:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text" id="userName">
+                                <span id="userNameMessage" class="inputMessage"></span>
+                            </div>
+                        </div>
+                        <!--PASSWORD-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Password:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="password" id="passWord">
+                                <span id="passwordMessage">show</span>
+                            </div>
+                        </div>
+                        <!---->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Full name</span>
+                            </div>
+                            <div class="textBoxes">
+                                <!--EMPTY THIS IS HEADER-->
+                            </div>
+                        </div>
+                        <!--FIRST NAME-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>First:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text" id="firstName">
+                            </div>
+                        </div>
+                        <!--MIDDLE NAME-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Middle:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text" id="middleName">
+                            </div>
+                        </div>
+                        <!--LAST NAME-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Last:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text" id="lastName">
+                            </div>
+                        </div>
+                        <!--CONTACT NUMBER-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Contact #:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text" name="contactNumber" id="contactNumber">
+                                <span id="contactNumberMessage" class="inputMessage"></span>
+                            </div>
+                        </div>
+                        <!--EMAIL-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Email:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text" id="email">
+                            </div>
+                        </div>
+                        <!--GENDER-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Gender:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="text" list="genderList" id="gender">
+                                <datalist id="genderList">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <!--BIRTH DATE-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Birth date:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <input type="date" id="birthDate">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="userAddressInfo">
+                        <!--REGION-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Region:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <select name="region" id="region">
+                    
+                                </select>
+                            </div>
+                        </div>
+                        <!--PROVINCE-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Province:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <select name="province" id="province">
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <!--CITY/MUNICIPALITY-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>City/Municipality:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <select name="cityMunicipality" id="cityMunicipality">
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <!--BARANGAY-->
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Barangay:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <select name="barangay" id="barangay">
+                                    
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="inputContainer">
+                            <div class="inputLabel">
+                                <span>Address Details:</span>
+                            </div>
+                            <div class="textBoxes">
+                                <textarea name="addressDetails" id="addressDetails" placeholder="Blk/Lt. st."></textarea>
+                            </div>
+                        </div>
+
+                        <button id="confirm">Confirm</button>
+
+                    </div>
+                </div>
+                <div class="footer">
+
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

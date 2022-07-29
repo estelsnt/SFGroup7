@@ -1,0 +1,39 @@
+#backButton{
+    height: 40px;
+    width: 40px;
+    float: right;
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.profilePictureContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profilePictureContainer .profilePicture{
+    height: 100px;
+    width: 100px;
+    border-radius: 100px;
+}
+
+#uploadProfilePicture{
+    max-width: 200px;
+    margin: 5px;
+    border-radius: 5px;
+    border: hidden;
+    background-color: #ff8c00;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+#uploadProfilePicture:hover{
+    background-color: #ffb253;
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
+}
+
+.logout{
+    color: #000;
+    font-size: 0.9em;
+}
