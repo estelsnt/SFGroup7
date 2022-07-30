@@ -36,6 +36,16 @@ $("document").ready(()=>{
             $("#email").val(userData.email);
             $("#gender").val(userData.gender);
             $("#birthDate").val(userData.birthDate);
+
+            
+        })
+        .then(()=>{
+            setTimeout(()=>{
+                $("#region").val("REGION I (ILOCOS REGION)");   
+                $("#region").change();
+                console.log("cant");
+            }, 1000);
+            
         })
         .catch(error=>console.log("error on user data fetch: " + error));
    };
