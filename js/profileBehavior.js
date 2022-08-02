@@ -1,8 +1,8 @@
 $("document").ready(()=>{
 
     let userData;
-    let userAddress;
-
+    let addressData;
+ 
     let region;
     let province;
     let cityMunicipality;
@@ -26,7 +26,7 @@ $("document").ready(()=>{
             userData = data;
             //write data to fields
             console.log(userData);
-            $("#profilePicture").attr("src", userData.address);
+            $("#profilePicture").attr("src", userData.picture);
             $("#userName").val(userData.userName);
             $("#passWord").val(userData.passWord);
             $("#firstName").val(userData.firstName);
@@ -36,16 +36,51 @@ $("document").ready(()=>{
             $("#email").val(userData.email);
             $("#gender").val(userData.gender);
             $("#birthDate").val(userData.birthDate);
-
-            
         })
         .then(()=>{
-            setTimeout(()=>{
-                $("#region").val("REGION I (ILOCOS REGION)");   
-                $("#region").change();
-                console.log("cant");
-            }, 1000);
             
+            fetch('../api/getUserAddress.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userID: id
+                })
+            })
+            .then(res=>{return res.json()})
+            .then(data=>{
+                addressData = data;
+                console.log(data);
+
+                $("#addressDetails").val(addressData[4].address.address);
+
+                const setBrgy = ()=>{
+                    $("#barangay").val(addressData[0].brgy.brgyDesc);
+                    $("#barangay").change();
+                };
+
+                const setCityMun = ()=>{
+                    $("#cityMunicipality").val(addressData[1].citymun.citymunDesc);
+                    $("#cityMunicipality").change();
+                    setTimeout(setBrgy, 1000);
+                };
+
+                const setProv = ()=>{
+                    $("#province").val(addressData[2].prov.provDesc);
+                    $("#province").change();
+                    setTimeout(setCityMun, 1000);
+                };
+
+                const setReg = ()=>{
+                    $("#region").val(addressData[3].reg.regDesc);
+                    $("#region").change();
+                    setTimeout(setProv, 1000);
+                };
+
+                setReg();
+
+            })
         })
         .catch(error=>console.log("error on user data fetch: " + error));
    };
@@ -90,14 +125,8 @@ $("document").ready(()=>{
     $("#passwordMessage").mouseleave(()=>{
         $("#passWord").attr("type", "password");
     });
-    //confirmation on registration
-    $("#confirm").click(()=>{
-        //check inputs first before opening otp confirmation panel
-        if(!validateInput()){
-            return;
-        }
-        let flag = true;
-        //check if username already existed (di ko mapagana pag hiwalay kasi asynchronous)
+    //realtime duplicate checking
+    $("#userName").keyup(()=>{
         fetch('../api/checkUsernameDuplicate.php?id=' + $("#userName").val(),{
             method: 'GET',
             headers: {
@@ -107,122 +136,146 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             if(data[0].userName === 0){
-                flag = true;
                 $("#userName").css({border: "1px solid #ccccc4"});
-                $("#userNameMessage").text("");
+                $("#userNameMessage").text(""); 
+                $("#confirm").prop('disabled', false);
             }
             else{
-                flag = false;
+                $("#confirm").prop('disabled', true);
                 $("#userName").css({border: "1px solid red"});
                 $("#userNameMessage").text("username already exist*");
             }
         })
-        .then(()=>{
-            //check contact number
-            fetch('../api/checkContactNumber.php?id=' + $("#contactNumber").val(),{
-                method: 'GET',
-                headers: {
-                    'content-type': 'application/json'
-                },
-            })
-            .then(res=>{return res.json()})
-            .then(data=>{
-                if(data[0].userName === 0){
-                    $("#contactNumber").css({border: "1px solid #ccccc4"});
-                    $("#contactNumberMessage").text("");
-                    if(flag === true){
-                        // $(".otpConfirmationContainer").css({display: "block"});
-                        // $("#otpHeading").text("Send OTP code to: " + $("#contactNumber").val());
-                    }
-                }else{
-                    $("#contactNumber").css({border: "1px solid red"});
-                    $("#contactNumberMessage").text("this number is already used*");
-                }
-            })
-            .catch(error=>console.log('error' + error));
+        .catch(error=>console.log('error' + error));
+    });
+    $("#contactNumber").keyup(()=>{
+        fetch('../api/checkContactNumber.php?id=' + $("#contactNumber").val(),{
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            },
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data[0].userName === 0){
+                $("#contactNumber").css({border: "1px solid #ccccc4"});
+                $("#contactNumberMessage").text("");
+                $("#confirm").prop('disabled', false);
+            }else{
+                $("#confirm").prop('disabled', true);
+                $("#contactNumber").css({border: "1px solid red"});
+                $("#contactNumberMessage").text("this number is already used*");
+            }
         })
         .catch(error=>console.log('error' + error));
     });
+    //confirmation on updating user account
+    $("#confirm").click(()=>{
+        //check inputs first
+        if(!validateInput()){
+            return;
+        }
+        if($("#contactNumber").val() != userData.contactNumber){
+            console.log("pinalitan");
+            $(".otpConfirmationContainer").css({display: "block"});
+            $("#otpHeading").text("Send OTP code to: " + $("#contactNumber").val());
+        }else{
+            console.log("to update");
+            updateUserData();
+        }
+        
+    });
 
-    // $(".otpConfirmationContainer").click(()=>{
-    //     $(".otpConfirmationContainer").css({display: "none"});
-    // });
+    $(".otpConfirmationContainer").click(()=>{
+        $(".otpConfirmationContainer").css({display: "none"});
+    });
 
-    // $(".otpConfirm").click(()=>{
-    //     window.event.stopPropagation();
-    // });
+    $(".otpConfirm").click(()=>{
+        window.event.stopPropagation();
+    });
 
-    // $("#exit").click(()=>{
-    //     $(".otpConfirmationContainer").css({display: "none"});
-    // });
+    $("#exit").click(()=>{
+        $(".otpConfirmationContainer").css({display: "none"});
+    });
 
     //sending of OTP code
-    // $("#sendOtp").click(()=>{
-    //     //generate otp and send to database (otp is session variable)
-    //     sessionStorage.setItem("otp","1");//otp is set to 1 for now
-    //     //once otp is created insert it to database for sms sending
+    $("#sendOtp").click(()=>{
+        //generate otp and send to database (otp is session variable)
+        sessionStorage.setItem("otp","1");//otp is set to 1 for now
+        //once otp is created insert it to database for sms sending
 
-    //     //
-    //     $("#sendOtp").attr("disabled", "true");
-    //     let counter = 15;
-    //     const dsC = setInterval(()=>{
+        //
+        $("#sendOtp").attr("disabled", "true");
+        let counter = 15;
+        const dsC = setInterval(()=>{
             
-    //         $("#sendOtp").text("Send(" + counter + ")");
-    //         counter--;
-    //         if(counter < 0){
-    //             clearInterval(dsC);
-    //             $("#sendOtp").removeAttr("disabled");
-    //             $("#sendOtp").text("Send");
-    //             counter = 15;
-    //         }
-    //     },1000);
-    // });
+            $("#sendOtp").text("Send(" + counter + ")");
+            counter--;
+            if(counter < 0){
+                clearInterval(dsC);
+                $("#sendOtp").removeAttr("disabled");
+                $("#sendOtp").text("Send");
+                counter = 15;
+            }
+        },1000);
+    });
     //registration allowed on correct OTP
     $("#otp").keyup(()=>{
         if($("#otp").val() == sessionStorage.getItem("otp")){
             //insert userdata to database here
-            fetch('../api/addNewUser.php', {
+            updateUserData();
+            $(".otpConfirmationContainer").css({display: "none"});
+            $("#confirm").text("updated!");
+            setTimeout(()=>{
+                $("#confirm").text("Confirm");
+            }, 3000);
+        }
+    });
+
+    let updateUserData = ()=>{
+        fetch('../api/updateUserData.php', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                userName: $("#userName").val(),
+                passWord: $("#passWord").val(),
+                lastName: $("#lastName").val(),
+                firstName: $("#firstName").val(),
+                middleName: $("#middleName").val(),
+                contactNumber: $("#contactNumber").val(),
+                email: $("#email").val(),
+                gender: $("#gender").val(),
+                birthDate: $("#birthDate").val(),
+                id: sessionStorage.getItem("id"),
+                picture: $("#profilePicture").attr("src")
+            })
+        })
+        .then(()=>{
+            fetch('../api/updateUserAddress.php', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                    userName: $("#userName").val(),
-                    passWord: $("#passWord").val(),
-                    lastName: $("#lastName").val(),
-                    fistName: $("#firstName").val(),
-                    middleName: $("#middleName").val(),
-                    contactNumber: $("#contactNumber").val(),
-                    email: $("#email").val(),
-                    gender: $("#gender").val(),
-                    birthDate: $("#birthDate").val(),
-                    brgyCode: brgyCode
+                    id: sessionStorage.getItem("id"),
+                    brgyCode: brgyCode,
+                    address: $("#addressDetails").val()
                 })
             })
             .then(()=>{
-                fetch('../api/registerUserAddress.php', {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        userName: $("#userName").val(),
-                        brgyCode: brgyCode,
-                        address: $("#addressDetails").val()
-                    })
-                })
-                .then(()=>{
-                    $(".otpConfirmationContainer").css({display: "none"});
-                    $(".registerSuccessContainer").css({display: "block"});
-                })
-                .catch(error=>console.log("may error sa pag insert ng address: " + error));
+                $("#confirm").text("updated!");
+                setTimeout(()=>{$("#confirm").text("Confirm")}, 3000);
             })
-            .catch(error=>console.log("hala gago may error di mo alam ayusin yan tanga: " + error));
-        }
-    });
+            .catch(error=>console.log("may error sa pag insert ng address: " + error));
+        })
+        .catch(error=>console.log("hala gago may error di mo alam ayusin yan tanga: " + error));
+    };
 
+    //logout
     $("#backToLogin").click(()=>{
-        window.location.replace("login.html");//send back to login page
+        window.location.reload(true);//send back to login page
     });
 
     //populate gets data from database, fill updates the options in page
@@ -382,6 +435,7 @@ $("document").ready(()=>{
         for(let i in barangay){
             if(barangay[i].description == $("#barangay").val()){
                 brgyCode = barangay[i].brgyCode;
+                console.log(brgyCode);
                 break;
             }
         }
