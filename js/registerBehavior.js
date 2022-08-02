@@ -118,8 +118,7 @@ $("document").ready(()=>{
                     contactNumber: $("#contactNumber").val(),
                     email: $("#email").val(),
                     gender: $("#gender").val(),
-                    birthDate: $("#birthDate").val(),
-                    brgyCode: brgyCode
+                    birthDate: $("#birthDate").val()
                 })
             })
             .then(()=>{
