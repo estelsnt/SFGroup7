@@ -10,6 +10,31 @@
         <script src="../js/profileBehavior.js"></script>
     </head>
     <body>
+        <div class="userVerificationContainer">
+            <div class="userVerification">
+                <div class="verificationHeader">
+                    <h3>Get verified!</h3>
+                    <img src="../images/close.png" id="verificationClose">
+                </div>
+                <span  id="uvm1">
+                    Upload up to 2 pictures of your valid IDs (driver's license, passport, national id, etc., )
+                </span>
+                <span  id="uvm2">
+                    Non verified users are limited to one post only. after submiting please wait for administrators to review your credentials.
+                </span>
+                <div class="idContainer">
+                    <div class="id1Container">
+                        <img src="../images/id-card.png" id="id1">
+                        <input type="file" id="uploadID1">
+                    </div>
+                    <div class="id2Container">
+                        <img src="../images/id-card.png" id="id2">
+                        <input type="file" id="uploadID2">
+                    </div>
+                </div>
+                <button id="confirmVerification">Confirm</button>
+            </div>
+        </div>
         <div class="registerSuccessContainer">
             <div class="otpConfirm">
                 <div class="heading">
@@ -147,7 +172,7 @@
                                 <input type="date" id="birthDate">
                             </div>
                         </div>
-
+                        <a href="#" class="verify">get verified! </a>
                     </div>
                     <div class="userAddressInfo">
                         <!--REGION-->
@@ -204,7 +229,6 @@
                             </div>
                         </div>
                         <button id="confirm">Confirm</button>
-
                     </div>
                 </div>
                 <div class="footer">

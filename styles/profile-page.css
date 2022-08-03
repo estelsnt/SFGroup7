@@ -15,6 +15,8 @@
 .profilePictureContainer .profilePicture{
     height: 100px;
     width: 100px;
+    /* border: 5px solid #0073ff; verified user*/
+    border: 5px solid #808080;
     border-radius: 100px;
     object-fit: fill;
 }
@@ -37,4 +39,119 @@
 .logout{
     color: #000;
     font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.verify{
+    margin: 10px auto 0 auto;
+}
+
+.userVerificationContainer{
+    z-index: 100;
+    position: fixed;
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.7); 
+}
+
+.userVerificationContainer .userVerification{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 10vh;
+    left: 25vw;
+    height: 80vh;
+    width: 50vw;
+    border-radius: 20px;
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
+    background-color: #fffff6;
+}
+
+.userVerificationContainer .userVerification .verificationHeader{
+    display: flex;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: #ffab1e;
+}
+
+.verificationHeader h3{
+    margin: 15px auto 10px 15px;
+}
+
+.verificationHeader #verificationClose{
+    justify-self: flex-end;
+    margin: 10px 15px auto auto;
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+
+.userVerification #uvm1{
+    margin: 50px 50px 20px 50px;
+    font-size: 1.4em;   
+}
+
+.userVerification #uvm2{
+    margin: 10px 50px 20px 50px;
+    font-size: 0.8em;  
+}
+
+.userVerification input{
+    margin: 10px;
+    align-self: center;
+    max-width: 200px;
+    border-radius: 5px;
+    border: hidden;
+    background-color: #ff8c00;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+.userVerification .idContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.idContainer .id1Container, .id2Container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userVerification img{
+    height: 100px;
+    width: 150px;
+}
+
+.userVerification #confirmVerification{
+    cursor: pointer;
+    align-self: center;
+    margin-top: 20px;
+    min-width: 150px;
+    background-color: #ffab1e;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;border: none;
+    font-size: 1.3em;
+    display: block;
+}
+
+.userVerification #confirmVerification:hover{
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
+}
+
+
+@media (max-width: 800px) {
+    .userVerificationContainer .userVerification{
+        width: 70vw;
+        left: 15vw;
+    }
+}
+
+@media (max-width: 500px) {
+    .userVerificationContainer .userVerification{
+        width: 90vw;
+        left: 5vw;
+    }
 }
