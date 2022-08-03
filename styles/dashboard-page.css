@@ -25,6 +25,7 @@ html, body{
     margin-left: 20px;
     letter-spacing: 2px;
     cursor: pointer;
+    user-select: none;
 }
 
 .heading .navigation{
@@ -50,7 +51,7 @@ html, body{
     border-bottom: 1px solid black;
 }
 
-.heading button{
+.heading .search-button{
     background-image: url("../images/magnifying-glass.png");
     background-size: cover;
     background-color: transparent;
@@ -80,6 +81,7 @@ html, body{
 .side-menu h2{
     font-family: Arial, Helvetica, sans-serif;
     margin: 40px 25px;
+    user-select: none;
 }
 
 .side-menu ul{
@@ -221,6 +223,29 @@ html, body{
 }
 */
 
+.servicePostingDropdown{
+    display: none;
+    position: absolute;
+    padding: 2px;
+    background-color: beige;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;border: none;
+}
+
+#servicePosting .servicePostingDropdown ul{
+    list-style-type: none;
+    padding: 0;
+    font-size: 0.7em;
+}
+
+#servicePosting .servicePostingDropdown ul li a{
+    margin: 20px 4px 10px 4px;
+    display: inline-block;
+}
+
+#servicePosting:hover .servicePostingDropdown{
+    display: block;
+}
+
 .main{
     flex: 1;
     display: flex;
@@ -257,7 +282,7 @@ html, body{
         display: block;
     }   
     .heading h1{
-        display: none;
+        font-size: 0.7em;
     }    
     .heading #profile{
         display: none;
@@ -266,6 +291,12 @@ html, body{
         display: none;
     }
     .heading #posts{
+        display: none;
+    }
+    .heading #find{
+        display: none;
+    }
+    #servicePosting{
         display: none;
     }
 }

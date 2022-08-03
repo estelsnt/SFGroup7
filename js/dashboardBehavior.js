@@ -7,7 +7,7 @@ $("document").ready(()=>{
     $(".search-button").click(()=>{     //display the search panel when search icon is clicked
         $("#searchContainer").css({display: "block"});
     });
-
+    
     $("#closeSearch").click(()=>{   //closes the search panel on exit button clicked
         $("#searchContainer").css({display: "none"});
     });

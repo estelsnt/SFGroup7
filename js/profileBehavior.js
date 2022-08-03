@@ -10,6 +10,30 @@ $("document").ready(()=>{
     let brgyCode;
     
     //
+    $(".verify").click(()=>{
+        $(".userVerificationContainer").css({display: "block"});
+    });
+
+    let checkUserVerified = ()=>{
+        fetch('../api/checkVerifiedUser.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: sessionStorage.getItem('id')
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data.verified == "TRUE"){
+                $(".profilePicture").css({border: "5px solid #0073ff"});
+            }
+        })
+        .catch(error=>console.log("error on retrieval of user verification: " + error));
+    };
+
+    checkUserVerified();
 
    let loadUserData = (id)=>{
         fetch('../api/getUserData.php', {
@@ -25,7 +49,6 @@ $("document").ready(()=>{
         .then(data=>{
             userData = data;
             //write data to fields
-            console.log(userData);
             $("#profilePicture").attr("src", userData.picture);
             $("#userName").val(userData.userName);
             $("#passWord").val(userData.passWord);
@@ -38,7 +61,6 @@ $("document").ready(()=>{
             $("#birthDate").val(userData.birthDate);
         })
         .then(()=>{
-            
             fetch('../api/getUserAddress.php', {
                 method: 'POST',
                 headers: {
@@ -51,38 +73,36 @@ $("document").ready(()=>{
             .then(res=>{return res.json()})
             .then(data=>{
                 addressData = data;
-                console.log(data);
-
                 $("#addressDetails").val(addressData[4].address.address);
-
                 const setBrgy = ()=>{
                     $("#barangay").val(addressData[0].brgy.brgyDesc);
                     $("#barangay").change();
                 };
-
                 const setCityMun = ()=>{
                     $("#cityMunicipality").val(addressData[1].citymun.citymunDesc);
                     $("#cityMunicipality").change();
                     setTimeout(setBrgy, 1000);
                 };
-
                 const setProv = ()=>{
                     $("#province").val(addressData[2].prov.provDesc);
                     $("#province").change();
                     setTimeout(setCityMun, 1000);
                 };
-
                 const setReg = ()=>{
                     $("#region").val(addressData[3].reg.regDesc);
                     $("#region").change();
                     setTimeout(setProv, 1000);
                 };
-
                 setReg();
-
             })
         })
         .catch(error=>console.log("error on user data fetch: " + error));
+        let today = new Date().toISOString().slice(0, 10);
+        if(localStorage.getItem('idsent') == today + sessionStorage.getItem('id')){
+            $(".verify").css({display: "none"});
+        }else{
+            $(".verify").css({display: "block"});
+        }
    };
 
    loadUserData(sessionStorage.getItem("id"));
@@ -92,30 +112,77 @@ $("document").ready(()=>{
     });
 
     $(".logout").click(()=>{
-        window.localStorage.clear();
         window.sessionStorage.clear();
         window.location.reload(true);
         window.location.replace('/sfa');
 
     });
 
-    function previewProfileImage( uploader ) {   
+    function previewProfileImage(uploader, destination) {   
         //ensure a file was selected 
         if (uploader.files && uploader.files[0]) {
             var imageFile = uploader.files[0];
             var reader = new FileReader();    
             reader.onload = function (e) {
                 //set the image data as source
-                $('#profilePicture').attr('src', e.target.result);
+                switch(destination){
+                    case "profile":
+                        $('#profilePicture').attr('src', e.target.result);
+                    break;
+                    case "id1":
+                        $('#id1').attr('src', e.target.result);
+                    break;
+                    case "id2":
+                        $('#id2').attr('src', e.target.result);
+                    break;
+                }
             }    
             reader.readAsDataURL( imageFile );
         }
     }
     
     $("#uploadProfilePicture").change(function(){
-        previewProfileImage( this );
+        previewProfileImage(this, "profile");
     });
 
+    $("#uploadID1").change(function(){
+        previewProfileImage(this, "id1");
+    });
+
+    $("#uploadID2").change(function(){
+        previewProfileImage(this, "id2");
+    })
+
+    $("#confirmVerification").click(()=>{
+        if($("#id1").attr('src') == "../images/id-card.png" && $("#id2").attr('src') == "../images/id-card.png"){
+            $("#confirmVerification").text("upload alteast 1 picture");
+            setTimeout(()=>{
+                $("#confirmVerification").text("Confirm");
+            }, 3000);
+        }else{
+            fetch('../api/uploadUserVerification.php', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userID: sessionStorage.getItem("id"),
+                    id1: $("#id1").attr('src'),
+                    id2: $("#id2").attr('src')
+                })
+            })
+            .then(()=>{
+                $("#confirmVerification").text("uploaded successfuly");
+                setTimeout(()=>{
+                    $("#confirmVerification").text("Confirm");
+                }, 3000);
+                let today = new Date().toISOString().slice(0, 10)
+                localStorage.setItem('idsent', today + sessionStorage.getItem('id'));
+                window.location = "profile.html";
+            })
+            .catch(error=>console.log("may error sa pag insert ng id: " + error));
+        }
+    });
 
     //the code below is the codes for registration
     $("#passwordMessage").mouseenter(()=>{
@@ -171,19 +238,17 @@ $("document").ready(()=>{
     });
     //confirmation on updating user account
     $("#confirm").click(()=>{
+        console.log("confirm click");
         //check inputs first
         if(!validateInput()){
             return;
         }
         if($("#contactNumber").val() != userData.contactNumber){
-            console.log("pinalitan");
             $(".otpConfirmationContainer").css({display: "block"});
             $("#otpHeading").text("Send OTP code to: " + $("#contactNumber").val());
         }else{
-            console.log("to update");
             updateUserData();
         }
-        
     });
 
     $(".otpConfirmationContainer").click(()=>{
@@ -276,6 +341,18 @@ $("document").ready(()=>{
     //logout
     $("#backToLogin").click(()=>{
         window.location.reload(true);//send back to login page
+    });
+
+    $(".userVerificationContainer").click(()=>{
+        $(".userVerificationContainer").css({display: "none"});
+    });
+
+    $(".userVerification").click(()=>{
+        window.event.stopPropagation();
+    });
+
+    $("#verificationClose").click(()=>{
+        $(".userVerificationContainer").css({display: "none"});
     });
 
     //populate gets data from database, fill updates the options in page
@@ -435,7 +512,6 @@ $("document").ready(()=>{
         for(let i in barangay){
             if(barangay[i].description == $("#barangay").val()){
                 brgyCode = barangay[i].brgyCode;
-                console.log(brgyCode);
                 break;
             }
         }

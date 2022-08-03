@@ -1,0 +1,84 @@
+body{
+    background-color: #0073ff;
+}
+
+.home-button{
+    background-image: url("../images/home.png");
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+}
+
+#postNormal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#postNormal #createNewPostNormal{
+    margin: auto;
+    height: 100px;
+    width: 100px;
+    border: 5px solid transparent;
+    border-radius: 100px;
+}
+
+#postNormal #getVerified{
+    align-self: flex-start;
+}
+
+#createNewPostNormal:hover{
+    background-color: #fafa9d;
+    border-radius: 110px;
+}
+
+#postPremium{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    color: beige;
+    font-weight: bold;  
+    background-color: #54245a;
+    border: 2px solid #ffd700;
+}
+
+#postPremium #createNewPostPremium{
+    margin: auto;
+    height: 100px;
+    width: 100px;
+    border: 5px solid transparent;
+    border-radius: 100px;
+}
+
+#postPremium #createNewPostPremium:hover{
+    background-color: rgb(250, 250, 158, 0.1);
+    border-radius: 110px;
+}
+
+#postPremium #premiumTag{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 70px;
+    width: 70px;
+}
+
+#learnMorePremium{
+    align-self: flex-start;
+    color: beige;
+}
+
+.divider{
+    text-align: center;
+    margin: 10px;
+    width: 100vw;
+    padding: 0;
+    border-radius: 10px;
+    background-color: #ffab1e;
+}
+
+.divider span{
+    font-size: 0.8em;
+    margin: 0;
+    padding: 0;
+}
