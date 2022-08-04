@@ -25,7 +25,7 @@
                 SELECT refbrgy.provCode
                 FROM refbrgy
                 JOIN useraddress ON useraddress.brgyCode = refbrgy.brgyCode
-                WHERE useraddress.userID = ".$id.")";
+                WHERE useraddress.userID = ".$id.") LIMIT 1;";
 
     $sqlreg = "SELECT refregion.regDesc, refregion.regCode
                 FROM refregion
