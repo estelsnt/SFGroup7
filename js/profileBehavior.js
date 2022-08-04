@@ -28,6 +28,7 @@ $("document").ready(()=>{
         .then(data=>{
             if(data.verified == "TRUE"){
                 $(".profilePicture").css({border: "5px solid #0073ff"});
+                $(".verify").css({display: "none"});
             }
         })
         .catch(error=>console.log("error on retrieval of user verification: " + error));
