@@ -67,11 +67,11 @@ $("document").ready(()=>{
         .catch(error=>console.log('error' + error));
     });
 
-    $(".otpConfirmationContainer").click(()=>{
+    $(".otpConfirmationContainer").mousedown(()=>{
         $(".otpConfirmationContainer").css({display: "none"});
     });
 
-    $(".otpConfirm").click(()=>{
+    $(".otpConfirm").mousedown(()=>{
         window.event.stopPropagation();
     });
 

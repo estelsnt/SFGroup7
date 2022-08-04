@@ -30,6 +30,16 @@ $("document").ready(()=>{
                 $(".profilePicture").css({border: "5px solid #0073ff"});
                 $(".verify").css({display: "none"});
             }
+            else{
+                let today = new Date().toISOString().slice(0, 10);
+                if(today+sessionStorage.getItem("id") === localStorage.getItem("idsent")){
+                    $(".verify").css({display: "none"});
+                }else{
+                    $(".profilePicture").css({border: "5px solid #808080"});
+                    $(".verify").css({display: "block"});
+                }
+                
+            }
         })
         .catch(error=>console.log("error on retrieval of user verification: " + error));
     };
@@ -59,7 +69,9 @@ $("document").ready(()=>{
             $("#contactNumber").val(userData.contactNumber);
             $("#email").val(userData.email);
             $("#gender").val(userData.gender);
-            $("#birthDate").val(userData.birthDate);
+            if(userData.birthDate != "0000-00-00"){
+                $("#birthDate").val(userData.birthDate);
+            }
         })
         .then(()=>{
             fetch('../api/getUserAddress.php', {
@@ -98,12 +110,6 @@ $("document").ready(()=>{
             })
         })
         .catch(error=>console.log("error on user data fetch: " + error));
-        let today = new Date().toISOString().slice(0, 10);
-        if(localStorage.getItem('idsent') == today + sessionStorage.getItem('id')){
-            $(".verify").css({display: "none"});
-        }else{
-            $(".verify").css({display: "block"});
-        }
    };
 
    loadUserData(sessionStorage.getItem("id"));
@@ -252,11 +258,11 @@ $("document").ready(()=>{
         }
     });
 
-    $(".otpConfirmationContainer").click(()=>{
+    $(".otpConfirmationContainer").mousedown(()=>{
         $(".otpConfirmationContainer").css({display: "none"});
     });
 
-    $(".otpConfirm").click(()=>{
+    $(".otpConfirm").mousedown(()=>{
         window.event.stopPropagation();
     });
 

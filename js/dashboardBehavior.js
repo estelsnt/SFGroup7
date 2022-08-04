@@ -12,11 +12,11 @@ $("document").ready(()=>{
         $("#searchContainer").css({display: "none"});
     });
 
-    $("#searchContainer").click(()=>{       //closes the search panel on click outside the search panel
+    $("#searchContainer").mousedown(()=>{       //closes the search panel on click outside the search panel
         $("#searchContainer").css({display: "none"});
     });
 
-    $("#search").click(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
+    $("#search").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
         window.event.stopPropagation();
     });
 });

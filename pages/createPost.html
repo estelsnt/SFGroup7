@@ -9,7 +9,59 @@
         <script src="../js/jquery-3.6.0.min.js"></script>
     </head>
     <body>
-        
+        <div class="createPostNormalContainer">
+            <div class="createPostNormal">
+                <div class="createPostNormalHeader">
+                    <h3>Post your service.</h3>
+                    <img src="../images/close.png" id="createPostClose">
+                </div>
+
+                <div class="inputContainer">
+                    <div class="labelContainer">
+                        <span>Category: </span>
+                    </div>
+                    <div class="textboxContainer">
+                        <select name="category" id="serviceCategory">
+                            
+                        </select>
+                    </div>
+                </div>
+
+                <div class="inputContainer">
+                    <div class="labelContainer">
+                        <span>Service: </span>
+                    </div>
+                    <div class="textboxContainer">
+                        <select name="service" id="service">
+                            
+                        </select>
+                        <input type="text" id="specifyService" placeholder="specify your service">
+                    </div>
+                </div>
+
+                <div class="inputContainer">
+                    <div class="labelContainer">
+                        <span>Pricing: </span>
+                    </div>
+                    <div class="textboxContainer">
+                        <input type="text" id="servicePricing">
+                    </div>
+                </div>
+
+                <div class="inputContainer">
+                    <div class="labelContainer">
+                        <span>Description: </span>
+                    </div>
+                    <div class="textboxContainer">
+                        <textarea name="description" id="serviceDescription" placeholder="tell something about your service."></textarea>
+                    </div>
+                </div>
+                <button id="create">Create post</button>
+                
+                
+
+            </div>
+        </div>
         <div class="container">
             <div class="heading">
                 <div class="slide-menu">
@@ -84,7 +136,7 @@
 						Create new
 					</span>
                     <img src="../images/plus-black.png" id="createNewPostNormal">
-                    <a href="#" id="getVerified">Get verified!<br>unlimited posts</a>
+                    <a href="profile.html" id="getVerified">Get verified! create more posts</a>
                 </div>
                 <div class="post" id="postPremium">
                     <span>
@@ -95,13 +147,9 @@
                     <a href="#" id="learnMorePremium">Advertise it in here.<br>Learn more.</a>
                 </div>
                 <div class="divider">
-                    <span>your posts.</span>
+                    <!--display users posts in here-->
+
                 </div>
-
-                
-
-
-
             </div>
         </div>
         <script src="../js/dashboardBehavior.js"></script>

@@ -80,6 +80,11 @@ html, body{
     margin-top: 4px;
 }
 
+.inputContainer input{
+    max-width: 250px;
+    margin-right: 20px;
+}
+
 .inputLabel{
     flex: 1;
     text-align: right;
@@ -89,14 +94,19 @@ html, body{
 .inputLabel span{
     display: inline-block;
     margin-top: 10px;
-    font-size: 1em; 
+    font-size: 1em;
 }
 
 .textBoxes{
     flex: 2;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     margin: 0 10px;
+}
+
+.textBoxes #addressDetails{
+    max-width: 250px;
 }
 
 .inputMessage{
