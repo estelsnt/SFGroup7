@@ -2,6 +2,11 @@ body{
     background-color: #0073ff;
 }
 
+.container .heading .slide-menu .side-menu{
+    z-index: 1000;
+    
+}
+
 .home-button{
     background-image: url("../images/home.png");
     background-size: cover;
@@ -33,13 +38,13 @@ body{
 }
 
 #postPremium{
-    position: relative;
     display: flex;
     flex-direction: column;
     color: beige;
     font-weight: bold;  
     background-color: #54245a;
     border: 2px solid #ffd700;
+    
 }
 
 #postPremium #createNewPostPremium{
@@ -55,10 +60,14 @@ body{
     border-radius: 110px;
 }
 
-#postPremium #premiumTag{
-    position: absolute;
-    top: 0;
-    right: 0;
+#postPremium span{
+    display: flex;
+    font-size: 1em;
+    margin: 0;
+}
+
+#postPremium span #premiumTag{
+    margin-left: auto;
     height: 70px;
     width: 70px;
 }
@@ -188,6 +197,13 @@ body{
     background-color: #ffab1e;
 }
 
+@media (max-width: 780px) {
+    .createPostNormalContainer .createPostNormal{
+        left: 5%;
+        width: 90%;
+    }
+}
+
 @media (max-width: 380px) {
     .inputContainer .labelContainer span{
         font-size: 0.9em;
@@ -200,8 +216,7 @@ body{
     .inputContainer{
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;    
+        margin: 20px auto 10px auto;
     }
 
     .inputContainer .textboxContainer textarea{

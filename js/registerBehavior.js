@@ -6,6 +6,10 @@ $("document").ready(()=>{
     let barangay;
     let brgyCode;
     
+    $("#returnToLogin").click(()=>{
+        window.location.href = "../pages/login.html";
+    });
+
     $("#passwordMessage").mouseenter(()=>{
         $("#passWord").attr("type", "text");
     });
