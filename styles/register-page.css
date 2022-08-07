@@ -5,6 +5,14 @@ html, body{
     font-family: Verdana, Geneva, Tahoma, sans-serif    ;
 }
 
+.loading{
+    display: none;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.7);
+}
+
 .container{
     display: flex;
     flex-direction: column;
