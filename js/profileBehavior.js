@@ -10,6 +10,15 @@ $("document").ready(()=>{
     let brgyCode;
     
     //
+    const pageProtection = ()=>{
+        if(sessionStorage.getItem("id") == undefined){
+            window.location = "../pages/login.html";
+        }
+    }
+
+    pageProtection();
+
+
     $(".verify").click(()=>{
         $(".userVerificationContainer").css({display: "block"});
     });
@@ -32,13 +41,12 @@ $("document").ready(()=>{
             }
             else{
                 let today = new Date().toISOString().slice(0, 10);
-                if(today+sessionStorage.getItem("id") === localStorage.getItem("idsent")){
+                if((today + sessionStorage.getItem("id")) === localStorage.getItem("idsent"+sessionStorage.getItem('id'))){
                     $(".verify").css({display: "none"});
                 }else{
                     $(".profilePicture").css({border: "5px solid #808080"});
                     $(".verify").css({display: "block"});
                 }
-                
             }
         })
         .catch(error=>console.log("error on retrieval of user verification: " + error));
@@ -121,7 +129,7 @@ $("document").ready(()=>{
     $(".logout").click(()=>{
         window.sessionStorage.clear();
         window.location.reload(true);
-        window.location.replace('/sfa');
+        window.location = "../index.html";
 
     });
 
@@ -184,7 +192,7 @@ $("document").ready(()=>{
                     $("#confirmVerification").text("Confirm");
                 }, 3000);
                 let today = new Date().toISOString().slice(0, 10)
-                localStorage.setItem('idsent', today + sessionStorage.getItem('id'));
+                localStorage.setItem('idsent' + sessionStorage.getItem('id'), today + sessionStorage.getItem('id'));
                 window.location = "profile.html";
             })
             .catch(error=>console.log("may error sa pag insert ng id: " + error));

@@ -1,5 +1,14 @@
 //dashboard events listener
 $("document").ready(()=>{
+
+    const pageProtection = ()=>{
+        if(sessionStorage.getItem("id") == undefined){
+            window.location = "../pages/login.html";
+        }
+    }
+
+    pageProtection();
+
     $(".heading").click(()=>{   //heading scroll to top when clicked
         window.scrollTo(0, 0);
     });

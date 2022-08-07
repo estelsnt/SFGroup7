@@ -1,5 +1,9 @@
 $("document").ready(()=>{
 
+    $("#backToFrontPage").click(()=>{
+        window.location = "../index.html";
+    });
+
     $("#login").click(()=>{
         if(checkInput()){
             //authenticate user credentials

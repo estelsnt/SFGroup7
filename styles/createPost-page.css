@@ -42,7 +42,11 @@ body{
     flex-direction: column;
     color: beige;
     font-weight: bold;  
-    background-color: #54245a;
+    background-image: url("../images/premium-mark.png");
+    background-position: top right;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    background-color: #7202b3c0;
     border: 2px solid #ffd700;
     
 }
@@ -64,12 +68,6 @@ body{
     display: flex;
     font-size: 1em;
     margin: 0;
-}
-
-#postPremium span #premiumTag{
-    margin-left: auto;
-    height: 70px;
-    width: 70px;
 }
 
 #learnMorePremium{
