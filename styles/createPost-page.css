@@ -195,10 +195,104 @@ body{
     background-color: #ffab1e;
 }
 
+.posts{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap ;
+    width: 100vw;
+    min-height: 80vh;
+}
+
+.servicePostNormal{
+    margin: 10px;
+    background-color: beige;
+    border-radius: 20px;
+    box-shadow: rgba(254, 140, 0, 0.4) 5px 5px, rgba(254, 140, 0, 0.3) 10px 10px, rgba(254, 140, 0, 0.2) 15px 15px, rgba(254, 140, 0, 0.1) 20px 20px, rgba(254, 140, 0, 0.05) 25px 25px;    
+}
+
+.servicePostNormal .postHeading{
+    display: flex;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    background-color: #ffab1e;
+}
+
+.servicePostNormal .postHeading .postDate{
+    display: inline-block;
+    margin: 10px 20px;
+}
+
+.servicePostNormal .postHeading #postDelete{
+    margin: 10px 15px 10px auto;
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+}
+
+.servicePostNormal .postLabel{
+    margin: 10px auto 5px 15px;
+    font-size: 1.2em;
+}
+
+.servicePostNormal .postLabel .dataValue{
+    margin-right: 15px;
+}
+
+.servicePostNormal .postInputContainer{
+    display: flex;
+}
+
+.servicePostNormal .postInputContainer textarea{
+    resize: none;
+    flex: 1;
+    margin-left: 15px;
+    height: 10vh;
+    font-size: 1em;
+    border-radius: 4px;
+    border: 1px solid #ccccc4;
+}
+
+.servicePostNormal .postInputContainer .postEdit{
+    margin: 2px 15px auto 2px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.servicePostNormal .postFooter{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 5px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.servicePostNormal .postFooter button{
+    min-width: 100px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    align-self: center;
+    background-color: #ff8c00;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    border: none;
+    border-radius: 10px;
+}
+
+.servicePostNormal .postFooter button:hover{
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
+}
+
 @media (max-width: 780px) {
     .createPostNormalContainer .createPostNormal{
         left: 5%;
         width: 90%;
+    }
+
+    .posts{
+        justify-content: center;
+        align-items: center;
     }
 }
 

@@ -6,6 +6,7 @@ $("document").ready(()=>{
 
     $("#login").click(()=>{
         if(checkInput()){
+            $("#login").attr("disabled", true);
             //authenticate user credentials
             fetch('../api/userAuthentication.php', {
                 method: 'POST',
@@ -19,6 +20,7 @@ $("document").ready(()=>{
             })
             .then(res=>{return res.json()})
             .then(data=>{
+                $("#login").attr("disabled", false);
                 console.log(data.userID);
                 if(data.userID == 0){
                     $("#loginMessage").text("invalid username or password*");

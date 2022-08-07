@@ -17,6 +17,7 @@ $("document").ready(()=>{
     $("#passwordMessage").mouseleave(()=>{
         $("#passWord").attr("type", "password");
     });
+
     //confirmation on registration
     $("#confirm").click(()=>{
         //check inputs first before opening otp confirmation panel
