@@ -6,10 +6,47 @@ $("document").ready(()=>{
     let selectedServiceCategory;
     let selectedService;
     let newServiceFlag = true;
+    
+    //check if user is verified and restrict posting to 1
+    let checkUserVerified = ()=>{
+        fetch('../api/checkVerifiedUser.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: sessionStorage.getItem('id')
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data.verified == "TRUE"){
+                $("#getVerified").css({display: "none"});
+            }
+            else{
+                fetch('../api/getUserOrderCount.php?id='+sessionStorage.getItem("id"), {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(res=>{return res.json()})
+                .then(data=>{
+                    if(data[0].posts == "1"){
+                        allowedToPost = false;
+                    }
+                })
+                .catch(error=>console.log("error on retrieval of user number of post: " + error));
+            }
+        })
+        .catch(error=>console.log("error on retrieval of user verification: " + error));
+    };
 
-    //get the users previous posts
+    checkUserVerified();
+
+    //get the users previous order posts
     let getUserPosts = ()=>{
-        fetch('../api/getServicePosts.php', {
+        fetch('../api/getOrderPosts.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -33,28 +70,22 @@ $("document").ready(()=>{
     let displayPosts = (data)=>{
         $(".posts").empty();
         for(let i in data){
-            const d = new Date(data[i].servicePostDateTime);
+            const d = new Date(data[i].serviceOrderDateTime);
             $(".posts").append(`
             
             <div class="servicePostNormal">
                 <div class="postHeading">
                     <p class="postDate">`+ d.toDateString() +`</p>
-                    <img src="../images/close.png" id="postDelete" onclick="deletePostNormal(`+ data[i].servicePostingID +`)">
+                    <img src="../images/close.png" id="postDelete" onclick="deletePostNormal(`+ data[i].serviceOrderID +`)">
                 </div>
                 <p class="postLabel">Category: <span class="dataValue">`+ data[i].categoryName +`</span></p>
                 <p class="postLabel">Service: <span class="dataValue">`+ data[i].serviceName +`</span></p>
-                <p class="postLabel">Pricing:</p>
-                <div class="postInputContainer">
-                    <textarea name="pricing" id="postPricing`+ data[i].servicePostingID +`" readonly>`+ data[i].pricing +`</textarea>
-                    <img src="../images/edit.png" class="postEdit" onclick="toggleEditPricing(`+data[i].servicePostingID+`)">
-                </div>
                 <p class="postLabel">Description:</p>
                 <div class="postInputContainer">
-                    <textarea name="description" id="postDescription`+ data[i].servicePostingID +`" readonly>`+ data[i].description +`</textarea>
-                    <img src="../images/edit.png" class="postEdit" onclick="toggleEditDescription(`+data[i].servicePostingID+`)">    
+                    <textarea name="description" id="postDescription`+ data[i].servicePostingID +`" readonly>`+ data[i].description +`</textarea>  
                 </div>
-                <div class="postFooter">
-                    <button onclick="savePostNormal(`+ data[i].servicePostingID +`)">Save</button>
+                <div class="footer">
+
                 </div>
             </div>
 
@@ -64,6 +95,7 @@ $("document").ready(()=>{
 
     getUserPosts();
 
+    //load services categories
     let loadServiceCategories = ()=>{
         clearInputFieldsPosting();
         fetch('../api/getServiceCategories.php', {
@@ -84,6 +116,7 @@ $("document").ready(()=>{
         .catch(error=>console.log("error on retrieval of service categories: " + error));
     };
 
+    //on category and service change
     $("#serviceCategory").change(()=>{
         for(let i = 0; i < serviceCategories.length; i++){
             if($("#serviceCategory").val() == serviceCategories[i].categoryName){
@@ -127,11 +160,27 @@ $("document").ready(()=>{
         console.log(selectedService);
     });
 
+    //create new order
+    $("#createNewOrder").click(()=>{
+        //check if user is not verified (limited to 1 post)
+        if(!allowedToPost){
+            $("#getVerified").text("limited to 1 post");
+            setTimeout(()=>{
+                $("#getVerified").text("Get verified! create more posts");
+            }, 2000);
+            return;
+        }
+        //initialize services categories 
+        loadServiceCategories();
+        $(".createPostNormalContainer").css({display: "block"});
+    });
+
+    //creating new order post
     $("#create").click(()=>{
         if(!inputCheck()){
             $("#create").text("check input");
             setTimeout(()=>{
-                $("#create").text("Create post");
+                $("#create").text("Create order");
             }, 1000);
             return;
         }
@@ -153,7 +202,7 @@ $("document").ready(()=>{
                 $("#create").text("posting..");
                 $("#create").attr("disabled", true);
                 //insert the service to posting
-                fetch('../api/postService.php?', {
+                fetch('../api/postOrder.php?', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -161,7 +210,6 @@ $("document").ready(()=>{
                     body: JSON.stringify({
                         userID: sessionStorage.getItem("id"),
                         serviceID: data.lastID,
-                        pricing: $("#servicePricing").val(),
                         description: $("#serviceDescription").val()
                     })
                 })
@@ -170,7 +218,7 @@ $("document").ready(()=>{
                     //service posted
                     
                     setTimeout(()=>{
-                    $("#create").text("Create post");
+                    $("#create").text("Create order");
                     $("#create").attr("disabled", false);
                     location.reload();
                 }, 500);
@@ -180,7 +228,7 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on inserting service: " + error));
         }else{
             //insert the service to posting
-            fetch('../api/postService.php?', {
+            fetch('../api/postOrder.php?', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -188,7 +236,6 @@ $("document").ready(()=>{
                 body: JSON.stringify({
                     userID: sessionStorage.getItem("id"),
                     serviceID: selectedService,
-                    pricing: $("#servicePricing").val(),
                     description: $("#serviceDescription").val()
                 })
             })
@@ -198,7 +245,7 @@ $("document").ready(()=>{
                 $("#create").text("posting..");
                 $("#create").attr("disabled", true);
                 setTimeout(()=>{
-                    $("#create").text("Create post");
+                    $("#create").text("Create order");
                     $("#create").attr("disabled", false);
                     location.reload();
                 }, 500);
@@ -221,73 +268,21 @@ $("document").ready(()=>{
                 flag = false;
             }
         }
-        if($("#servicePricing").val() == ""){
-            flag = false;
-        }
         if($("#serviceDescription").val() == ""){
             flag = false;
         }
         return flag;
     };
 
+    //clear input fields
     let clearInputFieldsPosting = ()=>{
         $("#serviceCategory").val("");
         $("#service").val("");
         $("#specifyService").val("");
-        $("#servicePricing").val("");
         $("#serviceDescription").val("");
     };
-    //check if user is verified and restrict posting to 1
-    let checkUserVerified = ()=>{
-        fetch('../api/checkVerifiedUser.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userID: sessionStorage.getItem('id')
-            })
-        })
-        .then(res=>{return res.json()})
-        .then(data=>{
-            if(data.verified == "TRUE"){
-                $("#getVerified").css({display: "none"});
-            }
-            else{
-                fetch('../api/getUserPostCount.php?id='+sessionStorage.getItem("id"), {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res=>{return res.json()})
-                .then(data=>{
-                    if(data[0].posts == "1"){
-                        allowedToPost = false;
-                    }
-                })
-                .catch(error=>console.log("error on retrieval of user number of post: " + error));
-            }
-        })
-        .catch(error=>console.log("error on retrieval of user verification: " + error));
-    };
 
-    checkUserVerified()
-
-    $("#createNewPostNormal").click(()=>{
-        //check if user is not verified (limited to 1 post)
-        if(!allowedToPost){
-            $("#getVerified").text("limited to 1 post");
-            setTimeout(()=>{
-                $("#getVerified").text("Get verified! create more posts");
-            }, 2000);
-            return;
-        }
-        //initialize services categories 
-        loadServiceCategories();
-        $(".createPostNormalContainer").css({display: "block"});
-    });
-
+    //closing the container
     $(".createPostNormalContainer").mousedown(()=>{
         $(".createPostNormalContainer").css({display: "none"});
     });
@@ -303,33 +298,12 @@ $("document").ready(()=>{
     $(".home-button").click(()=>{
         window.location = "../pages/dashboard.html";
     });
-
-    
-
+    //
 
 });
 
-let savePostNormal = (id)=>{
-    fetch('../api/updateServicePost.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: id,
-            pricing: $("#postPricing"+id).val(),
-            description: $("#postDescription"+id).val()
-        })
-    })
-    .then(()=>{
-        console.log("post updated");
-        location.href = "../pages/createPost.html";
-    })
-    .catch(error=>console.log("error on editing post: " + error));
-};
-
 let deletePostNormal = (id)=>{
-    fetch('../api/removeServicePost.php', {
+    fetch('../api/removeOrderPost.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -340,27 +314,7 @@ let deletePostNormal = (id)=>{
     })
     .then(()=>{
         console.log("post deleted");
-        location.href = "../pages/createPost.html";
+        location.href = "../pages/createOrder.html";
     })
     .catch(error=>console.log("error on editing post: " + error));
-};
-
-let toggleEditPricing = (item)=>{
-    if($("#postPricing"+item).prop("readonly")){
-        $("#postPricing"+item).attr("readonly", false);
-        $("#postPricing"+item).css({"border" : "2px solid #ffab1e"});
-    }else{
-        $("#postPricing"+item).attr("readonly", true);
-        $("#postPricing"+item).css({"border" : "1px solid #ccccc4"});
-    }
-};
-
-let toggleEditDescription = (item)=>{
-    if($("#postDescription"+item).prop("readonly")){
-        $("#postDescription"+item).attr("readonly", false);
-        $("#postDescription"+item).css({"border" : "2px solid #ffab1e"});
-    }else{
-        $("#postDescription"+item).attr("readonly", true);
-        $("#postDescription"+item).css({"border" : "1px solid #ccccc4"});
-    }
 };

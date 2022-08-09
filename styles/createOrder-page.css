@@ -1,0 +1,16 @@
+#postNormal #createNewOrder{
+    margin: auto;
+    height: 100px;
+    width: 100px;
+    border: 5px solid transparent;
+    border-radius: 100px;
+}
+
+#createNewOrder:hover{
+    background-color: #fafa9d;
+    border-radius: 110px;
+}
+
+.postInputContainer{
+    padding: 0 15px 15px 0;
+}
