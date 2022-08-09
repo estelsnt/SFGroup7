@@ -187,12 +187,14 @@ body{
 
 .divider{
     text-align: center;
-    margin: 10px;
+    margin: 10px 10px 30px 10px;
     width: 100vw;
     height: 2px;
     padding: 0;
     border-radius: 10px;
     background-color: #ffab1e;
+    color: #fffff6;
+    line-height: 30px;
 }
 
 .posts{
@@ -289,10 +291,8 @@ body{
         left: 5%;
         width: 90%;
     }
-
     .posts{
         justify-content: center;
-        align-items: center;
     }
 }
 

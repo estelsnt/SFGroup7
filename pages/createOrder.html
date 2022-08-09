@@ -6,13 +6,14 @@
         <title>Service Finder</title>
         <link rel="stylesheet" type="text/css" href="../styles/dashboard-page.css">
         <link rel="stylesheet" type="text/css" href="../styles/createPost-page.css">
+        <link rel="stylesheet" type="text/css" href="../styles/createOrder-page.css">
         <script src="../js/jquery-3.6.0.min.js"></script>
     </head>
     <body>
         <div class="createPostNormalContainer">
             <div class="createPostNormal">
                 <div class="createPostNormalHeader">
-                    <h3>Post your service.</h3>
+                    <h3>What service do you need?</h3>
                     <img src="../images/close.png" id="createPostClose">
                 </div>
 
@@ -41,27 +42,16 @@
 
                 <div class="inputContainer">
                     <div class="labelContainer">
-                        <span>Pricing: </span>
-                    </div>
-                    <div class="textboxContainer">
-                        <input type="text" id="servicePricing">
-                    </div>
-                </div>
-
-                <div class="inputContainer">
-                    <div class="labelContainer">
                         <span>Description: </span>
                     </div>
                     <div class="textboxContainer">
-                        <textarea name="description" id="serviceDescription" placeholder="tell something about your service."></textarea>
+                        <textarea name="description" id="serviceDescription" placeholder="tell something about the service you are looking for."></textarea>
                     </div>
                 </div>
-                <button id="create">Create post</button>
-                
-                
-
+                <button id="create">Create order</button>
             </div>
         </div>
+        
         <div class="container">
             <div class="heading">
                 <div class="slide-menu">
@@ -71,8 +61,8 @@
                         <ul>
                             <li><a href="profile.html">Profile</a></li>
                             <li><a href="#">Messages</a></li>
-                            <li><a href="createPost.html">Post your service</a></li>
-                            <li><a href="createOrder.html">Find a service</a></li>
+                            <li><a href="#">Post your service</a></li>
+                            <li><a href="#">Find a service</a></li>
                         </ul>
                     </div>
                 </div>
@@ -85,7 +75,7 @@
                         <div class="servicePostingDropdown">
                             <ul>
                                 <li id="posts"><a href="createPost.html">Post your service</a></li>
-                                <li id="find"><a href="createOrder.html">Find a service</a></li> 
+                                <li id="find"><a href="#">Find a service</a></li> 
                             </ul>
                         </div>
                     </li>
@@ -94,27 +84,20 @@
                     </li>
                 </ul>
             </div>
-        
+           
             <div class="main">
                 <div class="filter-info">
-                    <h3>Post your service!</h3>
+                    <h3>Post the service you are looking for!</h3>
                 </div>    
                 <div class="post" id="postNormal">
                     <span>
 						Create new
 					</span>
-                    <img src="../images/plus-black.png" id="createNewPostNormal">
+                    <img src="../images/plus-black.png" id="createNewOrder">
                     <a href="profile.html" id="getVerified">Get verified! create more posts</a>
                 </div>
-                <div class="post" id="postPremium">
-                    <span>
-						Have a bussiness?
-					</span>
-                    <img src="../images/plus-gold.png" id="createNewPostPremium">
-                    <a href="#" id="learnMorePremium">Advertise it in here.<br>Learn more.</a>
-                </div>
                 <div class="divider">
-                   My services:
+                   Im looking for:
                 </div>
                 <div class="posts">
                     <!--display users posts in here-->
@@ -147,6 +130,6 @@
             </div>
         </div>
         <script src="../js/dashboardBehavior.js"></script>
-        <script src="../js/createPostBehavior.js"></script>
+        <script src="../js/createOrderBehavior.js"></script>
     </body>
 </html>
