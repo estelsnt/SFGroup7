@@ -3,15 +3,18 @@ html, body{
     padding: 0;
     height: 100%;
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 .container{
     display: flex;
+    width: 100vw;
     flex-direction: column;
     background-color: #0073ff;
 }
 
 .heading{
+    padding-right: 20px;
     position: sticky;
     top: 0;
     display: flex;
@@ -204,6 +207,8 @@ html, body{
     display: block;
 }
 
+
+
 .search #search-button:hover{
     box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
 }
@@ -238,7 +243,7 @@ html, body{
 }
 
 #servicePosting .servicePostingDropdown ul li a{
-    margin: 20px 4px 10px 4px;
+    margin: 20px 0px 10px 4px;
     display: inline-block;
 }
 
