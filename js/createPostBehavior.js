@@ -7,6 +7,116 @@ $("document").ready(()=>{
     let selectedService;
     let newServiceFlag = true;
 
+    //check premiumpage access
+    let checkPremiumPage = ()=>{
+        fetch('../api/getPremiumPageID.php?id='+sessionStorage.getItem("id"), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            console.log(data);
+            if(data.pID == 0){
+                $("#postNormal").after(`
+                <div class="post" id="postPremium">
+                    <span>
+						Have a bussiness?
+					</span>
+                    <img src="../images/plus-gold.png" id="createNewPostPremium" onclick="createPremiumPost()">
+                    <a href="aboutPremiumPost.html" id="learnMorePremium">Advertise it in here.<br>Learn more.</a>
+                </div>
+                `);
+            }else{
+                sessionStorage.setItem("businessPage", data[0].pID);
+                $("#postNormal").after(`
+                <div class="post" id="postPremium">
+                    <span>
+						`+data[0].title+`
+					</span>
+                    <img src="../images/editcircle.png" id="createNewPostPremium" onclick="editPremiumPost()">
+                </div>
+                `);
+            }
+        })
+        .catch(error=>console.log("error on retrieval of premium post"));
+    };
+    
+    checkPremiumPage();
+
+    //paypal sandbox api
+    let subscription = "20";
+
+    paypal.Buttons({
+        createOrder: (data, actions)=>{
+            if($("#businessName").val() == ""){
+                $("#businessName").css({border: "1px solid red"});
+                return;
+            }
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: subscription,
+                        currency_code: "PHP"
+                    }
+                }]
+            })
+        },
+        onApprove: (data, actions)=>{
+            return actions.order.capture().then((details)=>{
+                //on successful transaction
+                let today = new Date()//.toISOString().slice(0, 10);
+                switch(subscription){
+                    case "20":
+                        today.setMonth(today.getMonth() + 1);
+                    break;
+                    case "200":
+                        today.setMonth(today.getMonth() + 12);
+                    break;
+                }
+                //console.log(today.toISOString().slice(0, 10));
+                console.log(details);
+                fetch('../api/addPremiumPage.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userID: sessionStorage.getItem("id"),
+                        title:  $("#businessName").val(),
+                        postDuration: today.toISOString().slice(0, 10)
+                    })
+                })
+                .then(res=>{return res.json()})
+                .then(data=>{
+                    //feedback after success
+                    sessionStorage.setItem("businessPage", data.lastID);
+                    $(".createPostPremiumContainer").css({display: "none"});
+                    location.href = "../pages/createBusinessPage.html";
+                })
+                .catch(error=>console.log("critical error on inserting premium post"));
+            })
+        }
+    }).render('#paypalButtonContainer');
+
+    $("#redeem").click(()=>{
+        console.log(sessionStorage.getItem("businessPage"));
+    });
+    
+    $("#m1").click(()=>{
+        subscription = "20";
+    });
+
+    $("#m12").click(()=>{
+        subscription = "200"
+    });
+
+    $("#businessName").keyup(()=>{
+        $("#businessName").css({border: "1px solid grey"});
+    });
+
+
     //get the users previous posts
     let getUserPosts = ()=>{
         fetch('../api/getServicePosts.php', {
@@ -287,7 +397,7 @@ $("document").ready(()=>{
         loadServiceCategories();
         $(".createPostNormalContainer").css({display: "block"});
     });
-
+    //open create post panel
     $(".createPostNormalContainer").mousedown(()=>{
         $(".createPostNormalContainer").css({display: "none"});
     });
@@ -299,15 +409,42 @@ $("document").ready(()=>{
     $("#createPostClose").click(()=>{
         $(".createPostNormalContainer").css({display: "none"});
     });
+    //open create premium post panel
+    $("#createPostPremiumClose").click(()=>{
+        $(".createPostPremiumContainer").css({display: "none"});
+    });
+
+    $(".createPostPremiumContainer").mousedown(()=>{
+        $(".createPostPremiumContainer").css({display: "none"});
+    });
+    
+    $(".createPostPremium").mousedown(()=>{
+        window.event.stopPropagation();
+    });
+
+    $("#createNewPostPremium").click(()=>{
+        $(".createPostPremiumContainer").css({display: "block"});
+    });
+    //for creating premium post go to businesspage
+    //this button is for testing
+    $("#proceed").click(()=>{
+        console.log("hey");
+        location.href = "../pages/createBusinessPage.html";
+    });
+    
 
     $(".home-button").click(()=>{
         window.location = "../pages/dashboard.html";
     });
-
-    
-
-
 });
+
+let createPremiumPost = () =>{
+    $(".createPostPremiumContainer").css({display: "block"});
+}
+
+let editPremiumPost = () =>{
+    location.href = "../pages/createBusinessPage.html";
+}
 
 let savePostNormal = (id)=>{
     fetch('../api/updateServicePost.php', {

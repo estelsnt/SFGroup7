@@ -1,0 +1,139 @@
+.info{
+    width: 100vw;
+    margin: 10px;
+}
+
+.info .infoButton{
+    height: 30px;
+    width: 80px;
+    border-radius: 20px;
+    border: hidden;
+    background-color: #ffab1e;
+    cursor: pointer;
+}
+
+.title .businessNameContainer{
+    display: flex;
+    margin: 10px;
+    max-width: 400px;
+    border-radius: 10px;
+}
+
+.title .businessNameContainer #businessName{
+    max-width: 400px;
+    border-radius: 10px;
+    font-size: 3em;
+    resize: none;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.title .businessNameContainer #editBusinessName{
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+}
+
+.featuredPhotoContainer{
+    display: flex;
+    margin-left: 5px;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.featuredPhotoContainer #featuredPhoto{
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.fileUpload{
+    max-width: 200px;
+    margin: 5px;
+    border-radius: 5px;
+    border: hidden;
+    background-color: #ff8c00;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+#businessDetails{
+   
+    resize: none;
+    font-size: 1.3em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#editBusinessDetails{
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.addNewList{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+#addList{
+    padding: 2px;
+    height: 15px;
+    width: 15px;
+    margin: 5px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+#listItems li{
+    font-size: 1.3em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#addListInput{
+    font-size: 1.3em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.removeItem{
+    margin-left: 10px;
+    height: 15px;
+    width: 15px;
+    border: 2px solid black;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.slideShowControls{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+}
+
+@media (max-width: 900px) {
+    .title .businessNameContainer #businessName{
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 400px) {
+    .featuredPhotoContainer #featuredPhoto{
+        max-width: 300px;
+        max-height: 300px;
+    }
+}
+
