@@ -7,6 +7,8 @@ $("document").ready(()=>{
     let selectedService;
     let newServiceFlag = true;
 
+    let subscription = "20";
+
     //check premiumpage access
     let checkPremiumPage = ()=>{
         fetch('../api/getPremiumPageID.php?id='+sessionStorage.getItem("id"), {
@@ -17,7 +19,6 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
-            console.log(data);
             if(data.pID == 0){
                 $("#postNormal").after(`
                 <div class="post" id="postPremium">
@@ -44,9 +45,9 @@ $("document").ready(()=>{
     };
     
     checkPremiumPage();
-
+    
     //paypal sandbox api
-    let subscription = "20";
+    
 
     paypal.Buttons({
         createOrder: (data, actions)=>{
@@ -67,6 +68,8 @@ $("document").ready(()=>{
             return actions.order.capture().then((details)=>{
                 //on successful transaction
                 let today = new Date()//.toISOString().slice(0, 10);
+                let businessName = $("#businessName").val();
+                businessName = businessName.replace("'", "\\'");
                 switch(subscription){
                     case "20":
                         today.setMonth(today.getMonth() + 1);
@@ -84,7 +87,7 @@ $("document").ready(()=>{
                     },
                     body: JSON.stringify({
                         userID: sessionStorage.getItem("id"),
-                        title:  $("#businessName").val(),
+                        title:  businessName,
                         postDuration: today.toISOString().slice(0, 10)
                     })
                 })
