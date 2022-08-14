@@ -9,8 +9,38 @@
         <link rel="stylesheet" type="text/css" href="../styles/aboutPremiumPost-page.css">
         <link rel="stylesheet" type="text/css" href="../styles/createBusinessPage.css">
         <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="https://www.paypal.com/sdk/js?currency=PHP&client-id=ARsXub3HaIgyaWI2jvFyoCdlln31XcwQXuIdMqg574plhmlfHPDb6a7Jfz_LJMvmAO0UPkI0-dB4u8yn"></script>
     </head>
     <body>
+
+        <div class="createPostPremiumContainer">
+            <div class="createPostPremium">
+                <div class="createPostPremiumHeader">
+                    <h3>Subscribe to Service Finder.</h3>
+                    <img src="../images/close.png" id="createPostPremiumClose">
+                </div>
+                <ul>
+                    <li>Create a page for your business</li>
+                    <li>Provide more details about your services</li>
+                    <li>Attach pictures</li>
+                    <li>Respond to feedbacks</li>
+                    <li>Let them now you are here</li>
+                </ul>
+                <div class="selection">
+                    <div>
+                        <input type="radio" id="m1" name="subscription" value="1" checked>
+                        <label for="m1">1 month ₱20</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="m12" name="subscription" value="12">
+                        <label for="m12">1 year ₱200</label>
+                    </div>
+                </div>
+                <a href="#" id="redeem">redeem</a>
+                <div id="paypalButtonContainer"></div>
+            </div>
+        </div>
+
         <div class="container">
             <!--header with navigation-->
             <div class="heading">
@@ -73,12 +103,11 @@
                             <input type="text" id="addListInput" placeholder=" (services, location, etc.,)">
                             <img src="../images/check.png" id="addList">
                             <div class="listItemContainer">
-                                
                             </div>
                         </div>
                         <ul id="listItems">
                             <!-- example of list
-                           <li>
+                            <li>
                                 <div class="item">
                                     <span>gagawin ang lahat</span>
                                     <img src="../images/close.png" class="removeItem">
@@ -92,7 +121,7 @@
                     <span>upload photo: </span>
                     <input type="file" class="fileUpload" id="uploadSlideshowPhoto">
                     <span>remove photo </span>
-                    <img src="../images/close.png" class="removeItem">
+                    <img src="../images/close.png" id="removeSlideshowImage">
                 </div>
                 <div class="slideshow">
                     <div class="left">
