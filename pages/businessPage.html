@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Service Finder</title>
+        <link rel="stylesheet" type="text/css" href="../styles/createPost-page.css">
+        <link rel="stylesheet" type="text/css" href="../styles/dashboard-page.css">
+        <link rel="stylesheet" type="text/css" href="../styles/aboutPremiumPost-page.css">
+        <script src="../js/jquery-3.6.0.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <!--header with navigation-->
+            <div class="heading">
+                <div class="slide-menu">
+                    <img src="../images/list.png"  id="menu">
+                    <div class="side-menu">
+                        <h2>Services Finder</h2>
+                        <ul>
+                            <li><a href="profile.html">Profile</a></li>
+                            <li><a href="#">Messages</a></li>
+                            <li><a href="#">Post your service</a></li>
+                            <li><a href="#">Find a service</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <h1 class="heading">Service Finder</h1>
+                <ul class="navigation">
+                    <li id="profile"><a href="profile.html">Profile</a></li>
+                    <li id="messages"><a href="#">Messages</a></li>
+                    <li id="servicePosting">
+                        Service posting
+                        <div class="servicePostingDropdown">
+                            <ul>
+                                <li id="posts"><a href="createPost.html">Post your service</a></li>
+                                <li id="find"><a href="#">Find a service</a></li> 
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <button class="home-button"></button>
+                    </li>
+                </ul>
+            </div> 
+            <!---->
+            <div class="main">
+                <div class="title">
+                    <h1 id="businessTitle"></h1>
+                    <button id="getStarted">Message</button>
+                </div>
+                <img src="../images/sfa img26.png" class="featuredPhoto">
+                <div class="content">
+                    <div class="details">
+                        <h2 id="businessDetails"></h2>
+                        <span id="location"></span>
+                    </div>
+                    <div class="list">
+                        <ul id="listItems">
+                            
+                        </ul>
+                    </div>
+                </div>
+                <div class="slideshow">
+                    <div class="left">
+                        <img src="../images/left.png" class="directionImage">
+                    </div>
+                    <div class="right">
+                        <img src="../images/right.png" class="directionImage">
+                    </div>
+                    <img src="" class="slideshowImage">
+                </div>
+                <div class="feedback">
+                    <!--comment section goes in here-->
+                </div>
+            </div>
+           
+        <script src="../js/dashboardBehavior.js"></script>
+        <script src="../js/createOrderBehavior.js"></script>
+        <script src="../js/businessPageBehavior.js"></script>
+    </body>
+</html>

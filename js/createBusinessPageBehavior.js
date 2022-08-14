@@ -7,6 +7,8 @@ $("document").ready(()=>{
 
     let subscription = "20";
 
+    
+
     //load data
     let getPostdata = ()=>{
         fetch('../api/getBusinessPageInfo.php', {
@@ -21,6 +23,7 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             pageInfo = data;
+            pid = sessionStorage.getItem("businessPage");
             $("#duration").text("duration: " + data[0].postDuration);
             $("#businessName").val(data[0].title);
             if(data[0].featuredPhoto == undefined){
@@ -355,6 +358,13 @@ $("document").ready(()=>{
             })
         }
     }).render('#paypalButtonContainer');
+
+    //preview
+    $("#preview").click(()=>{
+        console.log("clc");
+        sessionStorage.setItem("toView", sessionStorage.getItem("businessPage"));
+        location.href = "businessPage.html";
+    });
 
 });
 
