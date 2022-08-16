@@ -7,7 +7,10 @@
     $userData = json_decode($content, true);
     $sql = "UPDATE useraddress 
             SET 
-            brgyCode = '{$userData['brgyCode']}', 
+            brgyCode = '{$userData['brgyCode']}',
+            citymunCode = '{$userData['citymunCode']}', 
+            provCode = '{$userData['provCode']}', 
+            regCode = '{$userData['regCode']}',
             address = '{$userData['address']}' 
             WHERE useraddress.userID = {$userData['id']};";
     $result = $conn->query($sql);

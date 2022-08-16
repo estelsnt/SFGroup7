@@ -47,7 +47,6 @@ $("document").ready(()=>{
     checkPremiumPage();
     
     //paypal sandbox api
-    
 
     paypal.Buttons({
         createOrder: (data, actions)=>{
@@ -102,6 +101,8 @@ $("document").ready(()=>{
             })
         }
     }).render('#paypalButtonContainer');
+
+
 
     $("#redeem").click(()=>{
         console.log(sessionStorage.getItem("businessPage"));

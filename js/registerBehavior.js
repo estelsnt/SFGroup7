@@ -4,8 +4,12 @@ $("document").ready(()=>{
     let province;
     let cityMunicipality;
     let barangay;
+
     let brgyCode;
-    
+    let cityMunCode;
+    let provCode;
+    let regCode;
+
     $("#returnToLogin").click(()=>{
         window.location.href = "../pages/login.html";
     });
@@ -127,6 +131,7 @@ $("document").ready(()=>{
                 })
             })
             .then(()=>{
+                //add the user's address on useraddress table
                 fetch('../api/registerUserAddress.php', {
                     method: 'POST',
                     headers: {
@@ -135,6 +140,9 @@ $("document").ready(()=>{
                     body: JSON.stringify({
                         userName: $("#userName").val(),
                         brgyCode: brgyCode,
+                        citymunCode: cityMunCode,
+                        provCode: provCode,
+                        regCode: regCode,
                         address: $("#addressDetails").val()
                     })
                 })
@@ -276,6 +284,7 @@ $("document").ready(()=>{
         for(let i in region){
             if(region[i].description == $("#region").val()){
                 populateProvince(region[i].regCode);
+                regCode = region[i].regCode;
                 break;
             }
         }
@@ -288,6 +297,7 @@ $("document").ready(()=>{
         for(let i in province){
             if(province[i].description == $("#province").val()){
                 populateCityMunicipality(province[i].provCode);
+                provCode = province[i].provCode;
                 break;
             }
         }
@@ -299,6 +309,7 @@ $("document").ready(()=>{
         for(let i in cityMunicipality){
             if(cityMunicipality[i].description == $("#cityMunicipality").val()){
                 populateBarangay(cityMunicipality[i].citymunCode);
+                cityMunCode = cityMunicipality[i].citymunCode;
                 break;
             }
         }
@@ -402,6 +413,8 @@ $("document").ready(()=>{
 
     //initial functions call
     populateRegion();
+
+    
 });
 
 
