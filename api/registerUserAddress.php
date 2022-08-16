@@ -6,11 +6,14 @@
     $content = trim(file_get_contents("php://input"));
     $userData = json_decode($content, true);
     $sql = "INSERT INTO useraddress
-            (userID, brgyCode, address)
+            (userID, brgyCode, citymunCode, provCode, regCode, address)
             VALUES 
             (
                 (SELECT userID FROM users WHERE username = '{$userData['userName']}'),
                 '{$userData['brgyCode']}',
+                '{$userData['citymunCode']}',
+                '{$userData['provCode']}',
+                '{$userData['regCode']}',
                 '{$userData['address']}'
             );
         ";

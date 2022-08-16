@@ -7,8 +7,11 @@ $("document").ready(()=>{
     let province;
     let cityMunicipality;
     let barangay;
+
     let brgyCode;
-    
+    let cityMunCode;
+    let provCode;
+    let regCode;
     //
     const pageProtection = ()=>{
         if(sessionStorage.getItem("id") == undefined){
@@ -341,6 +344,9 @@ $("document").ready(()=>{
                 body: JSON.stringify({
                     id: sessionStorage.getItem("id"),
                     brgyCode: brgyCode,
+                    citymunCode: cityMunCode,
+                    provCode: provCode,
+                    regCode: regCode,
                     address: $("#addressDetails").val()
                 })
             })
@@ -494,6 +500,7 @@ $("document").ready(()=>{
         for(let i in region){
             if(region[i].description == $("#region").val()){
                 populateProvince(region[i].regCode);
+                regCode = region[i].regCode;
                 break;
             }
         }
@@ -506,6 +513,7 @@ $("document").ready(()=>{
         for(let i in province){
             if(province[i].description == $("#province").val()){
                 populateCityMunicipality(province[i].provCode);
+                provCode = province[i].provCode;
                 break;
             }
         }
@@ -517,6 +525,7 @@ $("document").ready(()=>{
         for(let i in cityMunicipality){
             if(cityMunicipality[i].description == $("#cityMunicipality").val()){
                 populateBarangay(cityMunicipality[i].citymunCode);
+                cityMunCode = cityMunicipality[i].citymunCode;
                 break;
             }
         }
