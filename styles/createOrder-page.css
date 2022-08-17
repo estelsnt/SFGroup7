@@ -14,3 +14,16 @@
 .postInputContainer{
     padding: 0 15px 15px 0;
 }
+
+.servicePostNormal{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+}
+
+.postPicture{
+    align-self: center;
+    justify-self: center;
+    height: 150px;
+    width: 150px;
+}

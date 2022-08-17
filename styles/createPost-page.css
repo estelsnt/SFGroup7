@@ -91,7 +91,7 @@ body{
     flex-direction: column;
     top: 10%;
     left: 25%;
-    height: 80%;
+    min-height: 80%;
     width: 50%;
     border-radius: 30px;
     box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
@@ -167,13 +167,55 @@ body{
     border: 1px solid #ccccc4;
 }
 
+.postPictureContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+#postPicture{
+    margin-top: 5px;
+    height: 150px;
+    width: 150px;
+    background-color: beige;
+}
+
+#uploadPostPicture{
+    max-width: 200px;
+    margin: 5px;
+    border-radius: 5px;
+    border: hidden;
+    background-color: #ff8c00;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+.postPictureUpdate{
+    max-width: 150px;
+    margin: 5px;
+    border-radius: 5px;
+    border: hidden;
+    background-color: #ff8c00;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+.postPicture{
+    margin-top: 5px;
+    height: 150px;
+    width: 150px;
+    background-color: beige;
+}
+
 .createPostNormal #create{
     align-self: center;
     font-size: 1em;
     font-weight: bold;
     padding: 10px;
     width: auto;
-    margin-top: 30px;
+    margin-bottom: 20px;
     background-color: #ffab1e;
     border: hidden;
     border-radius: 10px;

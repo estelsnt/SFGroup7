@@ -167,11 +167,14 @@ $("document").ready(()=>{
                     <textarea name="description" id="postDescription`+ data[i].servicePostingID +`" readonly>`+ data[i].description +`</textarea>
                     <img src="../images/edit.png" class="postEdit" onclick="toggleEditDescription(`+data[i].servicePostingID+`)">    
                 </div>
+                <div class="postPictureContainer">
+                    <input type="file" class="postPictureUpdate" id="uploadPicture`+data[i].servicePostingID+`" onchange="setPicture(this,`+data[i].servicePostingID+`)">
+                    <img src="`+data[i].picture+`" class="postPicture" id="postPicture`+data[i].servicePostingID+`">
+                </div>
                 <div class="postFooter">
                     <button onclick="savePostNormal(`+ data[i].servicePostingID +`)">Save</button>
                 </div>
             </div>
-
             `);
         }
     };
@@ -241,6 +244,25 @@ $("document").ready(()=>{
         console.log(selectedService);
     });
 
+    //picture upload
+    function previewPostImage(uploader) {   
+        //ensure a file was selected 
+        if (uploader.files && uploader.files[0]) {
+            var imageFile = uploader.files[0];
+            var reader = new FileReader();    
+            reader.onload = function (e) {
+                //set the image data as source
+                $('#postPicture').attr('src', e.target.result);
+            }    
+            reader.readAsDataURL( imageFile );
+        }
+    }
+    
+    $("#uploadPostPicture").change(function(){
+        previewPostImage(this);
+    });
+
+    //creating post
     $("#create").click(()=>{
         if(!inputCheck()){
             $("#create").text("check input");
@@ -276,7 +298,8 @@ $("document").ready(()=>{
                         userID: sessionStorage.getItem("id"),
                         serviceID: data.lastID,
                         pricing: $("#servicePricing").val(),
-                        description: $("#serviceDescription").val()
+                        description: $("#serviceDescription").val(),
+                        picture: $("#postPicture").attr("src")
                     })
                 })
                 .then(res=>{return res.json()})
@@ -303,7 +326,8 @@ $("document").ready(()=>{
                     userID: sessionStorage.getItem("id"),
                     serviceID: selectedService,
                     pricing: $("#servicePricing").val(),
-                    description: $("#serviceDescription").val()
+                    description: $("#serviceDescription").val(),
+                    picture: $("#postPicture").attr("src")
                 })
             })
             .then(res=>{return res.json()})
@@ -450,6 +474,23 @@ let editPremiumPost = () =>{
     location.href = "../pages/createBusinessPage.html";
 }
 
+let setPicture = (upl, id)=>{
+    console.log(id);
+    console.log(upl);
+    
+    if (upl.files && upl.files[0]) {
+        var imageFile = upl.files[0];
+        var reader = new FileReader();    
+        reader.onload = function (e) {
+            //set the image data as source
+            console.log(e.target.res);
+            $('#postPicture'+id).attr('src', e.target.result);
+        }    
+        reader.readAsDataURL( imageFile );
+    }
+
+};
+
 let savePostNormal = (id)=>{
     fetch('../api/updateServicePost.php', {
         method: 'POST',
@@ -459,7 +500,8 @@ let savePostNormal = (id)=>{
         body: JSON.stringify({
             id: id,
             pricing: $("#postPricing"+id).val(),
-            description: $("#postDescription"+id).val()
+            description: $("#postDescription"+id).val(),
+            picture: $("#postPicture"+id).attr("src")
         })
     })
     .then(()=>{

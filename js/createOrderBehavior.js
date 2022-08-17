@@ -84,6 +84,7 @@ $("document").ready(()=>{
                 <div class="postInputContainer">
                     <textarea name="description" id="postDescription`+ data[i].servicePostingID +`" readonly>`+ data[i].description +`</textarea>  
                 </div>
+                <img src="`+data[i].picture+`" class="postPicture" id="postPicture`+data[i].servicePostingID+`">
                 <div class="footer">
 
                 </div>
@@ -160,6 +161,24 @@ $("document").ready(()=>{
         console.log(selectedService);
     });
 
+    //picture upload
+    function previewPostImage(uploader) {   
+        //ensure a file was selected 
+        if (uploader.files && uploader.files[0]) {
+            var imageFile = uploader.files[0];
+            var reader = new FileReader();    
+            reader.onload = function (e) {
+                //set the image data as source
+                $('#postPicture').attr('src', e.target.result);
+            }    
+            reader.readAsDataURL( imageFile );
+        }
+    }
+    
+    $("#uploadPostPicture").change(function(){
+        previewPostImage(this);
+    });
+
     //create new order
     $("#createNewOrder").click(()=>{
         //check if user is not verified (limited to 1 post)
@@ -210,7 +229,8 @@ $("document").ready(()=>{
                     body: JSON.stringify({
                         userID: sessionStorage.getItem("id"),
                         serviceID: data.lastID,
-                        description: $("#serviceDescription").val()
+                        description: $("#serviceDescription").val(),
+                        picture: $("#postPicture").attr("src")
                     })
                 })
                 .then(res=>{return res.json()})
