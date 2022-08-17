@@ -273,13 +273,77 @@ html, body{
 }
 
 .post{
+    display: flex;
+    flex-direction: column;
     background-color:beige;
     padding: 10px;
     margin: 10px;
-    min-width: 200px;
+    width: 200px;
     min-height: 250px;
     border-radius: 15px;
     box-shadow: rgba(254, 140, 0, 0.4) 5px 5px, rgba(254, 140, 0, 0.3) 10px 10px, rgba(254, 140, 0, 0.2) 15px 15px, rgba(254, 140, 0, 0.1) 20px 20px, rgba(254, 140, 0, 0.05) 25px 25px;
+    font-size: 1em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.postHeader{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.profilePicture{
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    border: 2px solid grey;
+}
+
+.name{
+    margin-left: 5px;
+}
+
+.postContent{
+    display: flex;
+    flex-direction: column;
+}
+
+.postContent span{
+    margin-top: 10px;
+}
+
+.postContent .service{
+    align-self: center;
+    font-weight: 600;
+}
+
+.postContent .location{
+    margin-bottom: 15px;
+    font-size: 0.7em;
+}
+
+.messageButton{
+    margin-top: auto;
+    min-width: 150px;
+    align-self: center;
+    font-size: 1em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    border-radius: 20px;
+    border: hidden;
+    background-color: #ffab1e;
+    cursor: pointer;
+}
+
+.messageButton:hover{
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
+}
+
+.TRUE{
+    background-image: url("../images/verified-mark.png");
+    background-position: top right;
+    background-size: 70px;
+    background-repeat: no-repeat;
 }
 
 @media (max-width: 830px) {

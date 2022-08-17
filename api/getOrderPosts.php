@@ -10,7 +10,8 @@
             servicecategory.categoryName,
             service.serviceName,
             serviceorder.description,
-            serviceorder.serviceOrderDateTime
+            serviceorder.serviceOrderDateTime,
+            picture
             FROM serviceorder
             JOIN service ON service.serviceID = serviceorder.serviceID
             JOIN servicecategory ON servicecategory.serviceCategoryID = service.serviceCategoryID
@@ -25,7 +26,8 @@
                 "categoryName"=>$row['categoryName'],
                 "serviceName"=>$row['serviceName'],
                 "description"=>$row['description'],
-                "serviceOrderDateTime"=>$row['serviceOrderDateTime']
+                "serviceOrderDateTime"=>$row['serviceOrderDateTime'],
+                "picture"=>$row['picture']
             ));
         }
         echo json_encode($d);
