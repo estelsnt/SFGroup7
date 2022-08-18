@@ -293,13 +293,20 @@ $("document").ready(()=>{
 
     //redeem
     $("#redeem").click(()=>{
-        console.log(sessionStorage.getItem("businessPage"));
-        console.log(pageInfo[0].postDuration);
-        console.log(typeof(pageInfo[0].postDuration));
+        // console.log(sessionStorage.getItem("businessPage"));
+        // console.log(pageInfo[0].postDuration);
+        // console.log(typeof(pageInfo[0].postDuration));
         
+        // let d = new Date(pageInfo[0].postDuration);
+        // d.setMonth(d.getMonth() + 1);
+        // console.log(d.toISOString().slice(0, 10));
         let d = new Date(pageInfo[0].postDuration);
-        d.setMonth(d.getMonth() + 1);
-        console.log(d.toISOString().slice(0, 10));
+        let today = new Date();
+        if(d < today){
+            console.log("kunin date ngayon + 1 month");   
+        }else{
+            console.log("+1 month agad");   
+        }
     });
     
     $("#m1").click(()=>{
@@ -329,6 +336,11 @@ $("document").ready(()=>{
             return actions.order.capture().then((details)=>{
                 //on successful transaction
                 let d = new Date(pageInfo[0].postDuration);
+                let today = new Date();
+                //check if post duration is from the past then upon extension, get the date today and add the extension
+                if(d < today){
+                    d = today;   
+                }
                 switch(subscription){
                     case "20":
                         d.setMonth(d.getMonth() + 1);

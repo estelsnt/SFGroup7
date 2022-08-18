@@ -348,13 +348,13 @@ html, body{
 }
 
 .location{
-    max-width: 250px;
+    max-width: 350px;
 }
 
 .postPicture{
     margin-bottom: 10px;
     max-height: 300px;
-    max-width: 300px;
+    max-width: 350px;
     border-radius: 10px;
 }
 
@@ -368,7 +368,6 @@ html, body{
     background-position: top right;
     background-size: 70px;
     background-repeat: no-repeat;
-    
 }
 
 .footer{

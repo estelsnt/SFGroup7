@@ -18,7 +18,7 @@
 .servicePostNormal{
     display: flex;
     flex-direction: column;
-    padding-bottom: 10px;
+    max-width: 300px;
 }
 
 .postPicture{

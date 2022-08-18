@@ -56,7 +56,7 @@ $("document").ready(()=>{
                             <span class="location">`+posts[postPremiumLastIndex].location+`</span>
                         </div>
                         
-                        <button class="messageButton">Visit page</button>
+                        <button class="messageButton" onclick="visitPage(`+posts[postPremiumLastIndex].pID+`)">Visit page</button>
                     </div>
                 `);
                 postPremiumLastIndex++;
@@ -230,4 +230,7 @@ $("document").ready(()=>{
     });
 });
 
-
+let visitPage = (id)=>{
+    sessionStorage.setItem("toView", id);
+    location.href = "businessPage.html";
+}; 

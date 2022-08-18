@@ -27,7 +27,7 @@
             JOIN refbrgy ON refbrgy.brgyCode = useraddress.brgyCode
             JOIN refcitymun ON refcitymun.citymunCode = useraddress.citymunCode
             JOIN refprovince ON refprovince.provCode = useraddress.provCode
-            WHERE premiumpost.title LIKE '%".$service."%' OR premiumpost.description LIKE '%".$service."%'";
+            WHERE premiumpost.title LIKE ('%".$service."%' OR premiumpost.description LIKE '%".$service."%') AND premiumpost.postDuration >= NOW()";
             
     switch($cov){
         case "barangay":
