@@ -256,7 +256,8 @@ $("document").ready(()=>{
                 body: JSON.stringify({
                     userID: sessionStorage.getItem("id"),
                     serviceID: selectedService,
-                    description: $("#serviceDescription").val()
+                    description: $("#serviceDescription").val(),
+                    picture: $("#postPicture").attr("src")
                 })
             })
             .then(res=>{return res.json()})

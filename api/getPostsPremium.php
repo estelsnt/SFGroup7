@@ -8,29 +8,27 @@
     $service = $_GET["service"];
 
     $sql = "SELECT
-            serviceorder.serviceOrderID,
-            serviceorder.userID,
-            users.picture,
+            premiumpost.pID,
+            premiumpost.userID,
             CONCAT(
             users.firstName, ' ',
             users.lastName) AS 'name',
-            service.serviceName,
-            serviceorder.description,
+            premiumpost.featuredPhoto,
+            premiumpost.title,
+            premiumpost.description,
             CONCAT(
             useraddress.address, ' ',
             refbrgy.brgyDesc, ' ',
             refcitymun.citymunDesc, ' ',
-            refprovince.provDesc) AS 'location',
-            users.verified,
-            serviceorder.picture AS 'postPicture'
-            FROM serviceorder
-            JOIN users ON users.userID = serviceorder.userID
-            JOIN service ON service.serviceID = serviceorder.serviceID
-            JOIN useraddress ON useraddress.userID = users.userID
+            refprovince.provDesc) AS 'location'
+            FROM premiumpost
+            JOIN users ON users.userID = premiumpost.userID
+            JOIN useraddress ON useraddress.userID = premiumpost.userID
             JOIN refbrgy ON refbrgy.brgyCode = useraddress.brgyCode
             JOIN refcitymun ON refcitymun.citymunCode = useraddress.citymunCode
             JOIN refprovince ON refprovince.provCode = useraddress.provCode
-            WHERE service.serviceName LIKE '%".$service."%' OR serviceorder.description LIKE '%".$service."%'";
+            WHERE premiumpost.title LIKE '%".$service."%' OR premiumpost.description LIKE '%".$service."%'";
+            
     switch($cov){
         case "barangay":
             $sql .= " AND refbrgy.brgyDesc = '" . "$loc'";
@@ -51,15 +49,13 @@
     if($result->num_rows > 0){
         while($row = $result->fetch_assoc()){
             array_push($d, [
-                "serviceOrderID"=>$row['serviceOrderID'], 
+                "pID"=>$row['pID'], 
                 "userID"=>$row['userID'],
-                "picture"=>$row['picture'],
                 "name"=>$row['name'],
-                "serviceName"=>$row['serviceName'],
+                "featuredPhoto"=>$row['featuredPhoto'],
+                "title"=>$row['title'],
                 "description"=>$row['description'],
-                "location"=>$row['location'],
-                "verified"=>$row['verified'],
-                "postPicture"=>$row['postPicture']
+                "location"=>$row['location']
             ]);
         }
         echo json_encode($d);

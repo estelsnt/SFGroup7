@@ -254,7 +254,7 @@ html, body{
 .main{
     flex: 1;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
 }
@@ -276,9 +276,10 @@ html, body{
     display: flex;
     flex-direction: column;
     background-color:beige;
-    padding: 10px;
+    padding: 10px 10px 20px 10px;
     margin: 10px;
-    width: 200px;
+    min-width: 200px;
+    max-width: 350px;
     min-height: 250px;
     border-radius: 15px;
     box-shadow: rgba(254, 140, 0, 0.4) 5px 5px, rgba(254, 140, 0, 0.3) 10px 10px, rgba(254, 140, 0, 0.2) 15px 15px, rgba(254, 140, 0, 0.1) 20px 20px, rgba(254, 140, 0, 0.05) 25px 25px;
@@ -296,7 +297,7 @@ html, body{
     height: 50px;
     width: 50px;
     border-radius: 50px;
-    border: 2px solid grey;
+    border: 2px solid #fffff6;
 }
 
 .name{
@@ -344,6 +345,49 @@ html, body{
     background-position: top right;
     background-size: 70px;
     background-repeat: no-repeat;
+}
+
+.location{
+    max-width: 250px;
+}
+
+.postPicture{
+    margin-bottom: 10px;
+    max-height: 300px;
+    max-width: 300px;
+    border-radius: 10px;
+}
+
+.businessTitle{
+    font-size: 2em;
+    margin: 10px auto;
+}
+
+.premiumPostContainer{
+    background-image: url("../images/premium-mark.png");
+    background-position: top right;
+    background-size: 70px;
+    background-repeat: no-repeat;
+    
+}
+
+.footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    min-width: 100vw;
+}
+
+.loadMore{
+    border: 5px solid black;
+    border-radius: 40px;
+    height: 50px;
+    width: 50px;
+}
+
+.loadMore:hover{
+    border: 5px solid #ffab1e;
 }
 
 @media (max-width: 830px) {
