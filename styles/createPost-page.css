@@ -14,10 +14,22 @@ body{
     border: none;
 }
 
+.mainCreatePost{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.mainCreatePost .filter-info{
+    width: 100vw;
+    margin-left: 15px;
+    color: #fffff6;
+}
+
 #postNormal{
     display: flex;
     flex-direction: column;
     align-items: center;
+    
 }
 
 #postNormal #createNewPostNormal{
@@ -48,7 +60,7 @@ body{
     background-repeat: no-repeat;
     background-color: #7202b3c0;
     border: 2px solid #ffd700;
-    
+    max-width: 200px;
 }
 
 #postPremium #createNewPostPremium{

@@ -109,7 +109,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
-            $("#location").text(data[0].barangay + ", " + data[0].cityMun + ", " + data[0].province);
+            $("#location").text(data[0].address + " " + data[0].barangay + ", " + data[0].cityMun + ", " + data[0].province);
         })
         .catch(error=>console.log("error on retrieving location"));
     };

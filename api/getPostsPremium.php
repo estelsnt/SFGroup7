@@ -27,20 +27,21 @@
             JOIN refbrgy ON refbrgy.brgyCode = useraddress.brgyCode
             JOIN refcitymun ON refcitymun.citymunCode = useraddress.citymunCode
             JOIN refprovince ON refprovince.provCode = useraddress.provCode
-            WHERE premiumpost.title LIKE ('%".$service."%' OR premiumpost.description LIKE '%".$service."%') AND premiumpost.postDuration >= NOW()";
+            JOIN refregion ON refregion.regCode = userAddress.regCode
+            WHERE (premiumpost.title LIKE '%".$service."%' OR premiumpost.description LIKE '%".$service."%') AND premiumpost.postDuration >= NOW()";
             
     switch($cov){
         case "barangay":
-            $sql .= " AND refbrgy.brgyDesc = '" . "$loc'";
+            $sql .= " AND refbrgy.brgyDesc = '"."$loc'";
         break;
         case "cityMunicipality":
-            $sql .= " AND refcitymun.citymunDesc = '" . "$loc'";
+            $sql .= " AND refcitymun.citymunDesc = '"."$loc'";
         break;
         case "provice":
-            $sql .= " AND refprovince.provDesc = '" . "$loc'";
+            $sql .= " AND refprovince.provDesc = '"."$loc'";
         break;
         case "region":
-            $sql .= " AND refregion.regDesc = '" . "$loc'";
+            $sql .= " AND refregion.regDesc = '"."$loc'";
         break;
     }
 

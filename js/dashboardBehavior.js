@@ -185,9 +185,7 @@ $("document").ready(()=>{
         displayOrderPost(postOrder);
     });
 
-    loadPremiumPost("", "", "");
-    loadNormalPost("", "", "");
-    loadOrderPost("", "", "");
+   
 
     let getUserAddress = ()=>{
         fetch('../api/getUserAddress.php', {
@@ -202,7 +200,11 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             userAddress = data;
-            console.log(userAddress[0].brgy.brgyCode);
+            //initial retrieval of posts based in user location
+            $(".coverageIndicator").text("Coverage: " + userAddress[1].citymun.citymunDesc);
+            loadPremiumPost("cityMunicipality", userAddress[1].citymun.citymunDesc, "");
+            loadNormalPost("cityMunicipality", userAddress[1].citymun.citymunDesc, "");
+            loadOrderPost("cityMunicipality", userAddress[1].citymun.citymunDesc, "");
         })
         .catch(error=>console.log("error on retrieval of user address: " + error));
     };
@@ -228,6 +230,136 @@ $("document").ready(()=>{
     $("#search").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
         window.event.stopPropagation();
     });
+
+    let loadServiceCategories = ()=>{
+        
+        fetch('../api/getServiceCategories.php', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            serviceCategories = data;
+            $("#serviceCategory").empty();
+            for(let i = 0; i < data.length; i++){
+                $("#serviceCategory").append("<option value="+ data[i].categoryName+">"+data[i].categoryName+"</option>");
+            }
+            $("#serviceCategory").change();
+        })
+        .catch(error=>console.log("error on retrieval of service categories: " + error));
+    };
+
+    loadServiceCategories();
+
+    $("#serviceCategory").change(()=>{
+        for(let i = 0; i < serviceCategories.length; i++){
+            if($("#serviceCategory").val() == serviceCategories[i].categoryName){
+                selectedServiceCategory = serviceCategories[i].serviceCategoryID;
+            }
+        }
+        if($("#serviceCategory").val() === "--Others--"){
+            newServiceFlag = true;
+            $("#service").css({display: "none"});
+            $("#specifyService").css({display: "block"});
+        }else{
+            newServiceFlag = false;
+            $("#service").css({display: "block"});
+            $("#specifyService").css({display: "none"}); 
+            //fetch services based on service catagory
+            fetch('../api/getServicesList.php?id='+selectedServiceCategory, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res=>{return res.json()})
+            .then(data=>{
+                services = data;
+                $("#service").empty();
+                for(let i = 0; i < data.length; i++){
+                    $("#service").append("<option value="+ data[i].serviceName+">"+data[i].serviceName+"</option>");
+                }
+                $("#service").change();
+            })
+            .catch(error=>console.log("error on retrieval of services: " + error));
+        }
+    });
+
+    $("#service").change(()=>{
+        for(let i = 0; i < services.length; i++){
+            if($("#service").val() == services[i].serviceName){
+                selectedService = services[i].serviceID;
+            }
+        }
+        console.log(selectedService);
+    });
+
+    //search and filter functions have arguments coverage location and service
+    $("#search-button").click(()=>{
+        let cov, loc, service;
+        $(".postsContainer").empty();
+        postLimit = 10;
+        postNormalCount = 0, postOrderCount  = 0, postPremiumCount = 0;
+        postNormalLastIndex = 0, postOrderLastIndex = 0, postPremiumLastIndex = 0;
+        limit = 0;
+        switch($("#coverage").val()){
+            case "all":
+                cov = "";
+                loc = "";
+                $(".coverageIndicator").text("Coverage: All");
+            break;
+            case "barangay":
+                cov = "barangay";
+                loc = userAddress[0].brgy.brgyDesc;
+                $(".coverageIndicator").text("Coverage: " + userAddress[0].brgy.brgyDesc);
+            break;
+            case "cityMunicipality":
+                cov = "cityMunicipality";
+                loc = userAddress[1].citymun.citymunDesc;
+                $(".coverageIndicator").text("Coverage: " + userAddress[1].citymun.citymunDesc);
+            break;
+            case "province":
+                cov = "provice";
+                loc = userAddress[2].prov.provDesc;
+                $(".coverageIndicator").text("Coverage: " + userAddress[2].prov.provDesc);
+            break;
+            case "region":
+                cov = "region";
+                loc = userAddress[3].reg.regDesc;
+                $(".coverageIndicator").text("Coverage: " + userAddress[3].reg.regDesc);
+            break;
+        }
+
+        if($("#serviceCategory").val() == "--Others--"){
+            service = $("#specifyService").val();
+        }else{
+            service = $("#service").val();
+        }
+
+        switch($("#finds").val()){
+            case "all":
+                $(".servicesIndicator").text("All posts");
+                loadPremiumPost(cov, loc, service);
+                loadNormalPost(cov, loc, service);
+                loadOrderPost(cov, loc, service);
+            break;
+            case "offers":
+                $(".servicesIndicator").text("Service providers");
+                loadPremiumPost(cov, loc, service);
+                loadNormalPost(cov, loc, service);
+            break;
+            case "orders":
+                $(".servicesIndicator").text("Clients");
+                loadOrderPost(cov, loc, service);
+            break;
+        }
+        $("#searchContainer").css({display: "none"});
+    });
+
+    
+
 });
 
 let visitPage = (id)=>{

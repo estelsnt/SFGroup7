@@ -46,38 +46,68 @@
                         <img src="../images/close.png" id="closeSearch">
                     </div>
                     <!--searchiing for service goes to a script that updates dashboard-->
-                    <form action="dashboard.html">
-                        <h2>Filter search</h2>
-                        <div class="services">
-                            <h3>Services: </h3>
-                            <select name="services" id="services">
+                    <span class="searchHeading">Filter search</span>
+                    <div class="inputContainer">
+                        <div class="labelContainer">
+                            <span>Coverage: </span>
+                        </div>
+                        <div class="textboxContainer">
+                            <select name="coverage" id="coverage">
+                                <option disabled>Select coverage</option>
+                                <option value="all">All</option>
+                                <option value="barangay">Barangay</option>
+                                <option selected value="cityMunicipality">City/Municipality</option>
+                                <option value="province">Province</option>
+                                <option value="region">Region</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="inputContainer">
+                        <div class="labelContainer">
+                            <span>Search: </span>
+                        </div>
+                        <div class="textboxContainer">
+                            <select name="finds" id="finds">
                                 <option disabled>Select service type</option>
                                 <option selected value="all">All</option>
                                 <option value="offers">Im looking for: </option>
                                 <option value="orders">Who needs a:</option>
                             </select>
                         </div>
-                        <input type="text" placeholder="Type service name">
-                        <div class="coverage">
-                            <h3>Coverage: </h3>
-                            <select name="coverage" id="coverage">
-                                <option disabled>Select coverage</option>
-                                <option value="all">All</option>
-                                <option selected value="barangay">Barangay</option>
-                                <option value="cityMunicipality">City/Municipality</option>
-                                <option value="province">Province</option>
-                                <option value="region">Region</option>
+                    </div>
+
+                    <div class="inputContainer">
+                        <div class="labelContainer">
+                            <span>Category: </span>
+                        </div>
+                        <div class="textboxContainer">
+                            <select name="category" id="serviceCategory">
+                                
                             </select>
                         </div>
-                        <input type="submit" value="Search" id="search-button">
-                    </form>
+                    </div>
+    
+                    <div class="inputContainer">
+                        <div class="labelContainer">
+                            <span>Service: </span>
+                        </div>
+                        <div class="textboxContainer">
+                            <select name="service" id="service">
+                                
+                            </select>
+                            <input type="text" id="specifyService" placeholder="specify the service">
+                        </div>
+                    </div>
+                    <input type="submit" value="Search" id="search-button">
                 </div>
             </div>
+            <div class="filter-info">
+                <span class="servicesIndicator">All posts</span></br>
+                <span class="coverageIndicator">Coverage: City/Municipality</span>
+            </div>
             <div class="main postsContainer">
-                <div class="filter-info">
-                    <h3>Services: All</h3>
-                    <h3>Coverage: City/Municipality</h3>
-                </div>
+                
                 <!--SERVICES POSTS GOES HERE-->
                 <!-- <div class="post">
                     <div class="postHeader">
