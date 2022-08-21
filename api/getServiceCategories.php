@@ -14,7 +14,7 @@
         }
         echo json_encode($d);
     }else{
-        $d["userID"]=0;
+        $d["categories"]=0;
         echo json_encode($d);   
     }
 ?>

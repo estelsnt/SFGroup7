@@ -1,4 +1,4 @@
-CREATE TABLE userAddress(
+CREATE TABLE useraddress(
 userAddressID int not null auto_increment,
 userID int not null,
 brgyCode int,
@@ -6,7 +6,9 @@ citymunCode int,
 provCode int,
 regCode int,
 address varchar(254),
-PRIMARY KEY (userAddressID)
+PRIMARY KEY (userAddressID),
+FOREIGN KEY (userID)
+REFERENCES users(userID)
 );
 
 CREATE TABLE userverification(
@@ -20,7 +22,7 @@ FOREIGN KEY (userID)
 REFERENCES users(userID)
 );
 
-INSERT INTO serviceCategory
+INSERT INTO servicecategory
 (categoryName)
 VALUES
 ('--Others--');
