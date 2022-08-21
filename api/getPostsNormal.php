@@ -32,7 +32,7 @@
             JOIN refcitymun ON refcitymun.citymunCode = useraddress.citymunCode
             JOIN refprovince ON refprovince.provCode = useraddress.provCode
             JOIN refregion ON refregion.regCode = userAddress.regCode
-            WHERE (service.serviceName LIKE '%".$service."%' OR servicePosting.description LIKE '%".$service."%')";
+            WHERE (service.serviceName LIKE '%".$service."%' OR serviceposting.description LIKE '%".$service."%')";
             
     switch($cov){
         case "barangay":

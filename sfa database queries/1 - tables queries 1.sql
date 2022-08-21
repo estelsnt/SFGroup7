@@ -20,7 +20,7 @@ contactNumber varchar(254),
 email varchar(254),
 picture LONGTEXT,
 gender varchar(254),
-birthDate Date,
+birthDate varchar(254),
 registerDate Date,
 verified varchar(254),
 PRIMARY KEY(userID)
@@ -73,7 +73,7 @@ FOREIGN KEY (recieverUserID) REFERENCES users(userID)
 
 #service category table
 
-CREATE TABLE serviceCategory(
+CREATE TABLE servicecategory(
 serviceCategoryID int not null auto_increment,
 categoryName varchar(254),
 PRIMARY KEY (serviceCategoryID)
@@ -92,7 +92,7 @@ FOREIGN KEY (serviceCategoryID) REFERENCES serviceCategory(serviceCategoryID)
 
 #service posting table
 
-CREATE TABLE servicePosting(
+CREATE TABLE serviceposting(
 servicePostingID int not null auto_increment,
 userID int not null,
 serviceID int,
@@ -107,7 +107,7 @@ FOREIGN KEY (serviceID) REFERENCES service (serviceID)
 
 #service order posting table
 
-CREATE TABLE serviceOrder(
+CREATE TABLE serviceorder(
 serviceOrderID int not null auto_increment,
 userID int not null,
 serviceID int,

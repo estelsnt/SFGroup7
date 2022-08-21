@@ -23,7 +23,7 @@ $("document").ready(()=>{
     //posts
     //business service offers (posts api needs coverage location and service, for all posts pass empty string)
     let loadPremiumPost = (cov, loc, service)=>{
-        fetch('../api/getPostspremium.php?cov='+cov+"&loc="+loc+"&service="+service, {
+        fetch('../api/getPostsPremium.php?cov='+cov+"&loc="+loc+"&service="+service, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

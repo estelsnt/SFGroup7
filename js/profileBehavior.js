@@ -21,7 +21,6 @@ $("document").ready(()=>{
 
     pageProtection();
 
-
     $(".verify").click(()=>{
         $(".userVerificationContainer").css({display: "block"});
     });
@@ -97,27 +96,30 @@ $("document").ready(()=>{
             .then(res=>{return res.json()})
             .then(data=>{
                 addressData = data;
-                $("#addressDetails").val(addressData[4].address.address);
-                const setBrgy = ()=>{
-                    $("#barangay").val(addressData[0].brgy.brgyDesc);
-                    $("#barangay").change();
-                };
-                const setCityMun = ()=>{
-                    $("#cityMunicipality").val(addressData[1].citymun.citymunDesc);
-                    $("#cityMunicipality").change();
-                    setTimeout(setBrgy, 1000);
-                };
-                const setProv = ()=>{
-                    $("#province").val(addressData[2].prov.provDesc);
-                    $("#province").change();
-                    setTimeout(setCityMun, 1000);
-                };
-                const setReg = ()=>{
-                    $("#region").val(addressData[3].reg.regDesc);
-                    $("#region").change();
-                    setTimeout(setProv, 1000);
-                };
-                setReg();
+                // $("#addressDetails").val(addressData[4].address.address);
+                // const setBrgy = ()=>{
+                //     $("#barangay").val(addressData[0].brgy.brgyDesc);
+                //     $("#barangay").change();
+                // };
+                // const setCityMun = ()=>{
+                //     $("#cityMunicipality").val(addressData[1].citymun.citymunDesc);
+                //     $("#cityMunicipality").change();
+                //     setTimeout(setBrgy, 1000);
+                // };
+                // const setProv = ()=>{
+                //     $("#province").val(addressData[2].prov.provDesc);
+                //     $("#province").change();
+                //     setTimeout(setCityMun, 1000);
+                // };
+                // const setReg = ()=>{
+                //     $("#region").val(addressData[3].reg.regDesc);
+                //     $("#region").change();
+                //     setTimeout(setProv, 1000);
+                // };
+                // setReg();
+                
+                loadUserAddress();
+
             })
         })
         .catch(error=>console.log("error on user data fetch: " + error));
@@ -625,10 +627,24 @@ $("document").ready(()=>{
         }
         return valid;
     };
-    
-
-    //initial functions call
     populateRegion();
+    //load user address
+    let loadUserAddress = ()=>{
+        console.log(addressData);
+        $("#region").val(addressData[3].reg.regDesc);
+        $("#addressDetails").val(addressData[4].address.address);
+        //fetch all address details and write option to inputs
+        populateProvince(addressData[3].reg.regCode);
+        populateCityMunicipality(addressData[2].prov.provCode);
+        populateBarangay(addressData[1].citymun.citymunCode);
+        setTimeout(()=>{
+           $("#province").val(addressData[2].prov.provDesc);
+           $("#cityMunicipality").val(addressData[1].citymun.citymunDesc);
+           $("#barangay").val(addressData[0].brgy.brgyDesc);
+        }, 5000);
+    };
+
+    
 });
 
 
