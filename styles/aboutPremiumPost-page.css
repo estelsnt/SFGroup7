@@ -121,7 +121,17 @@ body{
     width: 60vw;
 }
 
+@media (max-width: 1130px) {
+    .main .title #businessTitle{
+        width: 100vw;
+        text-align: center;
+    }
+}
+
 @media (max-width: 900px) {
+    .content .details #businessDetails{
+        text-align: center;
+    }
     .contet .details, .content .list{
         align-items: center;
         justify-content: center;
