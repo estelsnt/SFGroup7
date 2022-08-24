@@ -114,6 +114,98 @@ $("document").ready(()=>{
         .catch(error=>console.log("error on retrieving location"));
     };
 
+    //comments
+    $("#submitComment").click(()=>{
+        if($("#commentText").val() != ""){
+            $("#submitComment").attr("disabled", true);
+            fetch('../api/addComment.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userID: sessionStorage.getItem("id"),
+                    pID: id,
+                    comment: $("#commentText").val()
+                })
+            })
+            .then(res=>{return res.json()})
+            .then(data=>{
+                $("#submitComment").attr("disabled", false);
+                $("#commentText").val("");
+                getComments();
+            })
+            .catch(error=>console.log("error on sending comment"));
+        }
+    });
+
+    let getComments = ()=>{
+        fetch('../api/getComments.php?id='+id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            displayComment(data);
+        })
+        .catch(error=>console.log("error on retrieving comment"));
+    };
+
+    let displayComment = (data)=>{
+        $(".comments").empty();
+        for(let i in data){
+            let comment = document.createElement("div");
+            let commentName = document.createElement("p");
+            let cText = document.createElement("p");
+
+            comment.setAttribute("class", "comment");
+            commentName.setAttribute("class", "commentName");
+            cText.setAttribute("class", "cText");
+
+            commentName.innerText = data[i].name;
+            cText.innerText = data[i].comment
+
+            comment.append(commentName);
+            comment.append(cText);
+
+            fetch('../api/getCommentReply.php?id='+data[i].pCommentsID, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res=>{return res.json()})
+            .then(data1=>{
+                for(let j in data1){
+                    if(data1[j].pCommentReplyID == undefined){
+                        break;
+                    }
+                    let reply = document.createElement("div");
+                    let replyName = document.createElement("p");
+                    let cReply = document.createElement("p");
+
+                    reply.setAttribute("class", "reply");
+                    replyName.setAttribute("class", "replyName")
+                    cReply.setAttribute("class", "cReply");
+
+                    replyName.innerText = data1[j].title;
+                    cReply.innerText = data1[j].reply;
+
+                    reply.append(replyName);
+                    reply.append(cReply);
+                    comment.append(reply);
+                    
+                }
+                $(".comments").append(comment);
+            })
+            .catch(error=>{console.log("error on retrieving replies")});
+        }
+    };
+
+    getComments();
+
     //initial functions call
     getPostdata();
     getListItems();
