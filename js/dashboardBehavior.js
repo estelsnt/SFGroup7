@@ -32,7 +32,6 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             postPremium = data;
-            console.log(postPremium);
             displayPremiumPost(postPremium);
         })
         .catch(error=>console.log("error on retrieval of premium posts: " + error));
@@ -41,7 +40,6 @@ $("document").ready(()=>{
     let displayPremiumPost = (posts)=>{
         try{
             for(let i in posts){
-                console.log(posts[i].verified);
                 if(postPremiumCount >= postLimit){
                     return;
                 }
@@ -83,16 +81,15 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             postNormal = data;
-            console.log(postNormal);
             displayNormalPost(postNormal);
         })
         .catch(error=>console.log("error on retrieval of normal posts: " + error));
     };
     //write normal posts to dom
     let displayNormalPost = (posts)=>{
+        console.log(posts);
         try{
             for(let i in posts){
-                console.log(posts[i].verified);
                 if(postNormalCount >= postLimit){
                     return;
                 }
@@ -109,7 +106,7 @@ $("document").ready(()=>{
                             <span class="location">`+posts[postNormalLastIndex].location+`</span>
                         </div>
                         <img src="`+posts[postNormalLastIndex].postPicture+`" class="postPicture">
-                        <button class="messageButton">Message me</button>
+                        <button class="messageButton" onclick="messageMe(`+posts[postNormalLastIndex].userID+`)">Message me</button>
                     </div>
                 `);
                 postNormalLastIndex++;
@@ -136,7 +133,6 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             postOrder = data;
-            console.log(postOrder);
             displayOrderPost(postOrder);
         })
         .catch(error=>console.log("error on retrieval of normal posts: " + error));
@@ -145,7 +141,6 @@ $("document").ready(()=>{
     let displayOrderPost = (posts)=>{
         try{
             for(let i in posts){
-                console.log(posts[i].serviceName);
                 if(postOrderCount >= postLimit){
                     return;
                 }
@@ -161,7 +156,7 @@ $("document").ready(()=>{
                             <span class="location">`+posts[postOrderLastIndex].location+`</span>
                         </div>
                         <img src="`+posts[postOrderLastIndex].postPicture+`" class="postPicture">
-                        <button class="messageButton">Message me</button>
+                        <button class="messageButton" onclick="messageMe(`+posts[postOrderLastIndex].userID+`)">Message me</button>
                     </div>
                 `);
                 postOrderLastIndex++;
@@ -366,3 +361,8 @@ let visitPage = (id)=>{
     sessionStorage.setItem("toView", id);
     location.href = "businessPage.html";
 }; 
+
+//setting up contact
+let messageMe = (id)=>{
+    console.log("reciever id: " + id);
+};

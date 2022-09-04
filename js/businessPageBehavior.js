@@ -6,6 +6,10 @@ $("document").ready(()=>{
 
     console.log(sessionStorage.getItem("toView"));
 
+    //message button
+    $("#getStarted").click(()=>{
+        console.log(pageInfo[0].userID);
+    });
     //load data
     let getPostdata = ()=>{
         fetch('../api/getBusinessPageInfo.php', {

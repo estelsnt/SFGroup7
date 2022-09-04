@@ -29,7 +29,7 @@ $("document").ready(()=>{
             return;
         }
         let flag = true;
-        //check if username already existed (di ko mapagana pag hiwalay kasi asynchronous)
+        //check if username already existed (hiwalay kasi asynchronous)
         fetch('../api/checkUsernameDuplicate.php?id=' + $("#userName").val(),{
             method: 'GET',
             headers: {
