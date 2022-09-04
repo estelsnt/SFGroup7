@@ -632,11 +632,15 @@ $("document").ready(()=>{
     let loadUserAddress = ()=>{
         console.log(addressData);
         $("#region").val(addressData[3].reg.regDesc);
+        regCode = addressData[3].reg.regCode;
         $("#addressDetails").val(addressData[4].address.address);
         //fetch all address details and write option to inputs
         populateProvince(addressData[3].reg.regCode);
+        provCode = addressData[2].prov.provCode;
         populateCityMunicipality(addressData[2].prov.provCode);
+        cityMunCode = addressData[1].citymun.citymunCode;
         populateBarangay(addressData[1].citymun.citymunCode);
+        brgyCode = addressData[0].brgy.brgyCode;
         setTimeout(()=>{
            $("#province").val(addressData[2].prov.provDesc);
            $("#cityMunicipality").val(addressData[1].citymun.citymunDesc);

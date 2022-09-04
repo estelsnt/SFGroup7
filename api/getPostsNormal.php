@@ -31,7 +31,7 @@
             JOIN refbrgy ON refbrgy.brgyCode = useraddress.brgyCode
             JOIN refcitymun ON refcitymun.citymunCode = useraddress.citymunCode
             JOIN refprovince ON refprovince.provCode = useraddress.provCode
-            JOIN refregion ON refregion.regCode = userAddress.regCode
+            JOIN refregion ON refregion.regCode = useraddress.regCode
             WHERE (service.serviceName LIKE '%".$service."%' OR serviceposting.description LIKE '%".$service."%')";
             
     switch($cov){

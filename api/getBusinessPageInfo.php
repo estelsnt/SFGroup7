@@ -17,7 +17,8 @@
                 "description"=>$row['description'],
                 "featuredPhoto"=>$row['featuredPhoto'],
                 "postDate"=>$row['postDate'],
-                "postDuration"=>$row['postDuration']
+                "postDuration"=>$row['postDuration'],
+                "userID"=>$row['userID']
             ));
         }
         echo json_encode($d);
