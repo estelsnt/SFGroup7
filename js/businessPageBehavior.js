@@ -7,8 +7,9 @@ $("document").ready(()=>{
     console.log(sessionStorage.getItem("toView"));
 
     //message button
-    $("#getStarted").click(()=>{
+    $("#contact").click(()=>{
         console.log(pageInfo[0].userID);
+        console.log([pageInfo]);
     });
     //load data
     let getPostdata = ()=>{
@@ -207,6 +208,24 @@ $("document").ready(()=>{
             .catch(error=>{console.log("error on retrieving replies")});
         }
     };
+
+    //contact button
+    $("#contact").click(()=>{
+        $(".cname").text(pageInfo[0].title);
+        $(".sendMessageContainer").css({display: "block"});
+    });
+
+    $("#closeSendMessage").click(()=>{   //closes the search panel on exit button clicked
+        $(".sendMessageContainer").css({display: "none"});
+    });
+
+    $(".sendMessageContainer").mousedown(()=>{       //closes the search panel on click outside the search panel
+        $(".sendMessageContainer").css({display: "none"});
+    });
+
+    $(".sendMessage").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
+        window.event.stopPropagation();
+    });
 
     getComments();
 

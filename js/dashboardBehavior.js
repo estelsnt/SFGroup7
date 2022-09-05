@@ -106,7 +106,7 @@ $("document").ready(()=>{
                             <span class="location">`+posts[postNormalLastIndex].location+`</span>
                         </div>
                         <img src="`+posts[postNormalLastIndex].postPicture+`" class="postPicture">
-                        <button class="messageButton" onclick="messageMe(`+posts[postNormalLastIndex].userID+`)">Message me</button>
+                        <button class="messageButton" onclick="messageMe(`+posts[postNormalLastIndex].userID+`, '`+posts[postNormalLastIndex].name+`')">Message me</button>
                     </div>
                 `);
                 postNormalLastIndex++;
@@ -156,7 +156,7 @@ $("document").ready(()=>{
                             <span class="location">`+posts[postOrderLastIndex].location+`</span>
                         </div>
                         <img src="`+posts[postOrderLastIndex].postPicture+`" class="postPicture">
-                        <button class="messageButton" onclick="messageMe(`+posts[postOrderLastIndex].userID+`)">Message me</button>
+                        <button class="messageButton" onclick="messageMe(`+posts[postOrderLastIndex].userID+`,'`+posts[postOrderLastIndex].name+`')">Message me</button>
                     </div>
                 `);
                 postOrderLastIndex++;
@@ -173,14 +173,11 @@ $("document").ready(()=>{
     };
 
     $(".loadMore").click(()=>{
-        console.log(postLimit);
         postLimit += 5;
         displayPremiumPost(postPremium);
         displayNormalPost(postNormal);
         displayOrderPost(postOrder);
     });
-
-   
 
     let getUserAddress = ()=>{
         fetch('../api/getUserAddress.php', {
@@ -225,6 +222,20 @@ $("document").ready(()=>{
     $("#search").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
         window.event.stopPropagation();
     });
+
+    //send message panel
+    $("#closeSendMessage").click(()=>{   //closes the search panel on exit button clicked
+        $(".sendMessageContainer").css({display: "none"});
+    });
+
+    $(".sendMessageContainer").mousedown(()=>{       //closes the search panel on click outside the search panel
+        $(".sendMessageContainer").css({display: "none"});
+    });
+
+    $(".sendMessage").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
+        window.event.stopPropagation();
+    });
+
 
     let loadServiceCategories = ()=>{
         
@@ -299,6 +310,7 @@ $("document").ready(()=>{
         postNormalCount = 0, postOrderCount  = 0, postPremiumCount = 0;
         postNormalLastIndex = 0, postOrderLastIndex = 0, postPremiumLastIndex = 0;
         limit = 0;
+        $(".loadMore").css({display: "block"});
         switch($("#coverage").val()){
             case "all":
                 cov = "";
@@ -353,7 +365,9 @@ $("document").ready(()=>{
         $("#searchContainer").css({display: "none"});
     });
 
-    
+    $(".heading h1").click(()=>{
+        location.reload();
+    });
 
 });
 
@@ -363,6 +377,8 @@ let visitPage = (id)=>{
 }; 
 
 //setting up contact
-let messageMe = (id)=>{
-    console.log("reciever id: " + id);
+let messageMe = (id, name)=>{
+    $(".sendMessageContainer").css({display: "block"});
+    $(".cname").text(name);
+    console.log("reciever id: " + id + "name: " + name);
 };
