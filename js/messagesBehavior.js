@@ -4,5 +4,5 @@ $("document").ready(()=>{
         window.location = "../pages/dashboard.html";
     });
 
-
+    
 });

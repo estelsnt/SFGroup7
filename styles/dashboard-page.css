@@ -426,6 +426,77 @@ html, body{
     padding: 10px;
 }
 
+.sendMessageContainer{
+    display: none;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.7);
+    height: 100vh;
+    width: 100vw;
+}
+
+.sendMessage{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: 40vh;
+    border-radius: 20px;
+    top: 30vh;
+    left: 25vw;
+    background-color: #fffff6;
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
+}
+
+.sendMessageHeader{
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: #ffab1e;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.sendMessageHeader img{
+    margin: 10px 15px 5px 0;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.sendMessage h3{
+    margin: 5px;
+    font-size: 1.2em;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+#sendMessageInput{
+    margin: 15px;
+    padding: 10px;
+    resize: none;
+    font-size: 1.2em;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border: 1px solid grey;
+    border-radius: 15px;
+    background-color: #fffff6;
+    text-align: left;
+}
+
+#sendMessageButton{
+    min-width: 100px;
+    font-size: 1.3em;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ffab1e;
+    border: none;
+    border-radius: 15px;
+    align-self: center;
+    cursor: pointer;
+}
+
+#sendMessageButton:hover{
+    box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
+}
+
 @media (max-width: 850px) {
     .heading #menu{
         display: block;
@@ -456,10 +527,18 @@ html, body{
         width: 70vw;
         left: 15vw;
     }
+    .sendMessage{
+        width: 70vw;
+        left: 15vw;
+    }
 }
 
 @media (max-width: 485px) {
     .search{
+        width: 90vw;
+        left: 5vw;
+    }
+    .sendMessage{
         width: 90vw;
         left: 5vw;
     }
