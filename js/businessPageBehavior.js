@@ -212,6 +212,7 @@ $("document").ready(()=>{
     //contact button
     $("#contact").click(()=>{
         $(".cname").text(pageInfo[0].title);
+        $(".pageOwner").text(pageInfo[0].ownerName);
         $(".sendMessageContainer").css({display: "block"});
     });
 
@@ -227,9 +228,58 @@ $("document").ready(()=>{
         window.event.stopPropagation();
     });
 
-    getComments();
+    //send message button
+    $(".messagePageButton").click(()=>{
+        //check if user is already in contact
+        if(pageInfo[0].userID == sessionStorage.getItem("id")){
+            return;
+        }
+        fetch('../api/checkContact.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: sessionStorage.getItem("id"),
+                cID: pageInfo[0].userID
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            sessionStorage.setItem("activeContact", pageInfo[0].userID);
+            if(data[0].contactID > 0){
+                //user already in contact proceed to messaging
+                console.log("user already in contact");
+                location.href = "messages.html";
+            }else{
+                //add the user to contact
+                fetch('../api/addToContact.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user1ID: sessionStorage.getItem("id"),
+                        user2ID: pageInfo[0].userID,
+                        subject: $(".cname").text() 
+                    })
+                })
+                .then(res=>{return res.json()})
+                .then(data=>{
+                    //send initial message to user
+                    console.log("proceed to send message");
+                    location.href = "messages.html";
+                })
+                .catch(error=>console.log("error on adding to contact: " + error));
+            }
+        })
+        .catch(error=>console.log("error on checking contact: " + error));  
+    });
+
+    
 
     //initial functions call
+    getComments();
     getPostdata();
     getListItems();
     getSlideshowImage();

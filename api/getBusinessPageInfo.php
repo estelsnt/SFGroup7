@@ -5,8 +5,9 @@
     }
     $data = json_decode(file_get_contents('php://input'), true);
     $id = $data['postID'];
-    $sql = "SELECT *
+    $sql = "SELECT *, CONCAT(users.firstName, ' ', users.lastName) AS 'ownerName'
             FROM premiumpost
+            JOIN users ON users.userID = premiumpost.userID
             WHERE pID =". $id .";";
     $result = $conn->query($sql);
     $d = [];
@@ -18,7 +19,8 @@
                 "featuredPhoto"=>$row['featuredPhoto'],
                 "postDate"=>$row['postDate'],
                 "postDuration"=>$row['postDuration'],
-                "userID"=>$row['userID']
+                "userID"=>$row['userID'],
+                "ownerName"=>$row['ownerName']
             ));
         }
         echo json_encode($d);
