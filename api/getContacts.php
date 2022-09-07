@@ -14,7 +14,7 @@
             (SELECT users.picture FROM users WHERE users.userID = contacts.user2ID) AS 'user2Picture'
             FROM users
             JOIN contacts ON contacts.user1ID = users.userID OR contacts.user2ID = users.userID
-            WHERE users.userID =" . 41 . ";";
+            WHERE users.userID =" . $id . ";";
     $result = $conn->query($sql);
     $d = [];
     if($result->num_rows > 0){
