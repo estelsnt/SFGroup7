@@ -87,7 +87,6 @@ $("document").ready(()=>{
     };
     //write normal posts to dom
     let displayNormalPost = (posts)=>{
-        console.log(posts);
         try{
             for(let i in posts){
                 if(postNormalCount >= postLimit){
@@ -106,7 +105,7 @@ $("document").ready(()=>{
                             <span class="location">`+posts[postNormalLastIndex].location+`</span>
                         </div>
                         <img src="`+posts[postNormalLastIndex].postPicture+`" class="postPicture">
-                        <button class="messageButton" onclick="messageMe(`+posts[postNormalLastIndex].userID+`, '`+posts[postNormalLastIndex].name+`')">Message me</button>
+                        <button class="messageButton" onclick="messageMe(`+posts[postNormalLastIndex].userID+`, '`+posts[postNormalLastIndex].name+ `', '`+posts[postNormalLastIndex].serviceName+`')">Message me</button>
                     </div>
                 `);
                 postNormalLastIndex++;
@@ -156,7 +155,7 @@ $("document").ready(()=>{
                             <span class="location">`+posts[postOrderLastIndex].location+`</span>
                         </div>
                         <img src="`+posts[postOrderLastIndex].postPicture+`" class="postPicture">
-                        <button class="messageButton" onclick="messageMe(`+posts[postOrderLastIndex].userID+`,'`+posts[postOrderLastIndex].name+`')">Message me</button>
+                        <button class="messageButton" onclick="messageMe(`+posts[postOrderLastIndex].userID+`,'`+posts[postOrderLastIndex].name+`', '`+posts[postOrderLastIndex].serviceName+`')">Message me</button>
                     </div>
                 `);
                 postOrderLastIndex++;
@@ -369,6 +368,52 @@ $("document").ready(()=>{
         location.reload();
     });
 
+    //add add service owner to user contact
+    $("#sendMessageButton").click(()=>{
+        //check if user is already in contact
+        fetch('../api/checkContact.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: sessionStorage.getItem("id"),
+                cID: idTemp
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            console.log(data);
+            sessionStorage.setItem("activeContact", idTemp);
+            if(data[0].contactID > 0){
+                //user already in contact proceed to messaging
+                console.log("user already in contact");
+                location.href = "messages.html";
+            }else{
+                //add the user to contact
+                fetch('../api/addToContact.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user1ID: sessionStorage.getItem("id"),
+                        user2ID: idTemp,
+                        subject: $("#headerText").text() 
+                    })
+                })
+                .then(res=>{return res.json()})
+                .then(data=>{
+                    //send initial message to user
+                    console.log("proceed to send message");
+                    location.href = "messages.html";
+                })
+                .catch(error=>console.log("error on adding to contact: " + error));
+            }
+        })
+        .catch(error=>console.log("error on checking contact: " + error));  
+    });
+
 });
 
 let visitPage = (id)=>{
@@ -377,8 +422,15 @@ let visitPage = (id)=>{
 }; 
 
 //setting up contact
-let messageMe = (id, name)=>{
+let idTemp;
+
+let messageMe = (id, name, header)=>{
+    if(sessionStorage.getItem("id") == id){
+        return;
+    }
     $(".sendMessageContainer").css({display: "block"});
     $(".cname").text(name);
+    $("#headerText").text(header);
+    idTemp = id;
     console.log("reciever id: " + id + "name: " + name);
 };

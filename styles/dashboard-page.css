@@ -449,14 +449,13 @@ html, body{
 
 .sendMessageHeader{
     display: flex;
-    flex-direction: row-reverse;
     background-color: #ffab1e;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
 
 .sendMessageHeader img{
-    margin: 10px 15px 5px 0;
+    margin: 10px 15px 5px auto;
     height: 20px;
     width: 20px;
     cursor: pointer;
@@ -495,6 +494,12 @@ html, body{
 
 #sendMessageButton:hover{
     box-shadow: rgba(255, 173, 30, 0.623) 0px 7px 29px 0px;
+}
+
+#headerText{
+    margin: 15px;
+    font-size: 1em;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 @media (max-width: 850px) {

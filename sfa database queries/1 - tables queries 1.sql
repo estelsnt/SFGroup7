@@ -40,6 +40,7 @@ contactID int not null auto_increment,
 user1ID int not null,
 user2ID int not null,
 contactDate Date,
+subject varchar(254),
 PRIMARY KEY (contactID),
 FOREIGN KEY (user1ID) REFERENCES users(userID),
 FOREIGN KEY (user2ID) REFERENCES users(userID)
