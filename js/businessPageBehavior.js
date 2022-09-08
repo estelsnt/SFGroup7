@@ -247,6 +247,7 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             sessionStorage.setItem("activeContact", pageInfo[0].userID);
+            sessionStorage.setItem("activeContactName", $(".pageOwner").text());
             if(data[0].contactID > 0){
                 //user already in contact proceed to messaging
                 console.log("user already in contact");

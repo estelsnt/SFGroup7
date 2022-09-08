@@ -64,12 +64,12 @@ FOREIGN KEY (userID) REFERENCES users(userID)
 CREATE TABLE chat(
 chatID int not null auto_increment,
 senderUserID int,
-recieverUserID int,
+receiverUserID int,
 message varchar(254),
 chatDateTime DateTime,
 PRIMARY KEY (chatID),
 FOREIGN KEY (senderUserID) REFERENCES users(userID),
-FOREIGN KEY (recieverUserID) REFERENCES users(userID)
+FOREIGN KEY (receiverUserID) REFERENCES users(userID)
 );
 
 #service category table

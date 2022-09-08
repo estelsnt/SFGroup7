@@ -370,6 +370,7 @@ $("document").ready(()=>{
 
     //add add service owner to user contact
     $("#sendMessageButton").click(()=>{
+        $("sendMessageButton").prop("disabled", true);
         //check if user is already in contact
         fetch('../api/checkContact.php', {
             method: 'POST',
@@ -383,12 +384,34 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
-            console.log(data);
+            //variable for identifying active contact to be passed on messaging page
             sessionStorage.setItem("activeContact", idTemp);
+            sessionStorage.setItem("activeContactName",  $(".cname").text());
             if(data[0].contactID > 0){
                 //user already in contact proceed to messaging
-                console.log("user already in contact");
-                location.href = "messages.html";
+                //send message
+                let msg = $("#sendMessageInput").val();
+                if($("#sendMessageInput").val() == ""){
+                    msg = "Hi, is this available?";
+                }
+                fetch('../api/sendMessage.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        senderUserID: sessionStorage.getItem("id"),
+                        receiverUserID: idTemp,
+                        message: msg
+                    })
+                })
+                .then(res=>{return res.json()})
+                .then(data=>{
+                    //send initial message to user
+                    $("sendMessageButton").prop("disabled", false);
+                    location.href = "messages.html";
+                })
+                .catch(error=>console.log("error on sending message: " + error));
             }else{
                 //add the user to contact
                 fetch('../api/addToContact.php', {
@@ -405,8 +428,28 @@ $("document").ready(()=>{
                 .then(res=>{return res.json()})
                 .then(data=>{
                     //send initial message to user
-                    console.log("proceed to send message");
-                    location.href = "messages.html";
+                    let msg = $("#sendMessageInput").val();
+                    if($("#sendMessageInput").val() == ""){
+                        msg = "Hi, is this available?";
+                    }
+                    fetch('../api/sendMessage.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            senderUserID: sessionStorage.getItem("id"),
+                            receiverUserID: idTemp,
+                            message: msg
+                        })
+                    })
+                    .then(res=>{return res.json()})
+                    .then(data=>{
+                        //send initial message to user
+                        $("sendMessageButton").prop("disabled", false);
+                        location.href = "messages.html";
+                    })
+                    .catch(error=>console.log("error on sending message: " + error));
                 })
                 .catch(error=>console.log("error on adding to contact: " + error));
             }
