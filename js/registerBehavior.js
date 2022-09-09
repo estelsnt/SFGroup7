@@ -93,7 +93,7 @@ $("document").ready(()=>{
         //generate otp and send to database (otp is session variable)
         sessionStorage.setItem("otp","1");//otp is set to 1 for now
         //once otp is created insert it to database for sms sending
-
+        
         //
         $("#sendOtp").attr("disabled", "true");
         let counter = 15;

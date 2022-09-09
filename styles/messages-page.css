@@ -131,6 +131,7 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1em;
     margin-top: 10px;
+    margin-bottom: 5px;
     padding: 10px;
     border: 1px solid #0073ff;
     border-radius: 10px;
@@ -139,14 +140,23 @@
     background-color: #fffff6;
 }
 
-.chatSent{
+.chatSent, .chatSent .messageDateTime{
     margin-right: 20px;
     align-self: flex-end;
+    text-align: right;
 }
 
-.chatReceived{
+.chatReceived, .chatReceived .messageDateTime{
     margin-left: 20px;
     align-self: flex-start;
+    text-align: left;
+}
+
+.messageDateTime{
+    display: block;
+    font-size: 0.5em;
+    margin-top: 5px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 @media (max-width: 550px) {

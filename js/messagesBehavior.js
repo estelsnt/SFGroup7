@@ -1,11 +1,14 @@
 $("document").ready(()=>{
 
     let contacts;
+    let chat;
+    let lastChatID = 0;
 
     $(".home-button").click(()=>{
         window.location = "../pages/dashboard.html";
     });
 
+    //selecting contact to be loaded
     if(sessionStorage.getItem("activeContact") == null){
         $("#chatSend").css({display: "none"});
         $("#chatInput").css({display: "none"}); 
@@ -13,6 +16,66 @@ $("document").ready(()=>{
         $("#chatHeaderName").text(sessionStorage.getItem("activeContactName"));
     }
 
+    //get conversation
+    let loadChat = ()=>{
+        if(sessionStorage.getItem('activeContact') == null){
+            return;
+        }
+        fetch('../api/getChat.php', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: sessionStorage.getItem('id'),
+                contactID: sessionStorage.getItem('activeContact'),
+                lastID: lastChatID
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            console.log(data);
+            chat = data;
+            if(data.chatID == 0){
+                console.log("last message found");
+                return;
+            }
+            for(let i in data){
+                lastChatID = data[i].chatID;
+                console.log(lastChatID);
+                if(data[i].senderUserID == sessionStorage.getItem('id')){
+                    displayChat(0, data[i].message, data[i].chatDateTime);
+                }else{
+                    displayChat(1, data[i].message, data[i].chatDateTime);
+                }
+            } 
+        })
+        .catch(error=>console.log("may error sa pag retrieve ng conversation: " + error));
+    };
+    
+    setInterval(()=>{loadChat()}, 1000);
+
+    let displayChat = (position, message, dateTime)=>{
+        console.log("writing");
+        if(position == 0){
+            $(".conversation").append(`
+                <div class="chatSent convo">
+                <span class="message">`+message+`</span>
+                <span class="messageDateTime">`+dateTime+`</span>
+                </div>
+            `);
+        }else{
+            $(".conversation").append(`
+                <div class="chatReceived convo">
+                <span class="message">`+message+`</span>
+                <span class="messageDateTime">`+dateTime+`</span>
+                </div>
+            `);
+        }
+        $(".conversation").scrollTop($(".conversation")[0].scrollHeight); 
+    };
+
+    //get contacts list
     let loadContacts = ()=>{
         fetch('../api/getContacts.php', {
             method: 'POST',
