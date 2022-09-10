@@ -91,9 +91,23 @@ $("document").ready(()=>{
     //sending of OTP code
     $("#sendOtp").click(()=>{
         //generate otp and send to database (otp is session variable)
-        sessionStorage.setItem("otp","1");//otp is set to 1 for now
+        sessionStorage.setItem("otp",makeid(5));//otp is set to 1 for now
         //once otp is created insert it to database for sms sending
-        
+        fetch('../api/addOTP.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                otpCode: sessionStorage.getItem("otp"),
+                contactNumber: $("#contactNumber").val()
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            console.log("otp sent");
+        })
+        .catch(error=>console.log("error on inserting otp: " + error));
         //
         $("#sendOtp").attr("disabled", "true");
         let counter = 15;
@@ -109,6 +123,21 @@ $("document").ready(()=>{
             }
         },1000);
     });
+
+    //generate random characters
+    let makeid = (length)=>{
+        let result           = '';
+        let characters       = '0123456789';
+        let charactersLength = characters.length;
+        for (let i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * 
+            charactersLength));
+       }
+       return result;
+    };
+    
+    console.log(makeid(5));
+
     //registration allowed on correct OTP
     $("#otp").keyup(()=>{
         if($("#otp").val() == sessionStorage.getItem("otp")){

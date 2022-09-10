@@ -50,13 +50,11 @@ FOREIGN KEY (user2ID) REFERENCES users(userID)
 
 CREATE TABLE otp(
 otpID int not null auto_increment,
-userID int not null,
 otpCode varchar(254),
 contactNumber varchar(254),
 otpDateTime DateTime,
 isSent varchar(254),
-PRIMARY KEY (otpID),
-FOREIGN KEY (userID) REFERENCES users(userID)
+PRIMARY KEY (otpID)
 );
 
 #chat table

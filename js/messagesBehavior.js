@@ -2,7 +2,7 @@ $("document").ready(()=>{
 
     let contacts;
     let chat;
-    let lastChatID = 0;
+    
 
     $(".home-button").click(()=>{
         window.location = "../pages/dashboard.html";
@@ -34,15 +34,12 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
-            console.log(data);
             chat = data;
             if(data.chatID == 0){
-                console.log("last message found");
                 return;
             }
             for(let i in data){
                 lastChatID = data[i].chatID;
-                console.log(lastChatID);
                 if(data[i].senderUserID == sessionStorage.getItem('id')){
                     displayChat(0, data[i].message, data[i].chatDateTime);
                 }else{
@@ -52,11 +49,8 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("may error sa pag retrieve ng conversation: " + error));
     };
-    
-    setInterval(()=>{loadChat()}, 1000);
 
     let displayChat = (position, message, dateTime)=>{
-        console.log("writing");
         if(position == 0){
             $(".conversation").append(`
                 <div class="chatSent convo">
@@ -88,7 +82,6 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
-            console.log(data);
             contacts = data;
             displayContacts(data);
         })
@@ -103,8 +96,6 @@ $("document").ready(()=>{
             let name;
             let picture;
             let uid;
-            console.log(data[i].user1ID);
-            console.log(data[i].user2ID);
             if(data[i].user1ID == sessionStorage.getItem("id")){
                 name = data[i].user2;
                 picture = data[i].user2Picture;
@@ -125,7 +116,25 @@ $("document").ready(()=>{
 
     //sending message
     $("#chatSend").click(()=>{
-        if($("#chatInput").val() == ""){
+        sendMessage($("#chatInput").val());
+    });
+
+    //enter key on textarea
+    $("#chatInput").keypress((e)=>{
+        if(e.keyCode == 13){
+            if($("#chatInput").val()[0] == '\n' || $("#chatInput").val().length == 0){
+                e.preventDefault();
+                $("#chatInput").val("");
+                return;
+            }
+            sendMessage($("#chatInput").val());
+        }
+    });
+    
+    //send message
+    let sendMessage = (msg)=>{
+        if(msg.length == 0){
+            $("#chatInput").val("");
             return;
         }
         fetch('../api/sendMessage.php', {
@@ -136,27 +145,60 @@ $("document").ready(()=>{
             body: JSON.stringify({
                 senderUserID: sessionStorage.getItem("id"),
                 receiverUserID: sessionStorage.getItem("activeContact"),
-                message: $("#chatInput").val()
+                message: mysql_real_escape_string(msg)
             })
         })
         .then(res=>{return res.json()})
         .then(data=>{
             //message sent
-            console.log("message sent");
             $("#chatInput").val("");
         })
         .catch(error=>console.log("error on sending message: " + error));
-    });
-    
-    loadContacts();
+    };
 
+    //sanitize input
+    let mysql_real_escape_string = (str)=>{
+        return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
+            switch (char) {
+                case "\0":
+                    return "\\0";
+                case "\x08":
+                    return "\\b";
+                case "\x09":
+                    return "\\t";
+                case "\x1a":
+                    return "\\z";
+                case "\n":
+                    return "\\n";
+                case "\r":
+                    return "\\r";
+                case "\"":
+                case "'":
+                case "\\":
+                case "%":
+                    return "\\"+char; // prepends a backslash to backslash, percent,
+                                      // and double/single quotes
+                default:
+                    return char;
+            }
+        });
+    }
+
+    //retrieve  contact list
+    loadContacts();
+    //realtime chat daw
+    setInterval(()=>{loadChat()}, 1000);
 });
 
 //selecting user from contact
+let lastChatID = 0;
+
 let selectContact = (id, name)=>{
     $("#chatSend").css({display: "block"});
     $("#chatInput").css({display: "block"});
-    $("#chatHeaderName").text(name); 
+    $("#chatHeaderName").text(name);
+    $(".conversation").empty();
+    lastChatID = 0; 
     sessionStorage.setItem("activeContact", id);
     sessionStorage.setItem("activeContactName", name);
 };
