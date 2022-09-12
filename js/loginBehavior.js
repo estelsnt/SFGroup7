@@ -4,6 +4,8 @@ $("document").ready(()=>{
         window.location = "../index.html";
     });
 
+    sessionStorage.clear();
+    
     $("#login").click(()=>{
         if(checkInput()){
             $("#login").attr("disabled", true);
