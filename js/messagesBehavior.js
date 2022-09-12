@@ -47,6 +47,11 @@ $("document").ready(()=>{
                 }
             } 
         })
+        .then(()=>{
+            setTimeout(()=>{
+                loadChat();
+            }, 500)
+        })
         .catch(error=>console.log("may error sa pag retrieve ng conversation: " + error));
     };
 
@@ -187,7 +192,8 @@ $("document").ready(()=>{
     //retrieve  contact list
     loadContacts();
     //realtime chat daw
-    setInterval(()=>{loadChat()}, 1000);
+    //setInterval(()=>{loadChat()}, 1000);
+    loadChat();
 });
 
 //selecting user from contact
