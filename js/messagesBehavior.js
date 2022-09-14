@@ -8,6 +8,8 @@ $("document").ready(()=>{
         window.location = "../pages/dashboard.html";
     });
 
+    //loading icon
+    loading(1);
     //selecting contact to be loaded
     if(sessionStorage.getItem("activeContact") == null){
         $("#chatSend").css({display: "none"});
@@ -15,9 +17,10 @@ $("document").ready(()=>{
     }else{
         $("#chatHeaderName").text(sessionStorage.getItem("activeContactName"));
     }
-
+    
     //get conversation
     let loadChat = ()=>{
+        
         if(sessionStorage.getItem('activeContact') == null){
             return;
         }
@@ -48,11 +51,16 @@ $("document").ready(()=>{
             } 
         })
         .then(()=>{
+            //recursion
             setTimeout(()=>{
                 loadChat();
             }, 500)
         })
+        .then(()=>{
+            loading(0);
+        })
         .catch(error=>console.log("may error sa pag retrieve ng conversation: " + error));
+        
     };
 
     let displayChat = (position, message, dateTime)=>{
@@ -90,12 +98,25 @@ $("document").ready(()=>{
             contacts = data;
             displayContacts(data);
         })
+        .then(()=>{
+            setTimeout(()=>{
+                loadContacts();
+            }, 4000);
+        })
+        .then(()=>{
+            loading(false);
+        })
         .catch(error=>console.log("may error sa pag retrieve ng contacts: " + error));
     };
     
     let displayContacts = (data)=>{
+        $(".contacts").empty();
         if(data.userID == 0){
+            
+            $(".noContacts").css({display: "block"});
             return;
+        }else{
+            $(".noContacts").css({display: "none"});
         }
         for(let i in data){
             let name;
@@ -138,6 +159,7 @@ $("document").ready(()=>{
     
     //send message
     let sendMessage = (msg)=>{
+        disableInput(true);
         if(msg.length == 0){
             $("#chatInput").val("");
             return;
@@ -157,6 +179,7 @@ $("document").ready(()=>{
         .then(data=>{
             //message sent
             $("#chatInput").val("");
+            disableInput(false);
         })
         .catch(error=>console.log("error on sending message: " + error));
     };
@@ -189,6 +212,26 @@ $("document").ready(()=>{
         });
     }
 
+    //input disable/enable
+    let disableInput = (state)=>{
+        if(state){
+            $("#chatSend").prop("disabled", true);
+            $("#chatInput").prop("disabled", true);
+        }else{
+            $("#chatSend").prop("disabled", false);
+            $("#chatInput").prop("disabled", false);
+        }
+    };
+
+    //check of no contacts
+    let checkContacts = ()=>{
+        if($(".contacts").children().length == 0){
+            $(".noContacts").css({display: "block"});
+        }else{
+            $(".noContacts").css({display: "none"});
+        }
+    };
+
     //retrieve  contact list
     loadContacts();
     //realtime chat daw
@@ -196,10 +239,19 @@ $("document").ready(()=>{
     loadChat();
 });
 
+let loading = (state)=>{
+    if(state == 1){
+        $(".loadingConversation").css({display: "block"});
+    }else{
+        $(".loadingConversation").css({display: "none"});
+    }
+};
+
 //selecting user from contact
 let lastChatID = 0;
 
 let selectContact = (id, name)=>{
+    loading(1);
     $("#chatSend").css({display: "block"});
     $("#chatInput").css({display: "block"});
     $("#chatHeaderName").text(name);
@@ -207,4 +259,5 @@ let selectContact = (id, name)=>{
     lastChatID = 0; 
     sessionStorage.setItem("activeContact", id);
     sessionStorage.setItem("activeContactName", name);
+    location.reload();
 };

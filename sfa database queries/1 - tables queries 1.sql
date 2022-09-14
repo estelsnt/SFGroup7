@@ -26,13 +26,6 @@ verified varchar(254),
 PRIMARY KEY(userID)
 );
 
-#insert initial data to users table for development purpose
-
-INSERT INTO `users` 
-(`userID`, `userName`, `passWord`, `lastName`, `firstName`, `middleName`, `contactNumber`, `email`, `picture`, `gender`, `birthDate`, `registerDate`) 
-VALUES 
-(NULL, 'superuser', 'test123superuserpleasedonthack', 'Superuser', 'Developer', 'D', NULL, NULL, NULL, NULL, NULL, '2022-07-18');
-
 #contacts table
 
 CREATE TABLE contacts(
@@ -86,7 +79,7 @@ serviceCategoryID int,
 serviceName varchar(254),
 serviceDescription varchar(254),
 PRIMARY KEY (serviceID),
-FOREIGN KEY (serviceCategoryID) REFERENCES serviceCategory(serviceCategoryID)
+FOREIGN KEY (serviceCategoryID) REFERENCES servicecategory(serviceCategoryID)
 );
 
 #service posting table
