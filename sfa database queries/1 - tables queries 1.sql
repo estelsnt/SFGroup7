@@ -46,6 +46,7 @@ otpID int not null auto_increment,
 otpCode varchar(254),
 contactNumber varchar(254),
 otpDateTime DateTime,
+requestType varchar(254),
 isSent varchar(254),
 PRIMARY KEY (otpID)
 );
