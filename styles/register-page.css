@@ -195,6 +195,17 @@ input, select{
     background: rgba(0, 0, 0, 0.7);
 }
 
+#confirmOtp{
+    max-width: 100px;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    border: hidden;
+    background-color: #ffab1e;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
 .otpConfirm{
     position: absolute;
     display: flex;
@@ -269,4 +280,7 @@ input, select{
     .userAddressInfo select{
         max-width: 200px;
     }    
+    #otp{
+        max-width: 15   0px;
+    }
 }

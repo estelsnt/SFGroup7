@@ -137,7 +137,10 @@ $("document").ready(()=>{
     };
     
     //registration allowed on correct OTP
-    $("#otp").keyup(()=>{
+    $("#confirmOtp").click(()=>{
+        if($("#otp").val() == ""){
+            return;
+        }
         if($("#otp").val() == sessionStorage.getItem("otp")){
             //insert userdata to database here
             fetch('../api/addNewUser.php', {
@@ -176,6 +179,9 @@ $("document").ready(()=>{
                 .then(()=>{
                     $(".otpConfirmationContainer").css({display: "none"});
                     $(".registerSuccessContainer").css({display: "block"});
+                })
+                .then(()=>{
+                    return;
                 })
                 .catch(error=>console.log("may error sa pag insert ng address: " + error));
             })
