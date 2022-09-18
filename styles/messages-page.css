@@ -143,6 +143,7 @@
     max-width: 50vw;
     word-break: break-all;
     background-color: #fffff6;
+    word-break: keep-all;
 }
 
 .chatSent, .chatSent .messageDateTime{
@@ -165,9 +166,9 @@
 }
 
 .loadingConversation{
-    position: fixed;
-    top: 50%;
-    left: 50%;
+    position: fixed;    
+    align-self: center;
+    top: 45%;
 }
 
 .noContacts{

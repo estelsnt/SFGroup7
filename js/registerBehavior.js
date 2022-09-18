@@ -136,8 +136,6 @@ $("document").ready(()=>{
        return result;
     };
     
-    console.log(makeid(5));
-
     //registration allowed on correct OTP
     $("#otp").keyup(()=>{
         if($("#otp").val() == sessionStorage.getItem("otp")){
