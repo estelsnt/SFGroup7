@@ -286,7 +286,7 @@ $("document").ready(()=>{
     //sending of OTP code
     $("#sendOtp").click(()=>{
         //generate otp and send to database (otp is session variable)
-        sessionStorage.setItem("otp","1");//otp is set to 1 for now
+        sessionStorage.setItem("otp",makeid(5));//otp is set to 1 for now
         //once otp is created insert it to database for sms sending
 
         //
@@ -304,6 +304,18 @@ $("document").ready(()=>{
             }
         },1000);
     });
+
+    let makeid = (length)=>{
+        let result           = '';
+        let characters       = '0123456789';
+        let charactersLength = characters.length;
+        for (let i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * 
+            charactersLength));
+       }
+       return result;
+    };
+
     //registration allowed on correct OTP
     $("#otp").keyup(()=>{
         if($("#otp").val() == sessionStorage.getItem("otp")){
