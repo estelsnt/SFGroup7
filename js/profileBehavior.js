@@ -660,7 +660,109 @@ $("document").ready(()=>{
         }, 5000);
     };
 
-    
+    //customer service controls
+    $("#customerService").click(()=>{
+        $(".sendMessageContainer").css({display: "block"});
+    });
+    $("#closeSendMessage").click(()=>{   //closes the search panel on exit button clicked
+        $(".sendMessageContainer").css({display: "none"});
+    });
+
+    $(".sendMessageContainer").mousedown(()=>{       //closes the search panel on click outside the search panel
+        $(".sendMessageContainer").css({display: "none"});
+    });
+
+    $(".sendMessage").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
+        window.event.stopPropagation();
+    });
+
+    //sending message to customer support
+    $("#sendMessageButton").click(()=>{
+        let CSID = 61; // id for customer support
+        if($("#sendMessageInput").val() == ""){
+            return;
+        }
+        $("sendMessageButton").prop("disabled", true);
+        //check if user is already in contact
+        fetch('../api/checkContact.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: sessionStorage.getItem("id"),
+                cID: CSID
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            //variable for identifying active contact to be passed on messaging page
+            sessionStorage.setItem("activeContact", CSID);
+            sessionStorage.setItem("activeContactName",  "Service Finder");
+            if(data[0].contactID > 0){
+                //user already in contact proceed to messaging
+                //send message
+                let msg = $("#sendMessageInput").val();
+                fetch('../api/sendMessage.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        senderUserID: sessionStorage.getItem("id"),
+                        receiverUserID: CSID,
+                        message: msg
+                    })
+                })
+                .then(res=>{return res.json()})
+                .then(data=>{
+                    //send initial message to user
+                    $("sendMessageButton").prop("disabled", false);
+                    location.href = "messages.html";
+                })
+                .catch(error=>console.log("error on sending message: " + error));
+            }else{
+                //add the user to contact
+                fetch('../api/addToContact.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user1ID: sessionStorage.getItem("id"),
+                        user2ID: CSID,
+                        subject: "Customer Support" 
+                    })
+                })
+                .then(res=>{return res.json()})
+                .then(data=>{
+                    //send initial message to user
+                    let msg = $("#sendMessageInput").val();
+                    fetch('../api/sendMessage.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            senderUserID: sessionStorage.getItem("id"),
+                            receiverUserID: CSID,
+                            message: msg
+                        })
+                    })
+                    .then(res=>{return res.json()})
+                    .then(data=>{
+                        //send initial message to user
+                        $("sendMessageButton").prop("disabled", false);
+                        location.href = "messages.html";
+                    })
+                    .catch(error=>console.log("error on sending message: " + error));
+                })
+                .catch(error=>console.log("error on adding to contact: " + error));
+            }
+        })
+        .catch(error=>console.log("error on checking contact: " + error));  
+    });
+
 });
 
 
