@@ -11,7 +11,9 @@
             (SELECT users.picture FROM users WHERE users.userID = contacts.user1ID) AS 'user1Picture',
             (SELECT users.userID FROM users WHERE users.userID = contacts.user2ID) AS 'user2ID',
             (SELECT CONCAT(users.firstName, ' ', users.lastName) FROM users WHERE users.userID = contacts.user2ID) AS 'user2',
-            (SELECT users.picture FROM users WHERE users.userID = contacts.user2ID) AS 'user2Picture'
+            (SELECT users.picture FROM users WHERE users.userID = contacts.user2ID) AS 'user2Picture',
+            (SELECT notification.notify FROM notification WHERE notification.receiverID = ". $id ."
+                AND (notification.notifierID = contacts.user1ID OR notification.notifierID = contacts.user2ID)) AS 'notif'
             FROM users
             JOIN contacts ON contacts.user1ID = users.userID OR contacts.user2ID = users.userID
             WHERE users.userID =" . $id . ";";
@@ -25,7 +27,8 @@
                 "user1Picture"=>$row['user1Picture'],
                 "user2ID"=>$row['user2ID'],
                 "user2"=>$row['user2'],
-                "user2Picture"=>$row['user2Picture']
+                "user2Picture"=>$row['user2Picture'],
+                "notif"=>$row['notif']
             ));
         }
         echo json_encode($d);

@@ -131,12 +131,31 @@ $("document").ready(()=>{
                 picture = data[i].user1Picture;
                 uid = data[i].user1ID;
             }
-            $(".contacts").append(`
-                <div class="contact" onclick="selectContact(`+uid+", '"+name+`')">
-                    <img src="`+picture+`" class="contactPicture">
-                    <span class="contactName">`+name+`</span>
-                </div>
-            `);
+
+            //build the elements
+            let contact = document.createElement("div");
+            let pic = document.createElement("img");
+            let n = document.createElement("span");
+            let notif = document.createElement("span");
+            let arg = "'"+uid+"',"+"'"+name+"'";
+            contact.setAttribute("class", "contact");
+            contact.setAttribute("onclick", "selectContact("+arg+")");
+            pic.setAttribute("src", picture);
+            pic.setAttribute("class", "contactPicture");
+            n.setAttribute("class", "contactName");
+            notif.setAttribute("class", "notif");
+            
+            n.innerText = name;
+
+            if(data[i].notif != 0 && data[i].notif != null){
+                notif.innerText = data[i].notif;
+                n.append(notif);
+            }
+
+            contact.append(pic);
+            contact.append(n);
+
+            $(".contacts").append(contact);
         }
     };
 
@@ -176,12 +195,63 @@ $("document").ready(()=>{
             })
         })
         .then(res=>{return res.json()})
-        .then(data=>{
-            //message sent
+        .then(()=>{
+            //message sent proceed to notify
+            notify(sessionStorage.getItem("activeContact"));
+            clearNotification(sessionStorage.getItem("activeContact"));
             $("#chatInput").val("");
             disableInput(false);
         })
         .catch(error=>console.log("error on sending message: " + error));
+    };
+
+    //notify user
+    let notify = (nid)=>{
+        //check if user and contact is already in notification table
+        fetch('../api/checkNotification.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                notifierID: sessionStorage.getItem("id"),
+                receiverID: nid
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data[0].notificationID == 0){
+                //if not, add to notification then notify
+                fetch('../api/addToNotification.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        notifierID: sessionStorage.getItem("id"),
+                        receiverID: nid
+                    })
+                })
+                .then(()=>{
+                    console.log("added to notification");
+                })
+                .catch(error=>console.log("error on adding to notificator: " + error));
+            }else{
+                //if true, notify contact
+                fetch('../api/notify.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        notifierID: sessionStorage.getItem("id"),
+                        receiverID: nid
+                    })
+                })
+                .catch(error=>console.log("error on notification: " + error));
+            }
+        })
+        .catch(error=>console.log("error on checking notification: " + error));
     };
 
     //sanitize input
@@ -259,5 +329,21 @@ let selectContact = (id, name)=>{
     lastChatID = 0; 
     sessionStorage.setItem("activeContact", id);
     sessionStorage.setItem("activeContactName", name);
+    clearNotification(id);
     location.reload();
+};
+
+//clear notification
+let clearNotification = (nid)=>{
+    fetch('../api/clearNotification.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            notifierID: nid,
+            receiverID: sessionStorage.getItem("id")
+        })
+    })
+    .catch(error=>console.log("error on notification: " + error));
 };
