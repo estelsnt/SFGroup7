@@ -406,8 +406,9 @@ $("document").ready(()=>{
                     })
                 })
                 .then(res=>{return res.json()})
-                .then(data=>{
+                .then(()=>{
                     //send initial message to user
+                    notify();
                     $("sendMessageButton").prop("disabled", false);
                     location.href = "messages.html";
                 })
@@ -444,7 +445,10 @@ $("document").ready(()=>{
                         })
                     })
                     .then(res=>{return res.json()})
-                    .then(data=>{
+                    .then(()=>{
+                        notify();
+                    })
+                    .then(()=>{
                         //send initial message to user
                         $("sendMessageButton").prop("disabled", false);
                         location.href = "messages.html";
@@ -456,6 +460,92 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on checking contact: " + error));  
     });
+
+    //notify contact
+    let notify = ()=>{
+        //check if user and contact is already in notification table
+        fetch('../api/checkNotification.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                notifierID: sessionStorage.getItem("id"),
+                receiverID: idTemp
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data[0].notificationID == 0){
+                //if not, add to notification then notify
+                fetch('../api/addToNotification.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        notifierID: sessionStorage.getItem("id"),
+                        receiverID: idTemp
+                    })
+                })
+                .then(()=>{
+                    console.log("added to notification");
+                })
+                .catch(error=>console.log("error on adding to notificator: " + error));
+            }else{
+                //if true, notify contact
+                fetch('../api/notify.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        notifierID: sessionStorage.getItem("id"),
+                        receiverID: idTemp
+                    })
+                })
+                .then(()=>{
+                    console.log("notified");
+                })
+                .catch(error=>console.log("error on notification: " + error));
+            }
+        })
+        .catch(error=>console.log("error on checking notification: " + error));
+    };
+
+    //get notifications (realtime)
+    let getNotification = ()=>{
+        fetch('../api/getNotificationAll.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: sessionStorage.getItem("id"),
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data[0].notification <= 0 || data[0].notification == null){
+                $(".notif").css({display: "none"});
+            }else{
+                if($(window).width() < 870){
+                    $(".headerNotif").css({display: "block"});
+                }
+                $(".notif:not(.headerNotif)").css({display: "block"});  
+                $(".notif").text(data[0].notification);
+                console.log($(window).width());
+            }
+        })
+        .then(()=>{
+            setTimeout(()=>{
+                getNotification();
+            }, 3000);
+        })
+        .catch(error=>console.log("error on checking notification: " + error));
+    };
+
+    getNotification();
 
 });
 

@@ -319,7 +319,39 @@ $("document").ready(()=>{
     $(".home-button").click(()=>{
         window.location = "../pages/dashboard.html";
     });
-    //
+    
+    //get notifications (realtime)
+    let getNotification = ()=>{
+        fetch('../api/getNotificationAll.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userID: sessionStorage.getItem("id"),
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data[0].notification <= 0 || data[0].notification == null){
+                $(".notif").css({display: "none"});
+            }else{
+                if($(window).width() < 870){
+                    $(".headerNotif").css({display: "block"});
+                }
+                $(".notif:not(.headerNotif)").css({display: "block"});  
+                $(".notif").text(data[0].notification);
+            }
+        })
+        .then(()=>{
+            setTimeout(()=>{
+                getNotification();
+            }, 3000);
+        })
+        .catch(error=>console.log("error on checking notification: " + error));
+    };
+
+    getNotification();
 
 });
 

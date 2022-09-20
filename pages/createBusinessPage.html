@@ -45,12 +45,14 @@
             <!--header with navigation-->
             <div class="heading">
                 <div class="slide-menu">
-                    <img src="../images/list.png"  id="menu">
+                    <div class="headerIconContainer">
+                        <img src="../images/list.png"  id="menu"><span class="notif headerNotif"></span>
+                    </div>
                     <div class="side-menu">
                         <h2>Services Finder</h2>
                         <ul>
                             <li><a href="profile.html">Profile</a></li>
-                            <li><a href="messages.html">Messages</a></li>
+                            <li><div class="withNotif"><a href="messages.html">Messages <span class="notif sideNotif"></span></a></div></li>
                             <li><a href="createPost.html">Post your service</a></li>
                             <li><a href="createOrder.html">Find a service</a></li>
                         </ul>
@@ -59,7 +61,7 @@
                 <h1 class="heading">Service Finder</h1>
                 <ul class="navigation">
                     <li id="profile"><a href="profile.html">Profile</a></li>
-                    <li id="messages"><a href="messages.html">Messages</a></li>
+                    <li id="messages"><a href="messages.html">Messages <span class="notif"></span></a></li>
                     <li id="servicePosting">
                         Service posting
                         <div class="servicePostingDropdown">
