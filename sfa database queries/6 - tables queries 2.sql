@@ -61,7 +61,7 @@ REFERENCES premiumpost(pID)
 CREATE TABLE notification (
 	notificationID int not null AUTO_INCREMENT,
 	notifierID int not null,
-  	recieverID int not null,
+  	receiverID int not null,
     notify int,
     PRIMARY KEY (notificationID)
 );

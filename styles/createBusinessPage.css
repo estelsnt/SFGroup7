@@ -280,6 +280,10 @@
     float: right;
 }
 
+.createPostPremiumContainer{
+    z-index: 200;
+}
+
 @media (max-width: 900px) {
     .title .businessNameContainer #businessName{
         max-width: 300px;
