@@ -261,6 +261,7 @@ body{
 }
 
 .servicePostNormal{
+    width: 300px;
     margin: 10px;
     background-color: beige;
     border-radius: 20px;
@@ -429,6 +430,11 @@ body{
     }
     .posts{
         justify-content: center;
+        width: 90vw;
+    }
+
+    .post{
+        margin: 20px auto;
     }
 }
 

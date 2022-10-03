@@ -30,7 +30,8 @@
 .servicePostNormal{
     display: flex;
     flex-direction: column;
-    max-width: 300px;
+    max-width: 250px;
+    margin: 20px;
 }
 
 .postPicture{
