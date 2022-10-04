@@ -66,3 +66,15 @@ CREATE TABLE notification (
     PRIMARY KEY (notificationID)
 );
 
+CREATE TABLE ratings(
+	ratingID int not null AUTO_INCREMENT,
+    userID int,
+    pID int,
+    rating int,
+    PRIMARY KEY (ratingID),
+    FOREIGN KEY (userID)
+    REFERENCES users(userID),
+    FOREIGN KEY (pID)
+    REFERENCES premiumpost(pID)
+);
+

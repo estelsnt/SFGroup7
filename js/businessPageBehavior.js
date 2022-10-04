@@ -4,8 +4,6 @@ $("document").ready(()=>{
     let slideshowImage;
     let currentImg = 0;
 
-    console.log(sessionStorage.getItem("toView"));
-
     //message button
     $("#contact").click(()=>{
         console.log(pageInfo[0].userID);
@@ -350,6 +348,165 @@ $("document").ready(()=>{
         .catch(error=>console.log("error on checking notification: " + error));
     };
 
+    //rating functions
+    $("#rateThis").click(()=>{
+        $(".ratingInput").css({display : "block"});
+    });
+
+    $("#s1").hover(()=>{
+        $("#s1").attr("src", "../images/star active.png");
+    }, ()=>{
+        clearStars();
+    });
+
+    $("#s2").hover(()=>{
+        $("#s1").attr("src", "../images/star active.png");
+        $("#s2").attr("src", "../images/star active.png");
+    }, ()=>{
+        clearStars();
+    });
+
+    $("#s3").hover(()=>{
+        $("#s1").attr("src", "../images/star active.png");
+        $("#s2").attr("src", "../images/star active.png");
+        $("#s3").attr("src", "../images/star active.png");
+    }, ()=>{
+        clearStars();
+    });
+
+    $("#s4").hover(()=>{
+        $("#s1").attr("src", "../images/star active.png");
+        $("#s2").attr("src", "../images/star active.png");
+        $("#s3").attr("src", "../images/star active.png");
+        $("#s4").attr("src", "../images/star active.png");
+    }, ()=>{
+        clearStars();
+    });
+
+    $("#s5").hover(()=>{
+        $("#s1").attr("src", "../images/star active.png");
+        $("#s2").attr("src", "../images/star active.png");
+        $("#s3").attr("src", "../images/star active.png");
+        $("#s4").attr("src", "../images/star active.png");
+        $("#s5").attr("src", "../images/star active.png");
+    }, ()=>{
+        clearStars();
+    });
+
+    const clearStars = ()=>{
+        $("#s1").attr("src", "../images/star inactive.png");
+        $("#s2").attr("src", "../images/star inactive.png");
+        $("#s3").attr("src", "../images/star inactive.png");
+        $("#s4").attr("src", "../images/star inactive.png");
+        $("#s5").attr("src", "../images/star inactive.png"); 
+    };
+
+    $("#s1").click(()=>{
+        rating(1);
+    });
+
+    $("#s2").click(()=>{
+        rating(2);
+    });
+
+    $("#s3").click(()=>{
+        rating(3);
+    });
+
+    $("#s4").click(()=>{
+        rating(4);
+    });
+
+    $("#s5").click(()=>{
+        rating(5);
+    });
+
+    //set rating
+    let rating = (stars) =>{
+        console.log(stars);
+        //check if user already rated this service
+        fetch('../api/checkRating.php?id=' + sessionStorage.getItem("id"), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data[0].ratingID == 0){
+                //register new rating record
+                fetch('../api/addRating.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userID: sessionStorage.getItem("id"),
+                        pID: id,
+                        rating: stars
+                    })
+                })
+                .then(()=>{
+                    location.reload();
+                })
+                .catch(error=>console.log("error on sending rating"));
+            }else{
+                //update rating record
+                fetch('../api/updateRating.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userID: sessionStorage.getItem("id"),
+                        pID: id,
+                        rating: stars
+                    })
+                })
+                .then(()=>{
+                    location.reload();
+                })
+                .catch(error=>console.log("error on updating rating"));
+            }
+        })
+        .catch(error=>console.log("error on checking ratings: " + error));
+    };
+
+    //get ratings
+    let getRatings = ()=>{
+        fetch('../api/getRating.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                pID: id
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data[0].ratings != 0){
+                if(data[0].stars >= 1){
+                    $("#r1").attr("src", "../images/star active.png");
+                }
+                if(data[0].stars >= 2){
+                    $("#r2").attr("src", "../images/star active.png");
+                }
+                if(data[0].stars >= 3){ 
+                      $("#r3").attr("src", "../images/star active.png");
+                }
+                if(data[0].stars >= 4){
+                    $("#r4").attr("src", "../images/star active.png");
+                }
+                if(data[0].stars >= 5){
+                    $("#r5").attr("src", "../images/star active.png"); 
+                }
+                $(".ratingDesc").text(data[0].ratings + " ratings");
+            }
+        })
+        .catch(error=>console.log("error on retrieval of rating"));
+    };
+
     getNotification();
 
     //initial functions call
@@ -358,4 +515,5 @@ $("document").ready(()=>{
     getListItems();
     getSlideshowImage();
     getLocation();
+    getRatings();
 });

@@ -527,6 +527,23 @@ html, body{
     display: none;
 }
 
+.rating{
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+}
+
+.rating li{
+    font-size: 0.7em;
+}
+
+.rating li img{
+    margin-right: 5px;
+    height: 15px;
+    width: 15px;
+}
+
 @media (max-width: 870px) {
     .heading #menu{
         display: block;

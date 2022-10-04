@@ -18,6 +18,9 @@
 }
 
 .feedback{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     min-height: 90vh;
     width: 100vw;
 }
@@ -27,7 +30,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 15px auto;
+    margin: 15px;
     min-height: 70vh;
 }
 
@@ -116,4 +119,54 @@
 .pageOWner{
     font-size: 0.8em;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.ratingBox{
+    display: flex;
+    flex-direction: column;
+    margin: 25px 15px;
+    border: 1px solid grey;
+    border-top-left-radius: 20px;
+    padding: 15px;
+    max-height: 200px;
+}
+
+.ratingDesc{
+    font-size: 0.7em;
+}
+
+.stars ul{
+    padding: 0;
+    margin-bottom: 0;
+    display: flex;
+    list-style-type: none;
+}
+
+.stars ul li{
+    margin-right: 5px;
+}
+
+.stars ul li img{
+    height: 15px;
+    width: 15px;
+}
+
+.ratingInput{
+    display: none;
+}
+
+#rateThis{
+    font-size: 1em;
+    margin-top: 40px;
+}
+
+.startInput{
+    display: none;
+}
+
+.starInput ul li img{
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+    cursor: pointer;
 }
