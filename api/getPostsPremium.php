@@ -20,7 +20,9 @@
             useraddress.address, ' ',
             refbrgy.brgyDesc, ' ',
             refcitymun.citymunDesc, ' ',
-            refprovince.provDesc) AS 'location'
+            refprovince.provDesc) AS 'location',
+            (SELECT COUNT(ratings.ratingID) FROM ratings WHERE ratings.pID = premiumpost.pID) AS 'rating',
+            (SELECT ROUND(AVG(ratings.rating)) FROM ratings WHERE ratings.pID = premiumpost.pID) AS 'stars'
             FROM premiumpost
             JOIN users ON users.userID = premiumpost.userID
             JOIN useraddress ON useraddress.userID = premiumpost.userID
@@ -56,7 +58,9 @@
                 "featuredPhoto"=>$row['featuredPhoto'],
                 "title"=>$row['title'],
                 "description"=>$row['description'],
-                "location"=>$row['location']
+                "location"=>$row['location'],
+                "rating"=>$row['rating'],
+                "stars"=>$row['stars']
             ]);
         }
         echo json_encode($d);

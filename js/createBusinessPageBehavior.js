@@ -549,7 +549,66 @@ let getListItems = ()=>{
         .catch(error=>console.log("error on checking notification: " + error));
     };
 
+    //get ratings
+    let getRatings = ()=>{
+        fetch('../api/getRating.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                pID: sessionStorage.getItem("businessPage")
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data[0].ratings != 0){
+                if(data[0].stars >= 1){
+                    $("#r1").attr("src", "../images/star active.png");
+                }
+                if(data[0].stars >= 2){
+                    $("#r2").attr("src", "../images/star active.png");
+                }
+                if(data[0].stars >= 3){ 
+                      $("#r3").attr("src", "../images/star active.png");
+                }
+                if(data[0].stars >= 4){
+                    $("#r4").attr("src", "../images/star active.png");
+                }
+                if(data[0].stars >= 5){
+                    $("#r5").attr("src", "../images/star active.png"); 
+                }
+                $(".ratingDesc").text(data[0].ratings + " ratings");
+            }
+        })
+        .catch(error=>console.log("error on retrieval of rating"));
+    };
+
+    //get rating info
+    let getRatingInfo = ()=>{
+        fetch('../api/getRatingInfo.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                pID: sessionStorage.getItem("businessPage")
+            })
+        })
+        .then(res=>{return res.json()})
+        .then(data=>{
+            if(data[0].name != 0){
+                for(let i in data){
+                    $("#ratingInfo").append("<li>" + data[i].name + ": " + data[i].rating + " stars" + "</li>");
+                }
+            }
+        })
+        .catch(error=>console.log("error on retrieval of rating"));
+    };
+
     getNotification();
+    getRatings();
+    getRatingInfo();
 };
 
 let removeComment = (cid)=>{

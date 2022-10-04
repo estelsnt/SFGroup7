@@ -38,25 +38,69 @@ $("document").ready(()=>{
     };
     //write premium posts to dom
     let displayPremiumPost = (posts)=>{
+        console.log(postPremium);
         try{
             for(let i in posts){
                 if(postPremiumCount >= postLimit){
                     return;
                 }
-                $(".postsContainer").append(`
-                    <div class="post `+posts[postPremiumLastIndex].verified+` premiumPostContainer">
-                        <div class="postHeader">
-                            <span class="businessTitle">`+posts[postPremiumLastIndex].title+`</span>
-                        </div>
-                        <img src="`+posts[postPremiumLastIndex].featuredPhoto+`" class="postPicture">
-                        <div class="postContent">
-                            <span class="description">`+posts[postPremiumLastIndex].description+`</span>
-                            <span class="location">`+posts[postPremiumLastIndex].location+`</span>
-                        </div>
-                        
-                        <button class="messageButton" onclick="visitPage(`+posts[postPremiumLastIndex].pID+`)">Visit page</button>
-                    </div>
-                `);
+
+                //premiumpost card
+                let post = document.createElement("div");
+                let postHeader = document.createElement("div");
+                let businessTitle = document.createElement("span");
+                let postPicture = document.createElement("img");
+                let postContent = document.createElement("div");
+                let description = document.createElement("span");
+                let location = document.createElement("span");
+                let messageButton = document.createElement("button");
+                let rating = document.createElement("ul");
+
+                post.setAttribute("class", "post " + posts[postPremiumLastIndex].verified + " premiumPostContainer")
+                postHeader.setAttribute("class", "postHeader");
+                businessTitle.setAttribute("class", "businessTitle");
+                postPicture.setAttribute("class", "postPicture");
+                postPicture.setAttribute("src", posts[postPremiumLastIndex].featuredPhoto);
+                postContent.setAttribute("class", "postContent");
+                description.setAttribute("class", "description");
+                location.setAttribute("class", "location");
+                messageButton.setAttribute("class", "messageButton");
+                messageButton.setAttribute("onclick", "visitPage(" + posts[postPremiumLastIndex].pID + ")");
+                rating.setAttribute("class", "rating");
+
+                businessTitle.innerHTML = posts[postPremiumLastIndex].title;
+                description.innerHTML = posts[postPremiumLastIndex].description;
+                location.innerHTML = posts[postPremiumLastIndex].location;
+                messageButton.innerHTML = "Visit page";
+
+                if(posts[postPremiumLastIndex].rating > 0){
+                    for(let i = 0; i < posts[postPremiumLastIndex].stars; i++){ 
+                        rating.innerHTML += `<li><img src="../images/star active.png"></li>`;
+                    }
+                    for(let j = 0; j < (5-posts[postPremiumLastIndex].stars); j++){
+                        rating.innerHTML += `<li><img src="../images/star inactive.png"></li>`;
+                    }
+                    rating.innerHTML += "<li>" + posts[postPremiumLastIndex].rating + " ratings</li>";
+                }else{
+                    rating.innerHTML = `<li><img src="../images/star inactive.png"></li>
+                                        <li><img src="../images/star inactive.png"></li>
+                                        <li><img src="../images/star inactive.png"></li>
+                                        <li><img src="../images/star inactive.png"></li>
+                                        <li><img src="../images/star inactive.png"></li>
+                                        <li>No rating</li>`;
+                }
+                
+                postHeader.append(businessTitle);
+                postContent.append(description);
+                postContent.append(location);
+                post.append(postHeader);
+                post.append(postPicture);
+                post.append(postContent);
+                post.append(rating);
+                post.append(messageButton);
+                
+                $(".postsContainer").append(post);
+
                 postPremiumLastIndex++;
                 postPremiumCount++;
             }
@@ -534,7 +578,6 @@ $("document").ready(()=>{
                 }
                 $(".notif:not(.headerNotif)").css({display: "block"});  
                 $(".notif").text(data[0].notification);
-                console.log($(window).width());
             }
         })
         .then(()=>{
