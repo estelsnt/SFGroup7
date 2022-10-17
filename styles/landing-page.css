@@ -8,10 +8,11 @@ html, body{
     display: flex;
     flex-direction: column;
     background-color: #0073ff;
-    height: 100%;
+    height: 300%;
 }
 
 .header{
+    height: 20vh;
     display: flex;
     align-items: flex-start;
 }
@@ -42,11 +43,173 @@ html, body{
     background-color: #ffb253;
 }
 
+.content1{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 80vh;
+}
+
+.appLink{
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 50vw;
+}
+
+.appLink a{
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.appLink span{
+    margin-left: 15px;
+    font-size: 1em;
+    color: #000;
+}
+
+.appLink h5{
+    margin-top: 15px;
+    font-size: 1.2em;
+    font-weight: 800;
+    text-align: center;
+    color: #ff8c00;
+}
+
+.downloadButton{
+    position: absolute;
+    top: 300px;
+    right: 20px;
+    height: 90px;
+    width: 300px;
+    background-color: #f5f5dc;
+    box-shadow: rgba(255, 173, 30, 0.623) 5px 10px 30px 5px;   
+    border-bottom-right-radius:  15px;
+    border-top-left-radius: 15px;
+    border: 1px solid grey;
+}
+
+#headerImage{
+    width: 300px;
+}
+
+.content1 h2{
+    max-width: 450px;
+    font-size: 4em;
+    font-family: Arial, Helvetica, sans-serif;
+    color: beige;
+}
+
+.slideshowContainer{
+    display: flex;
+    justify-content: center;
+    height: 50vh;
+    margin: auto;
+}
+
+#slideshowImage{
+    margin: 10px;
+    max-height: 50vh;
+    max-width: 400px;
+}
+
+.content2 h3{
+    text-align: center;
+    font-size: 4em;
+    font-family: Arial, Helvetica, sans-serif;
+    color: beige;
+    margin-bottom: 10px;
+}
+
+#businessName{
+    font-family:Arial, Helvetica, sans-serif;
+    color: beige;
+    margin-top: 30px;
+    margin-left: 30px;
+    display: block;
+    font-size: 2em;
+}
+
+#address{
+    font-family:Arial, Helvetica, sans-serif;
+    color: beige;
+    margin-top: 15px;
+    margin-left: 30px;
+    display: block;
+    font-size: 1em;
+}
+
+.c2span{
+    display: block;
+    text-align: center;
+    font-size: 1.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    color: beige;
+}
+
+@media  (max-width: 900px) {
+    .content1{
+        display: flex;
+        flex-direction: column;
+    }
+    .content1 h2{
+        max-width: 350px;
+        margin-top: 20px;
+    }
+}
+
+@media  (max-width: 700px) {
+    .appLink{
+        width: 100vw;
+    }
+    .content1{
+        height: 100vh;
+    }
+    .content1 .appLink{
+        flex-direction: column;
+        align-items: center;
+    }
+    .content1 h2{
+        align-self: center;
+        justify-self: center;
+    }
+    .downloadButton{
+        position: static;
+        width: 65vw;
+        left: 20vw;
+        height: 70px;
+        margin-top: 10px;
+    }
+    .appLink h5{
+        font-size: 1em;
+    }
+    .content2{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .slideshowContainer{
+        flex-direction: column;
+    }
+    #businessName, #address{
+        max-width: 400px;
+    }
+    .content2 h3, .content1 h2{
+        font-size: 3em; 
+    }
+    #slideshowImage{
+        margin: 20px auto 10px auto;
+        max-width: 300px;
+    }
+
+}
+
 @media  (max-width: 400px) {
     .header button{
         margin: 30px 10px 0 auto;
     }
-
     .header h1{
         font-size: 1em;
         margin-left: 5px;
