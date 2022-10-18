@@ -47,7 +47,11 @@ html, body{
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    height: 80vh;
+    height: 100vh;
+}
+
+.content2{
+    height: 100vh;
 }
 
 .appLink{
@@ -148,14 +152,44 @@ html, body{
     color: beige;
 }
 
+.content3{
+    position: relative;
+    height: 100vh;
+}
+
+.content3 img{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 80%;
+    width: 80%;
+}
+
+.content3 h6{
+    font-size: 3em;
+    margin: 100px 20px 10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: beige;
+}
+
+.content3 span{
+    margin: 20px;
+    font-size: 1em;
+    color: beige;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.content3 .sb1{
+    z-index: 100;
+}
+
 @media  (max-width: 900px) {
-    .content1{
-        display: flex;
-        flex-direction: column;
-    }
     .content1 h2{
         max-width: 350px;
         margin-top: 20px;
+    }
+    .content3 img{
+        width: 80vw;
     }
 }
 
@@ -163,14 +197,12 @@ html, body{
     .appLink{
         width: 100vw;
     }
-    .content1{
-        height: 100vh;
-    }
     .content1 .appLink{
         flex-direction: column;
         align-items: center;
     }
     .content1 h2{
+        margin: 20px auto;
         align-self: center;
         justify-self: center;
     }
@@ -192,6 +224,8 @@ html, body{
     }
     .slideshowContainer{
         flex-direction: column;
+        margin-bottom: 50px;
+        margin-top: 10px;
     }
     #businessName, #address{
         max-width: 400px;
@@ -199,11 +233,25 @@ html, body{
     .content2 h3, .content1 h2{
         font-size: 3em; 
     }
+    #businessName{
+        font-size: 1.5em;
+    }
+    #address{
+        font-size: 0.9em;
+    }
+    .content2 h3{
+        margin-top: 5px;
+    }
     #slideshowImage{
         margin: 20px auto 10px auto;
         max-width: 300px;
     }
-
+    .content3 img{
+        width: 90vw;
+    }
+    .content3 h6{
+        font-size: 2em;
+    }
 }
 
 @media  (max-width: 400px) {
@@ -213,5 +261,8 @@ html, body{
     .header h1{
         font-size: 1em;
         margin-left: 5px;
+    }
+    .content3 img{
+        width: 95vw;
     }
 }
