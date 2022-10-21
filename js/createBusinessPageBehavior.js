@@ -21,10 +21,16 @@ $("document").ready(()=>{
             })
         })
         .then(res=>{return res.json()})
-        .then(data=>{
+        .then(data=>{   
+            let curd = new Date();
+            let gdt = new Date(data[0].postDuration);
             pageInfo = data;
             pid = sessionStorage.getItem("businessPage");
             $("#duration").text("duration: " + data[0].postDuration);
+            if(gdt < curd){
+                $("#duration").css({color: "red"});
+                $("#duration").text( $("#duration").text() + " (expired)");
+            }
             $("#businessName").val(data[0].title);
             if(data[0].featuredPhoto == undefined){
                 $("#featuredPhoto").attr("src", "../images/icons8-picture-500.png");
@@ -293,19 +299,41 @@ $("document").ready(()=>{
 
     //redeem
     $("#redeem").click(()=>{
-        // console.log(sessionStorage.getItem("businessPage"));
-        // console.log(pageInfo[0].postDuration);
-        // console.log(typeof(pageInfo[0].postDuration));
-        
-        // let d = new Date(pageInfo[0].postDuration);
-        // d.setMonth(d.getMonth() + 1);
-        // console.log(d.toISOString().slice(0, 10));
-        let d = new Date(pageInfo[0].postDuration);
-        let today = new Date();
-        if(d < today){
-            console.log("kunin date ngayon + 1 month");   
-        }else{
-            console.log("+1 month agad");   
+        if($("#businessName").val() == ""){
+            $("#businessName").css({border: "1px solid red"});
+            return;
+        }
+        $("#redeem").css({display: "none"});
+        $("#redeemInput").css({display: "block"});
+    });
+
+    $("#redeemInput").keyup(()=>{
+        if($("#redeemInput").val() == "capstone2022"){
+            //on successful transaction
+            let d = new Date(pageInfo[0].postDuration);
+            let today = new Date();
+            //check if post duration is from the past then upon extension, get the date today and add the extension
+            if(d < today){
+                d = today;   
+            }
+            d.setMonth(d.getMonth() + 12);
+            fetch('../api/extendPremiumPage.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: sessionStorage.getItem("businessPage"),
+                    postDuration: d.toISOString().slice(0, 10)
+                })
+            })
+            .then(res=>{return res.json()})
+            .then(data=>{
+                //feedback after success
+                $(".createPostPremiumContainer").css({display: "none"});
+                location.href = "../pages/createBusinessPage.html";
+            })
+            .catch(error=>console.log("critical error on extending premium post duration"));
         }
     });
     
@@ -412,7 +440,6 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
-            console.log(data);
             displayComment(data);
         })
         .catch(error=>console.log("error on retrieving comment"));
@@ -420,7 +447,9 @@ $("document").ready(()=>{
 
     let displayComment = (data)=>{
         $(".comments").empty();
-        console.log(data);
+        if(data.pCommentsID == 0){
+            return;
+        }
         for(let i in data){
             let comment = document.createElement("div");
             let rComment = document.createElement("button");
@@ -597,6 +626,9 @@ let getListItems = ()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            if(data == "[{name:0, rating:0}]"){
+                return;
+            }
             if(data[0].name != 0){
                 for(let i in data){
                     $("#ratingInfo").append("<li>" + data[i].name + ": " + data[i].rating + " stars" + "</li>");

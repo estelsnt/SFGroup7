@@ -419,6 +419,12 @@ body{
     margin: 10px;
 }
 
+#redeemInput{
+    display: none;
+    margin: 10px;
+    max-width: 150px;
+}
+
 @media (max-width: 780px) {
     .createPostNormalContainer .createPostNormal{
         left: 5%;

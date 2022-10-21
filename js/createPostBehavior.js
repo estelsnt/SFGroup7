@@ -105,9 +105,45 @@ $("document").ready(()=>{
 
 
     $("#redeem").click(()=>{
-        console.log(sessionStorage.getItem("businessPage"));
+        if($("#businessName").val() == ""){
+            $("#businessName").css({border: "1px solid red"});
+            return;
+        }
+        $("#redeem").css({display: "none"});
+        $("#redeemInput").css({display: "block"});
     });
     
+    $("#redeemInput").keyup(()=>{
+        if($("#redeemInput").val() == "capstone2022"){
+            //continue subscription
+            //on successful transaction
+            let today = new Date()//.toISOString().slice(0, 10);
+            let businessName = $("#businessName").val();
+            businessName = businessName.replace("'", "\\'");
+            today.setMonth(today.getMonth() + 12);
+            //console.log(today.toISOString().slice(0, 10));
+            fetch('../api/addPremiumPage.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userID: sessionStorage.getItem("id"),
+                    title:  businessName,
+                    postDuration: today.toISOString().slice(0, 10)
+                })
+            })
+            .then(res=>{return res.json()})
+            .then(data=>{
+                //feedback after success
+                sessionStorage.setItem("businessPage", data.lastID);
+                $(".createPostPremiumContainer").css({display: "none"});
+                location.href = "../pages/createBusinessPage.html";
+            })
+            .catch(error=>console.log("critical error on inserting premium post"));
+        }
+    });
+
     $("#m1").click(()=>{
         subscription = "20";
     });
