@@ -19,6 +19,6 @@
         }
         echo json_encode($data);
     }else{
-        echo json_encode('[{"name":0, "rating":0}]');
+        echo json_encode('[{name:0, rating:0}]');
     }
 ?>
