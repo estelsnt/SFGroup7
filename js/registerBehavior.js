@@ -28,6 +28,7 @@ $("document").ready(()=>{
         if(!validateInput()){
             return;
         }
+        $(".loading").css({display: "block"});
         let flag = true;
         //check if username already existed (hiwalay kasi asynchronous)
         fetch('../api/checkUsernameDuplicate.php?id=' + $("#userName").val(),{
@@ -38,6 +39,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data[0].userName === 0){
                 flag = true;
                 $("#userName").css({border: "1px solid #ccccc4"});
@@ -51,6 +53,7 @@ $("document").ready(()=>{
         })
         .then(()=>{
             //check contact number
+            $(".loading").css({display: "block"});
             fetch('../api/checkContactNumber.php?id=' + $("#contactNumber").val(),{
                 method: 'GET',
                 headers: {
@@ -59,10 +62,12 @@ $("document").ready(()=>{
             })
             .then(res=>{return res.json()})
             .then(data=>{
+                $(".loading").css({display: "none"});
                 if(data[0].userName === 0){
                     $("#contactNumber").css({border: "1px solid #ccccc4"});
                     $("#contactNumberMessage").text("");
                     if(flag === true){
+                        $(".loading").css({display: "none"});
                         $(".otpConfirmationContainer").css({display: "block"});
                         $("#otpHeading").text("Send OTP code to: " + $("#contactNumber").val());
                     }
@@ -139,8 +144,10 @@ $("document").ready(()=>{
     //registration allowed on correct OTP
     $("#confirmOtp").click(()=>{
         if($("#otp").val() == ""){
+            $("#otp").css({border: "1px solid red"});
             return;
         }
+        $(".loading").css({display: "block"});
         if($("#otp").val() == sessionStorage.getItem("otp")){
             //insert userdata to database here
             fetch('../api/addNewUser.php', {
@@ -177,6 +184,7 @@ $("document").ready(()=>{
                     })
                 })
                 .then(()=>{
+                    $(".loading").css({display: "none"});
                     $(".otpConfirmationContainer").css({display: "none"});
                     $(".registerSuccessContainer").css({display: "block"});
                 })
@@ -186,6 +194,10 @@ $("document").ready(()=>{
                 .catch(error=>console.log("may error sa pag insert ng address: " + error));
             })
             .catch(error=>console.log("hala gago may error di mo alam ayusin yan tanga: " + error));
+        }else{
+            $(".loading").css({display: "none"});
+            $("#otp").val("");
+            $("#otp").css({border: "1px solid red"});
         }
     });
 
