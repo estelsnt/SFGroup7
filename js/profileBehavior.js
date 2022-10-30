@@ -26,6 +26,7 @@ $("document").ready(()=>{
     });
 
     let checkUserVerified = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/checkVerifiedUser.php', {
             method: 'POST',
             headers: {
@@ -37,6 +38,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data.verified == "TRUE"){
                 $(".profilePicture").css({border: "5px solid #0073ff"});
                 $(".verify").css({display: "none"});
@@ -57,6 +59,7 @@ $("document").ready(()=>{
     checkUserVerified();
 
    let loadUserData = (id)=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getUserData.php', {
             method: 'POST',
             headers: {
@@ -69,6 +72,7 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             userData = data;
+            $(".loading").css({display: "none"});
             //write data to fields
             $("#profilePicture").attr("src", userData.picture);
             $("#userName").val(userData.userName);
@@ -96,30 +100,7 @@ $("document").ready(()=>{
             .then(res=>{return res.json()})
             .then(data=>{
                 addressData = data;
-                // $("#addressDetails").val(addressData[4].address.address);
-                // const setBrgy = ()=>{
-                //     $("#barangay").val(addressData[0].brgy.brgyDesc);
-                //     $("#barangay").change();
-                // };
-                // const setCityMun = ()=>{
-                //     $("#cityMunicipality").val(addressData[1].citymun.citymunDesc);
-                //     $("#cityMunicipality").change();
-                //     setTimeout(setBrgy, 1000);
-                // };
-                // const setProv = ()=>{
-                //     $("#province").val(addressData[2].prov.provDesc);
-                //     $("#province").change();
-                //     setTimeout(setCityMun, 1000);
-                // };
-                // const setReg = ()=>{
-                //     $("#region").val(addressData[3].reg.regDesc);
-                //     $("#region").change();
-                //     setTimeout(setProv, 1000);
-                // };
-                // setReg();
-                
                 loadUserAddress();
-
             })
         })
         .catch(error=>console.log("error on user data fetch: " + error));
@@ -140,6 +121,11 @@ $("document").ready(()=>{
 
     function previewProfileImage(uploader, destination) {   
         //ensure a file was selected 
+        if(uploader.files[0].size > 150000){
+            alert("file too large");
+            $("#uploadProfilePicture").val("");
+            return;
+        }
         if (uploader.files && uploader.files[0]) {
             var imageFile = uploader.files[0];
             var reader = new FileReader();    
@@ -180,6 +166,7 @@ $("document").ready(()=>{
                 $("#confirmVerification").text("Confirm");
             }, 3000);
         }else{
+            $(".loading").css({display: "block"});
             fetch('../api/uploadUserVerification.php', {
                 method: 'POST',
                 headers: {
@@ -192,6 +179,7 @@ $("document").ready(()=>{
                 })
             })
             .then(()=>{
+                $(".loading").css({display: "none"});
                 $("#confirmVerification").text("uploaded successfuly");
                 setTimeout(()=>{
                     $("#confirmVerification").text("Confirm");
@@ -258,7 +246,6 @@ $("document").ready(()=>{
     });
     //confirmation on updating user account
     $("#confirm").click(()=>{
-        console.log("confirm click");
         //check inputs first
         if(!validateInput()){
             return;
@@ -330,6 +317,7 @@ $("document").ready(()=>{
     });
 
     let updateUserData = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/updateUserData.php', {
             method: 'POST',
             headers: {
@@ -350,6 +338,8 @@ $("document").ready(()=>{
             })
         })
         .then(()=>{
+            $(".loading").css({display: "none"});
+            $(".loading").css({display: "block"});
             fetch('../api/updateUserAddress.php', {
                 method: 'POST',
                 headers: {
@@ -365,12 +355,16 @@ $("document").ready(()=>{
                 })
             })
             .then(()=>{
+                $(".loading").css({display: "none"});
                 $("#confirm").text("updated!");
                 setTimeout(()=>{$("#confirm").text("Confirm")}, 3000);
             })
             .catch(error=>console.log("may error sa pag insert ng address: " + error));
         })
-        .catch(error=>console.log("hala gago may error di mo alam ayusin yan tanga: " + error));
+        .catch((error)=>{
+            console.log("hala gago may error di mo alam ayusin yan tanga: " + error)
+            location.reload();
+        });
     };
 
     //logout
@@ -684,6 +678,7 @@ $("document").ready(()=>{
         }
         $("sendMessageButton").prop("disabled", true);
         //check if user is already in contact
+        $(".loading").css({display: "block"});
         fetch('../api/checkContact.php', {
             method: 'POST',
             headers: {
@@ -696,6 +691,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             //variable for identifying active contact to be passed on messaging page
             sessionStorage.setItem("activeContact", CSID);
             sessionStorage.setItem("activeContactName",  "Service Finder");
@@ -703,6 +699,7 @@ $("document").ready(()=>{
                 //user already in contact proceed to messaging
                 //send message
                 let msg = $("#sendMessageInput").val();
+                $(".loading").css({display: "block"});
                 fetch('../api/sendMessage.php', {
                     method: 'POST',
                     headers: {
@@ -716,6 +713,7 @@ $("document").ready(()=>{
                 })
                 .then(res=>{return res.json()})
                 .then(data=>{
+                    $(".loading").css({display: "none"});
                     //send initial message to user
                     $("sendMessageButton").prop("disabled", false);
                     location.href = "messages.html";
@@ -723,6 +721,7 @@ $("document").ready(()=>{
                 .catch(error=>console.log("error on sending message: " + error));
             }else{
                 //add the user to contact
+                $(".loading").css({display: "block"});
                 fetch('../api/addToContact.php', {
                     method: 'POST',
                     headers: {
@@ -737,7 +736,9 @@ $("document").ready(()=>{
                 .then(res=>{return res.json()})
                 .then(data=>{
                     //send initial message to user
+                    $(".loading").css({display: "none"});
                     let msg = $("#sendMessageInput").val();
+                    $(".loading").css({display: "block"});
                     fetch('../api/sendMessage.php', {
                         method: 'POST',
                         headers: {
@@ -751,6 +752,7 @@ $("document").ready(()=>{
                     })
                     .then(res=>{return res.json()})
                     .then(data=>{
+                        $(".loading").css({display: "none"});
                         //send initial message to user
                         $("sendMessageButton").prop("disabled", false);
                         location.href = "messages.html";

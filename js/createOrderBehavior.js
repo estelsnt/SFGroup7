@@ -9,6 +9,7 @@ $("document").ready(()=>{
     
     //check if user is verified and restrict posting to 1
     let checkUserVerified = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/checkVerifiedUser.php', {
             method: 'POST',
             headers: {
@@ -20,10 +21,12 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data.verified == "TRUE"){
                 $("#getVerified").css({display: "none"});
             }
             else{
+                $(".loading").css({display: "block"});
                 fetch('../api/getUserOrderCount.php?id='+sessionStorage.getItem("id"), {
                     method: 'GET',
                     headers: {
@@ -32,6 +35,7 @@ $("document").ready(()=>{
                 })
                 .then(res=>{return res.json()})
                 .then(data=>{
+                    $(".loading").css({display: "none"});
                     if(data[0].posts == "1"){
                         allowedToPost = false;
                     }
@@ -46,6 +50,7 @@ $("document").ready(()=>{
 
     //get the users previous order posts
     let getUserPosts = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getOrderPosts.php', {
             method: 'POST',
             headers: {
@@ -57,7 +62,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
-            
+            $(".loading").css({display: "none"});
             if(data.posts == 0){
                 console.log("no posts");
                 return;
@@ -99,6 +104,7 @@ $("document").ready(()=>{
     //load services categories
     let loadServiceCategories = ()=>{
         clearInputFieldsPosting();
+        $(".loading").css({display: "block"});
         fetch('../api/getServiceCategories.php', {
             method: 'GET',
             headers: {
@@ -108,6 +114,7 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             serviceCategories = data;
+            $(".loading").css({display: "none"});
             $("#serviceCategory").empty();
             for(let i = 0; i < data.length; i++){
                 $("#serviceCategory").append("<option value="+ data[i].categoryName+">"+data[i].categoryName+"</option>");
@@ -119,6 +126,7 @@ $("document").ready(()=>{
 
     //on category and service change
     $("#serviceCategory").change(()=>{
+        $("#service").empty();
         for(let i = 0; i < serviceCategories.length; i++){
             if($("#serviceCategory").val() == serviceCategories[i].categoryName){
                 selectedServiceCategory = serviceCategories[i].serviceCategoryID;
@@ -133,6 +141,7 @@ $("document").ready(()=>{
             $("#service").css({display: "block"});
             $("#specifyService").css({display: "none"}); 
             //fetch services based on service catagory
+            $(".loading").css({display: "block"});
             fetch('../api/getServicesList.php?id='+selectedServiceCategory, {
                 method: 'GET',
                 headers: {
@@ -142,6 +151,7 @@ $("document").ready(()=>{
             .then(res=>{return res.json()})
             .then(data=>{
                 services = data;
+                $(".loading").css({display: "none"});
                 $("#service").empty();
                 for(let i = 0; i < data.length; i++){
                     $("#service").append("<option value="+ data[i].serviceName+">"+data[i].serviceName+"</option>");
@@ -163,7 +173,12 @@ $("document").ready(()=>{
 
     //picture upload
     function previewPostImage(uploader) {   
-        //ensure a file was selected 
+        //ensure a file was selected
+        if(uploader.files[0].size > 150000){
+            alert("file too large");
+            $("#uploadPostPicture").val("");
+            return;
+        } 
         if (uploader.files && uploader.files[0]) {
             var imageFile = uploader.files[0];
             var reader = new FileReader();    
@@ -206,6 +221,7 @@ $("document").ready(()=>{
         if(newServiceFlag){
             //insert the specified service before inserting service post
             console.log("to insert");
+            $(".loading").css({display: "block"});
             fetch('../api/addNewService.php?', {
                 method: 'POST',
                 headers: {
@@ -218,9 +234,11 @@ $("document").ready(()=>{
             })
             .then(res=>{return res.json()})
             .then(data=>{
+                $(".loading").css({display: "none"});
                 $("#create").text("posting..");
                 $("#create").attr("disabled", true);
                 //insert the service to posting
+                $(".loading").css({display: "block"});
                 fetch('../api/postOrder.php?', {
                     method: 'POST',
                     headers: {
@@ -234,9 +252,9 @@ $("document").ready(()=>{
                     })
                 })
                 .then(res=>{return res.json()})
-                .then(data=>{
+                .then(()=>{
                     //service posted
-                    
+                    $(".loading").css({display: "none"});
                     setTimeout(()=>{
                     $("#create").text("Create order");
                     $("#create").attr("disabled", false);
@@ -248,6 +266,7 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on inserting service: " + error));
         }else{
             //insert the service to posting
+            $(".loading").css({display: "block"});
             fetch('../api/postOrder.php?', {
                 method: 'POST',
                 headers: {
@@ -263,6 +282,7 @@ $("document").ready(()=>{
             .then(res=>{return res.json()})
             .then(data=>{
                 //service posted
+                $(".loading").css({display: "none"});
                 $("#create").text("posting..");
                 $("#create").attr("disabled", true);
                 setTimeout(()=>{
@@ -356,6 +376,7 @@ $("document").ready(()=>{
 });
 
 let deletePostNormal = (id)=>{
+    $(".loading").css({display: "block"});
     fetch('../api/removeOrderPost.php', {
         method: 'POST',
         headers: {
@@ -366,6 +387,7 @@ let deletePostNormal = (id)=>{
         })
     })
     .then(()=>{
+        $(".loading").css({display: "none"});
         console.log("post deleted");
         location.href = "../pages/createOrder.html";
     })

@@ -59,7 +59,10 @@ $("document").ready(()=>{
         .then(()=>{
             loading(0);
         })
-        .catch(error=>console.log("may error sa pag retrieve ng conversation: " + error));
+        .catch((error)=>{
+            console.log("may error sa pag retrieve ng conversation: " + error)
+            location.reload();
+        });
         
     };
 
@@ -106,7 +109,10 @@ $("document").ready(()=>{
         .then(()=>{
             loading(false);
         })
-        .catch(error=>console.log("may error sa pag retrieve ng contacts: " + error));
+        .catch((error)=>{
+            console.log("may error sa pag retrieve ng contacts: " + error)
+            location.reload();
+        });
     };
     
     let displayContacts = (data)=>{
