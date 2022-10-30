@@ -23,6 +23,7 @@ $("document").ready(()=>{
     //posts
     //business service offers (posts api needs coverage location and service, for all posts pass empty string)
     let loadPremiumPost = (cov, loc, service)=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getPostsPremium.php?cov='+cov+"&loc="+loc+"&service="+service, {
             method: 'GET',
             headers: {
@@ -38,7 +39,7 @@ $("document").ready(()=>{
     };
     //write premium posts to dom
     let displayPremiumPost = (posts)=>{
-        console.log(postPremium);
+        $(".loading").css({display: "none"});
         try{
             for(let i in posts){
                 if(postPremiumCount >= postLimit){
@@ -116,6 +117,7 @@ $("document").ready(()=>{
 
     //normal service offers (posts api needs coverage location and service, for all posts pass empty string)
     let loadNormalPost = (cov, loc, service)=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getPostsNormal.php?cov='+cov+"&loc="+loc+"&service="+service, {
             method: 'GET',
             headers: {
@@ -131,6 +133,7 @@ $("document").ready(()=>{
     };
     //write normal posts to dom
     let displayNormalPost = (posts)=>{
+        $(".loading").css({display: "none"});
         try{
             for(let i in posts){
                 if(postNormalCount >= postLimit){
@@ -167,6 +170,7 @@ $("document").ready(()=>{
 
     //service orders
     let loadOrderPost = (cov, loc, service)=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getPostsOrder.php?cov='+cov+"&loc="+loc+"&service="+service, {
             method: 'GET',
             headers: {
@@ -182,6 +186,7 @@ $("document").ready(()=>{
     };
     //write order posts to dom
     let displayOrderPost = (posts)=>{
+        $(".loading").css({display: "none"});
         try{
             for(let i in posts){
                 if(postOrderCount >= postLimit){
@@ -279,9 +284,8 @@ $("document").ready(()=>{
         window.event.stopPropagation();
     });
 
-
     let loadServiceCategories = ()=>{
-        
+        $(".loading").css({display: "block"});
         fetch('../api/getServiceCategories.php', {
             method: 'GET',
             headers: {
@@ -291,6 +295,7 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             serviceCategories = data;
+            $(".loading").css({display: "none"});
             $("#serviceCategory").empty();
             for(let i = 0; i < data.length; i++){
                 $("#serviceCategory").append("<option value="+ data[i].categoryName+">"+data[i].categoryName+"</option>");
@@ -303,6 +308,7 @@ $("document").ready(()=>{
     loadServiceCategories();
 
     $("#serviceCategory").change(()=>{
+        $("#service").empty();
         for(let i = 0; i < serviceCategories.length; i++){
             if($("#serviceCategory").val() == serviceCategories[i].categoryName){
                 selectedServiceCategory = serviceCategories[i].serviceCategoryID;
@@ -317,6 +323,7 @@ $("document").ready(()=>{
             $("#service").css({display: "block"});
             $("#specifyService").css({display: "none"}); 
             //fetch services based on service catagory
+            $(".loading").css({display: "block"});
             fetch('../api/getServicesList.php?id='+selectedServiceCategory, {
                 method: 'GET',
                 headers: {
@@ -326,6 +333,7 @@ $("document").ready(()=>{
             .then(res=>{return res.json()})
             .then(data=>{
                 services = data;
+                $(".loading").css({display: "none"});
                 $("#service").empty();
                 for(let i = 0; i < data.length; i++){
                     $("#service").append("<option value="+ data[i].serviceName+">"+data[i].serviceName+"</option>");
@@ -414,6 +422,7 @@ $("document").ready(()=>{
 
     //add add service owner to user contact
     $("#sendMessageButton").click(()=>{
+        $(".loading").css({display: "block"});
         $("sendMessageButton").prop("disabled", true);
         //check if user is already in contact
         fetch('../api/checkContact.php', {
@@ -423,13 +432,13 @@ $("document").ready(()=>{
             },
             body: JSON.stringify({
                 userID: sessionStorage.getItem("id"),
-                cID: idTemp
+                cID: sessionStorage.getItem("msgthis")
             })
         })
         .then(res=>{return res.json()})
         .then(data=>{
             //variable for identifying active contact to be passed on messaging page
-            sessionStorage.setItem("activeContact", idTemp);
+            sessionStorage.setItem("activeContact", sessionStorage.getItem("msgthis"));
             sessionStorage.setItem("activeContactName",  $(".cname").text());
             if(data[0].contactID > 0){
                 //user already in contact proceed to messaging
@@ -445,16 +454,16 @@ $("document").ready(()=>{
                     },
                     body: JSON.stringify({
                         senderUserID: sessionStorage.getItem("id"),
-                        receiverUserID: idTemp,
+                        receiverUserID: sessionStorage.getItem("msgthis"),
                         message: msg
                     })
                 })
                 .then(res=>{return res.json()})
                 .then(()=>{
                     //send initial message to user
-                    notify();
                     $("sendMessageButton").prop("disabled", false);
-                    location.href = "messages.html";
+                    notify();
+                    //location.href = "messages.html";
                 })
                 .catch(error=>console.log("error on sending message: " + error));
             }else{
@@ -466,7 +475,7 @@ $("document").ready(()=>{
                     },
                     body: JSON.stringify({
                         user1ID: sessionStorage.getItem("id"),
-                        user2ID: idTemp,
+                        user2ID: sessionStorage.getItem("msgthis"),
                         subject: $("#headerText").text() 
                     })
                 })
@@ -484,29 +493,28 @@ $("document").ready(()=>{
                         },
                         body: JSON.stringify({
                             senderUserID: sessionStorage.getItem("id"),
-                            receiverUserID: idTemp,
+                            receiverUserID: sessionStorage.getItem("msgthis"),
                             message: msg
                         })
                     })
                     .then(res=>{return res.json()})
                     .then(()=>{
-                        notify();
-                    })
-                    .then(()=>{
                         //send initial message to user
                         $("sendMessageButton").prop("disabled", false);
-                        location.href = "messages.html";
+                        notify();
+                        //location.href = "messages.html";
                     })
                     .catch(error=>console.log("error on sending message: " + error));
                 })
                 .catch(error=>console.log("error on adding to contact: " + error));
             }
         })
-        .catch(error=>console.log("error on checking contact: " + error));  
+        .catch(error=>console.log("error on checking contact: " + error));
     });
 
     //notify contact
     let notify = ()=>{
+        console.log("notify");
         //check if user and contact is already in notification table
         fetch('../api/checkNotification.php', {
             method: 'POST',
@@ -515,7 +523,7 @@ $("document").ready(()=>{
             },
             body: JSON.stringify({
                 notifierID: sessionStorage.getItem("id"),
-                receiverID: idTemp
+                receiverID: sessionStorage.getItem("msgthis")
             })
         })
         .then(res=>{return res.json()})
@@ -529,7 +537,7 @@ $("document").ready(()=>{
                     },
                     body: JSON.stringify({
                         notifierID: sessionStorage.getItem("id"),
-                        receiverID: idTemp
+                        receiverID: sessionStorage.getItem("msgthis")
                     })
                 })
                 .then(()=>{
@@ -545,7 +553,7 @@ $("document").ready(()=>{
                     },
                     body: JSON.stringify({
                         notifierID: sessionStorage.getItem("id"),
-                        receiverID: idTemp
+                        receiverID: sessionStorage.getItem("msgthis")
                     })
                 })
                 .then(()=>{
@@ -553,6 +561,9 @@ $("document").ready(()=>{
                 })
                 .catch(error=>console.log("error on notification: " + error));
             }
+        })
+        .then(()=>{
+            location.href = "messages.html";
         })
         .catch(error=>console.log("error on checking notification: " + error));
     };
@@ -598,15 +609,13 @@ let visitPage = (id)=>{
 }; 
 
 //setting up contact
-let idTemp;
-
 let messageMe = (id, name, header)=>{
     if(sessionStorage.getItem("id") == id){
         return;
     }
+    sessionStorage.setItem("msgthis", id);
     $(".sendMessageContainer").css({display: "block"});
     $(".cname").text(name);
     $("#headerText").text(header);
-    idTemp = id;
     console.log("reciever id: " + id + "name: " + name);
 };

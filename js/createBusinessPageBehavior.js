@@ -6,11 +6,9 @@ $("document").ready(()=>{
     let currentImg = 0;
 
     let subscription = "20";
-
-    
-
     //load data
     let getPostdata = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getBusinessPageInfo.php', {
             method: 'POST',
             headers: {
@@ -26,6 +24,7 @@ $("document").ready(()=>{
             let gdt = new Date(data[0].postDuration);
             pageInfo = data;
             pid = sessionStorage.getItem("businessPage");
+            $(".loading").css({display: "none"});
             $("#duration").text("duration: " + data[0].postDuration);
             if(gdt < curd){
                 $("#duration").css({color: "red"});
@@ -74,6 +73,7 @@ $("document").ready(()=>{
         }else{
             let name = $("#businessName").val();
             name = name.replace("'", "\\'");
+            $(".loading").css({display: "block"});
             fetch('../api/updateBusinessTitle.php', {
                 method: 'POST',
                 headers: {
@@ -86,6 +86,7 @@ $("document").ready(()=>{
             })
             .then(res=>{return res.json()})
             .then(data=>{
+                $(".loading").css({display: "none"});
                 $("#businessName").css({border: "1px solid gold"});
                 $("#editBusinessName").attr("src", "../images/edit.png");
                 setTimeout(()=>{
@@ -110,6 +111,7 @@ $("document").ready(()=>{
         }else{
             let details = $("#businessDetails").val();
             details = details.replace("'", "\\'");
+            $(".loading").css({display: "block"});
             fetch('../api/updateBusinessDescription.php', {
                 method: 'POST',
                 headers: {
@@ -122,6 +124,7 @@ $("document").ready(()=>{
             })
             .then(res=>{return res.json()})
             .then(data=>{
+                $(".loading").css({display: "none"});
                 $("#businessDetails").css({border: "1px solid gold"});
                 $("#editBusinessDetails").attr("src", "../images/edit.png");
                 setTimeout(()=>{
@@ -135,6 +138,11 @@ $("document").ready(()=>{
     //change header photo
     function previewProfileImage(uploader) {   
         //ensure a file was selected 
+        if(uploader.files[0].size > 150000){
+            alert("file too large");
+            $("#uploadFeaturedPhoto").val("");
+            return;
+        }
         if (uploader.files && uploader.files[0]) {
             var imageFile = uploader.files[0];
             var reader = new FileReader();    
@@ -142,6 +150,7 @@ $("document").ready(()=>{
                 //set the image data as source
                 $('#featuredPhoto').attr('src', e.target.result);
                 //save photo to database
+                $(".loading").css({display: "block"});
                 fetch('../api/updateBusinessHeaderPhoto.php', {
                     method: 'POST',
                     headers: {
@@ -152,7 +161,14 @@ $("document").ready(()=>{
                         photo: $('#featuredPhoto').attr('src')
                     })
                 })
-                .catch(error=>console.log("error on retrieval of this user posts"));
+                .then(()=>{
+                    $(".loading").css({display: "none"});
+                    location.reload();
+                })
+                .catch((error)=>{
+                    console.log("error on updating featured photo" + error);
+                    location.reload();
+                });
             }    
             reader.readAsDataURL( imageFile );
         }
@@ -169,6 +185,7 @@ $("document").ready(()=>{
         if($("#addListInput").val() != ""){
             let item = $("#addListInput").val();
             item = item.replace("'", "\\'");
+            $(".loading").css({display: "block"});
             fetch('../api/addPremiumPageList.php', {
                 method: 'POST',
                 headers: {
@@ -180,6 +197,7 @@ $("document").ready(()=>{
                 })
             })
             .then(()=>{
+                $(".loading").css({display: "none"});
                 $("#addListInput").val("");
                 getListItems();
             })
@@ -190,6 +208,11 @@ $("document").ready(()=>{
     //slideshow
     function previewSlideshowImage(uploader) {   
         //ensure a file was selected 
+        if(uploader.files[0].size > 150000){
+            alert("file too large");
+            $("#uploadSlideshowPhoto").val("");
+            return;
+        }
         if (uploader.files && uploader.files[0]) {
             var imageFile = uploader.files[0];
             var reader = new FileReader();    
@@ -197,6 +220,7 @@ $("document").ready(()=>{
                 //set the image data as source
                 $('.slideshowImage').attr('src', e.target.result);
                 //save photo to database
+                $(".loading").css({display: "block"});
                 fetch('../api/uploadBusinessSlideshowPhoto.php', {
                     method: 'POST',
                     headers: {
@@ -208,7 +232,8 @@ $("document").ready(()=>{
                     })
                 })
                 .then(()=>{
-                    getSlideshowImage();
+                    $(".loading").css({display: "none"});
+                    location.reload();
                 })
                 .catch(error=>console.log("error on uploading photo"));
             }    
@@ -222,6 +247,7 @@ $("document").ready(()=>{
 
 
     let getSlideshowImage = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getBusinessSlideshowPhotos.php', {
             method: 'POST',
             headers: {
@@ -233,6 +259,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data.pPhotosID == 0){
                 slideshowImages = [{pPhotosID: 0, photo: "../images/icons8-picture-500.png"}];
             }else{
@@ -246,6 +273,7 @@ $("document").ready(()=>{
     getSlideshowImage();
 
     $("#removeSlideshowImage").click(()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/removeBusinessSlideshowImage.php', {
             method: 'POST',
             headers: {
@@ -256,6 +284,7 @@ $("document").ready(()=>{
             })
         })
         .then(()=>{
+            $(".loading").css({display: "none"});
             getSlideshowImage();
         })
         .catch(error=>console.log("error on removing photo"));
@@ -317,6 +346,7 @@ $("document").ready(()=>{
                 d = today;   
             }
             d.setMonth(d.getMonth() + 12);
+            $(".loading").css({display: "block"});
             fetch('../api/extendPremiumPage.php', {
                 method: 'POST',
                 headers: {
@@ -330,6 +360,7 @@ $("document").ready(()=>{
             .then(res=>{return res.json()})
             .then(data=>{
                 //feedback after success
+                $(".loading").css({display: "none"});
                 $(".createPostPremiumContainer").css({display: "none"});
                 location.href = "../pages/createBusinessPage.html";
             })
@@ -378,6 +409,7 @@ $("document").ready(()=>{
                     break;
                 }
                 console.log(details);
+                $(".loading").css({display: "block"});
                 fetch('../api/extendPremiumPage.php', {
                     method: 'POST',
                     headers: {
@@ -391,6 +423,7 @@ $("document").ready(()=>{
                 .then(res=>{return res.json()})
                 .then(data=>{
                     //feedback after success
+                    $(".loading").css({display: "none"});
                     $(".createPostPremiumContainer").css({display: "none"});
                     location.href = "../pages/createBusinessPage.html";
                 })
@@ -410,6 +443,7 @@ $("document").ready(()=>{
     $("#submitComment").click(()=>{
         if($("#commentText").val() != ""){
             $("#submitComment").attr("disabled", true);
+            $(".loading").css({display: "block"});
             fetch('../api/addComment.php', {
                 method: 'POST',
                 headers: {
@@ -423,6 +457,7 @@ $("document").ready(()=>{
             })
             .then(res=>{return res.json()})
             .then(data=>{
+                $(".loading").css({display: "none"});
                 $("#submitComment").attr("disabled", false);
                 $("#commentText").val("");
                 getComments();
@@ -432,6 +467,7 @@ $("document").ready(()=>{
     });
 
     let getComments = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getComments.php?id='+sessionStorage.getItem("businessPage"), {
             method: 'GET',
             headers: {
@@ -440,6 +476,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             displayComment(data);
         })
         .catch(error=>console.log("error on retrieving comment"));
@@ -525,6 +562,7 @@ $("document").ready(()=>{
 });
 
 let getListItems = ()=>{
+    $(".loading").css({display: "block"});
     fetch('../api/getPremiumPageListItems.php?id=' + sessionStorage.getItem("businessPage"), {
         method: 'GET',
         headers: {
@@ -533,6 +571,7 @@ let getListItems = ()=>{
     })
     .then(res=>{return res.json()})
     .then(data=>{
+        $(".loading").css({display: "none"});
         $("#listItems").empty();
         for(let i = 0; i < data.length; i++){
             $("#listItems").append(`
@@ -580,6 +619,7 @@ let getListItems = ()=>{
 
     //get ratings
     let getRatings = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getRating.php', {
             method: 'POST',
             headers: {
@@ -591,6 +631,7 @@ let getListItems = ()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data[0].ratings != 0){
                 if(data[0].stars >= 1){
                     $("#r1").attr("src", "../images/star active.png");
@@ -615,6 +656,7 @@ let getListItems = ()=>{
 
     //get rating info
     let getRatingInfo = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getRatingInfo.php', {
             method: 'POST',
             headers: {
@@ -626,6 +668,7 @@ let getListItems = ()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data == "[{name:0, rating:0}]"){
                 return;
             }
@@ -644,7 +687,7 @@ let getListItems = ()=>{
 };
 
 let removeComment = (cid)=>{
-    console.log(cid);
+    $(".loading").css({display: "block"});
     fetch('../api/removeComment.php', {
         method: 'POST',
         headers: {
@@ -655,12 +698,14 @@ let removeComment = (cid)=>{
         })
     })
     .then(()=>{
+        $(".loading").css({display: "none"});
         location.reload();
     })
     .catch(error=>console.log("error on removing comment"));
 };
 
 let removeReply = (cid)=>{
+    $(".loading").css({display: "block"});
     fetch('../api/removeReply.php', {
         method: 'POST',
         headers: {
@@ -671,12 +716,14 @@ let removeReply = (cid)=>{
         })
     })
     .then(()=>{
+        $(".loading").css({display: "none"});
         location.reload();
     })
     .catch(error=>console.log("error on inserting reply"));
 };
 
 let addReply = (cid)=>{
+    $(".loading").css({display: "block"});
     fetch('../api/addReply.php', {
         method: 'POST',
         headers: {
@@ -689,12 +736,14 @@ let addReply = (cid)=>{
         })
     })
     .then(()=>{
+        $(".loading").css({display: "none"});
         location.reload();
     })
     .catch(error=>console.log("error on inserting reply"));
 };
 
 let removeList = (id)=>{
+    $(".loading").css({display: "block"});
     fetch('../api/removePremiumPageListItem.php', {
         method: 'POST',
         headers: {
@@ -705,6 +754,7 @@ let removeList = (id)=>{
         })
     })
     .then(()=>{
+        $(".loading").css({display: "none"});
         getListItems();
     })
     .catch(error=>console.log("error on inserting list"));

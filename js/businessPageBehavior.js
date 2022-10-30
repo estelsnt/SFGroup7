@@ -11,6 +11,7 @@ $("document").ready(()=>{
     });
     //load data
     let getPostdata = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getBusinessPageInfo.php', {
             method: 'POST',
             headers: {
@@ -23,6 +24,7 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             pageInfo = data;
+            $(".loading").css({display: "none"});
             $("#businessTitle").text(data[0].title);
             if(data[0].featuredPhoto == undefined){
                 $(".featuredPhoto").attr("src", "../images/icons8-picture-500.png");
@@ -38,6 +40,7 @@ $("document").ready(()=>{
 
     //list items
     let getListItems = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getPremiumPageListItems.php?id=' + id, {
             method: 'GET',
             headers: {
@@ -46,6 +49,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             $("#listItems").empty();
             for(let i = 0; i < data.length; i++){
                 $("#listItems").append(`
@@ -60,6 +64,7 @@ $("document").ready(()=>{
 
     //slideshow
     let getSlideshowImage = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getBusinessSlideshowPhotos.php', {
             method: 'POST',
             headers: {
@@ -71,6 +76,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data.pPhotosID == 0){
                 slideshowImages = [{pPhotosID: 0, photo: "../images/icons8-picture-500.png"}];
             }else{
@@ -101,6 +107,7 @@ $("document").ready(()=>{
 
     //location
     let getLocation = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getBusinessLocation.php', {
             method: 'POST',
             headers: {
@@ -112,6 +119,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             $("#location").text(data[0].address + " " + data[0].barangay + ", " + data[0].cityMun + ", " + data[0].province);
         })
         .catch(error=>console.log("error on retrieving location"));
@@ -121,6 +129,7 @@ $("document").ready(()=>{
     $("#submitComment").click(()=>{
         if($("#commentText").val() != ""){
             $("#submitComment").attr("disabled", true);
+            $(".loading").css({display: "block"});
             fetch('../api/addComment.php', {
                 method: 'POST',
                 headers: {
@@ -134,6 +143,7 @@ $("document").ready(()=>{
             })
             .then(res=>{return res.json()})
             .then(data=>{
+                $(".loading").css({display: "none"});
                 $("#submitComment").attr("disabled", false);
                 $("#commentText").val("");
                 getComments();
@@ -143,6 +153,7 @@ $("document").ready(()=>{
     });
 
     let getComments = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getComments.php?id='+id, {
             method: 'GET',
             headers: {
@@ -151,6 +162,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             displayComment(data);
         })
         .catch(error=>console.log("error on retrieving comment"));
@@ -209,6 +221,8 @@ $("document").ready(()=>{
 
     //contact button
     $("#contact").click(()=>{
+        console.log(pageInfo);
+        sessionStorage.setItem("msgthis", pageInfo[0].userID);
         $(".cname").text(pageInfo[0].title);
         $(".pageOwner").text(pageInfo[0].ownerName);
         $(".sendMessageContainer").css({display: "block"});
@@ -224,97 +238,6 @@ $("document").ready(()=>{
 
     $(".sendMessage").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
         window.event.stopPropagation();
-    });
-
-    //send message button
-    $(".messagePageButton").click(()=>{
-        //check if user is already in contact
-        if(pageInfo[0].userID == sessionStorage.getItem("id")){
-            return;
-        }
-        fetch('../api/checkContact.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                userID: sessionStorage.getItem("id"),
-                cID: pageInfo[0].userID
-            })
-        })
-        .then(res=>{return res.json()})
-        .then(data=>{
-            sessionStorage.setItem("activeContact", pageInfo[0].userID);
-            sessionStorage.setItem("activeContactName", $(".pageOwner").text());
-            if(data[0].contactID > 0){
-                //user already in contact proceed to messaging
-                console.log("user already in contact");
-                let msg = $("#sendMessageInput").val();
-                if($("#sendMessageInput").val() == ""){
-                    msg = "Hi, is this available?";
-                }
-                fetch('../api/sendMessage.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        senderUserID: sessionStorage.getItem("id"),
-                        receiverUserID: pageInfo[0].userID,
-                        message: msg
-                    })
-                })
-                .then(res=>{return res.json()})
-                .then(data=>{
-                    //send initial message to user
-                    $("sendMessageButton").prop("disabled", false);
-                    location.href = "messages.html";
-                })
-                .catch(error=>console.log("error on sending message: " + error));
-            }else{
-                //add the user to contact
-                fetch('../api/addToContact.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        user1ID: sessionStorage.getItem("id"),
-                        user2ID: pageInfo[0].userID,
-                        subject: $(".cname").text() 
-                    })
-                })
-                .then(res=>{return res.json()})
-                .then(data=>{
-                    //send initial message to user
-                    console.log("proceed to send message");
-                    let msg = $("#sendMessageInput").val();
-                    if($("#sendMessageInput").val() == ""){
-                        msg = "Hi, is this available?";
-                    }
-                    fetch('../api/sendMessage.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            senderUserID: sessionStorage.getItem("id"),
-                            receiverUserID: pageInfo[0].userID,
-                            message: msg
-                        })
-                    })
-                    .then(res=>{return res.json()})
-                    .then(data=>{
-                        //send initial message to user
-                        $("sendMessageButton").prop("disabled", false);
-                        location.href = "messages.html";
-                    })
-                    .catch(error=>console.log("error on sending message: " + error));
-                })
-                .catch(error=>console.log("error on adding to contact: " + error));
-            }
-        })
-        .catch(error=>console.log("error on checking contact: " + error));  
     });
 
     //get notifications (realtime)
@@ -425,6 +348,7 @@ $("document").ready(()=>{
     let rating = (stars) =>{
         console.log(stars);
         //check if user already rated this service
+        $(".loading").css({display: "block"});
         fetch('../api/checkRating.php?id=' + sessionStorage.getItem("id"), {
             method: 'GET',
             headers: {
@@ -433,6 +357,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data[0].ratingID == 0){
                 //register new rating record
                 fetch('../api/addRating.php', {
@@ -474,6 +399,7 @@ $("document").ready(()=>{
 
     //get ratings
     let getRatings = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getRating.php', {
             method: 'POST',
             headers: {
@@ -485,6 +411,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data[0].ratings != 0){
                 if(data[0].stars >= 1){
                     $("#r1").attr("src", "../images/star active.png");

@@ -11,6 +11,7 @@ $("document").ready(()=>{
 
     //check premiumpage access
     let checkPremiumPage = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getPremiumPageID.php?id='+sessionStorage.getItem("id"), {
             method: 'GET',
             headers: {
@@ -19,6 +20,7 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data.pID == 0){
                 $("#postNormal").after(`
                 <div class="post" id="postPremium">
@@ -115,6 +117,7 @@ $("document").ready(()=>{
     
     $("#redeemInput").keyup(()=>{
         if($("#redeemInput").val() == "capstone2022"){
+            $(".loading").css({display: "block"});
             //continue subscription
             //on successful transaction
             let today = new Date()//.toISOString().slice(0, 10);
@@ -159,6 +162,7 @@ $("document").ready(()=>{
 
     //get the users previous posts
     let getUserPosts = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/getServicePosts.php', {
             method: 'POST',
             headers: {
@@ -170,14 +174,17 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
-            
+            $(".loading").css({display: "none"});
             if(data.posts == 0){
                 console.log("no posts");
                 return;
             }
             displayPosts(data);
         })
-        .catch(error=>console.log("error on retrieval of this user posts"));
+        .catch((error)=>{
+            console.log("error on retrieval of this user posts")
+            location.reload();
+        });
     };
     //write posts to dom
     let displayPosts = (data)=>{
@@ -219,6 +226,7 @@ $("document").ready(()=>{
 
     let loadServiceCategories = ()=>{
         clearInputFieldsPosting();
+        $(".loading").css({display: "block"});
         fetch('../api/getServiceCategories.php', {
             method: 'GET',
             headers: {
@@ -228,6 +236,7 @@ $("document").ready(()=>{
         .then(res=>{return res.json()})
         .then(data=>{
             serviceCategories = data;
+            $(".loading").css({display: "none"});
             $("#serviceCategory").empty();
             for(let i = 0; i < data.length; i++){
                 $("#serviceCategory").append("<option value="+ data[i].categoryName+">"+data[i].categoryName+"</option>");
@@ -238,6 +247,7 @@ $("document").ready(()=>{
     };
 
     $("#serviceCategory").change(()=>{
+        $("#service").empty();
         for(let i = 0; i < serviceCategories.length; i++){
             if($("#serviceCategory").val() == serviceCategories[i].categoryName){
                 selectedServiceCategory = serviceCategories[i].serviceCategoryID;
@@ -252,6 +262,7 @@ $("document").ready(()=>{
             $("#service").css({display: "block"});
             $("#specifyService").css({display: "none"}); 
             //fetch services based on service catagory
+            $(".loading").css({display: "block"});
             fetch('../api/getServicesList.php?id='+selectedServiceCategory, {
                 method: 'GET',
                 headers: {
@@ -261,6 +272,7 @@ $("document").ready(()=>{
             .then(res=>{return res.json()})
             .then(data=>{
                 services = data;
+                $(".loading").css({display: "none"});
                 $("#service").empty();
                 for(let i = 0; i < data.length; i++){
                     $("#service").append("<option value="+ data[i].serviceName+">"+data[i].serviceName+"</option>");
@@ -282,7 +294,14 @@ $("document").ready(()=>{
 
     //picture upload
     function previewPostImage(uploader) {   
-        //ensure a file was selected 
+        //ensure a file was selected
+        console.log(uploader.files);
+        console.log(uploader.files[0].size);
+        if(uploader.files[0].size > 150000){
+            alert("file too large");
+            $("#uploadPostPicture").val("");
+            return;
+        } 
         if (uploader.files && uploader.files[0]) {
             var imageFile = uploader.files[0];
             var reader = new FileReader();    
@@ -309,7 +328,7 @@ $("document").ready(()=>{
         }
         if(newServiceFlag){
             //insert the specified service before inserting service post
-            console.log("to insert");
+            $(".loading").css({display: "block"});
             fetch('../api/addNewService.php?', {
                 method: 'POST',
                 headers: {
@@ -322,9 +341,11 @@ $("document").ready(()=>{
             })
             .then(res=>{return res.json()})
             .then(data=>{
+                $(".loading").css({display: "none"});
                 $("#create").text("posting..");
                 $("#create").attr("disabled", true);
                 //insert the service to posting
+                $(".loading").css({display: "block"});
                 fetch('../api/postService.php?', {
                     method: 'POST',
                     headers: {
@@ -341,7 +362,7 @@ $("document").ready(()=>{
                 .then(res=>{return res.json()})
                 .then(data=>{
                     //service posted
-                    
+                    $(".loading").css({display: "none"});
                     setTimeout(()=>{
                     $("#create").text("Create post");
                     $("#create").attr("disabled", false);
@@ -353,6 +374,7 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on inserting service: " + error));
         }else{
             //insert the service to posting
+            $(".loading").css({display: "block"});
             fetch('../api/postService.php?', {
                 method: 'POST',
                 headers: {
@@ -369,6 +391,7 @@ $("document").ready(()=>{
             .then(res=>{return res.json()})
             .then(data=>{
                 //service posted
+                $(".loading").css({display: "none"});
                 $("#create").text("posting..");
                 $("#create").attr("disabled", true);
                 setTimeout(()=>{
@@ -413,6 +436,7 @@ $("document").ready(()=>{
     };
     //check if user is verified and restrict posting to 1
     let checkUserVerified = ()=>{
+        $(".loading").css({display: "block"});
         fetch('../api/checkVerifiedUser.php', {
             method: 'POST',
             headers: {
@@ -424,10 +448,12 @@ $("document").ready(()=>{
         })
         .then(res=>{return res.json()})
         .then(data=>{
+            $(".loading").css({display: "none"});
             if(data.verified == "TRUE"){
                 $("#getVerified").css({display: "none"});
             }
             else{
+                $(".loading").css({display: "block"});
                 fetch('../api/getUserPostCount.php?id='+sessionStorage.getItem("id"), {
                     method: 'GET',
                     headers: {
@@ -436,6 +462,7 @@ $("document").ready(()=>{
                 })
                 .then(res=>{return res.json()})
                 .then(data=>{
+                    $(".loading").css({display: "none"});
                     if(data[0].posts == "1"){
                         allowedToPost = false;
                     }
@@ -561,6 +588,7 @@ let setPicture = (upl, id)=>{
 };
 
 let savePostNormal = (id)=>{
+    $(".loading").css({display: "block"});
     fetch('../api/updateServicePost.php', {
         method: 'POST',
         headers: {
@@ -574,6 +602,7 @@ let savePostNormal = (id)=>{
         })
     })
     .then(()=>{
+        $(".loading").css({display: "none"});
         console.log("post updated");
         location.href = "../pages/createPost.html";
     })
@@ -581,6 +610,7 @@ let savePostNormal = (id)=>{
 };
 
 let deletePostNormal = (id)=>{
+    $(".loading").css({display: "block"});
     fetch('../api/removeServicePost.php', {
         method: 'POST',
         headers: {
@@ -591,6 +621,7 @@ let deletePostNormal = (id)=>{
         })
     })
     .then(()=>{
+        $(".loading").css({display: "none"});
         console.log("post deleted");
         location.href = "../pages/createPost.html";
     })
