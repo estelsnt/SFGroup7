@@ -310,7 +310,7 @@ $("document").ready(()=>{
     $("#serviceCategory").change(()=>{
         $("#service").empty();
         for(let i = 0; i < serviceCategories.length; i++){
-            if($("#serviceCategory").val() == serviceCategories[i].categoryName){
+            if($("#serviceCategory :selected").text() == serviceCategories[i].categoryName){
                 selectedServiceCategory = serviceCategories[i].serviceCategoryID;
             }
         }
