@@ -672,7 +672,7 @@ $("document").ready(()=>{
 
     //sending message to customer support
     $("#sendMessageButton").click(()=>{
-        let CSID = 61; // id for customer support
+        let CSID = 1; // id for customer support
         if($("#sendMessageInput").val() == ""){
             return;
         }
