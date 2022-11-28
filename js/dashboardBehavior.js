@@ -346,7 +346,7 @@ $("document").ready(()=>{
 
     $("#service").change(()=>{
         for(let i = 0; i < services.length; i++){
-            if($("#service").val() == services[i].serviceName){
+            if($("#service :selected").text() == services[i].serviceName){
                 selectedService = services[i].serviceID;
             }
         }
