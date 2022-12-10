@@ -78,3 +78,22 @@ CREATE TABLE ratings(
     REFERENCES premiumpost(pID)
 );
 
+CREATE TABLE pcomments(
+pCommentsID INT NOT NULL AUTO_INCREMENT,	
+userID INT NOT NULL,
+pID INT NOT NULL,
+comment VARCHAR(254),
+PRIMARY KEY (pCommentsID),
+FOREIGN KEY (userID) REFERENCES users(userID),
+FOREIGN KEY (pID) REFERENCES premiumpost(pID)
+);
+
+CREATE TABLE pcommentreply(
+pCommentReplyID INT NOT NULL AUTO_INCREMENT,
+pCommentsID INT NOT NULL,
+pID INT NOT NULL,
+reply VARCHAR(254),
+PRIMARY KEY (pCommentReplyID),
+FOREIGN KEY (pCommentsID) REFERENCES pcomments(pCommentsID),
+FOREIGN KEY (pID) REFERENCES premiumpost(pID)
+);
