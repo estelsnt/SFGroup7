@@ -174,7 +174,7 @@ $("document").ready(()=>{
     //picture upload
     function previewPostImage(uploader) {   
         //ensure a file was selected
-        if(uploader.files[0].size > 150000){
+        if(uploader.files[0].size > 300000){
             alert("file too large");
             $("#uploadPostPicture").val("");
             return;
