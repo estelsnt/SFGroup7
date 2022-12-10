@@ -1,5 +1,5 @@
 $("document").ready(()=>{
-    let slideshowImages = ["../images/close.png", "../images/id-card.png", "../images/home.png"];
+    let slideshowImages = ["../images/e1.PNG", "../images/e2.PNG", "../images/e3.PNG"];
     let currentImg = 0;
 
     let setImage = (img)=>{
