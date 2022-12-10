@@ -297,7 +297,7 @@ $("document").ready(()=>{
         //ensure a file was selected
         console.log(uploader.files);
         console.log(uploader.files[0].size);
-        if(uploader.files[0].size > 150000){
+        if(uploader.files[0].size > 300000){
             alert("file too large");
             $("#uploadPostPicture").val("");
             return;

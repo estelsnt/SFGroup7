@@ -138,7 +138,7 @@ $("document").ready(()=>{
     //change header photo
     function previewProfileImage(uploader) {   
         //ensure a file was selected 
-        if(uploader.files[0].size > 150000){
+        if(uploader.files[0].size > 300000){
             alert("file too large");
             $("#uploadFeaturedPhoto").val("");
             return;
@@ -208,7 +208,7 @@ $("document").ready(()=>{
     //slideshow
     function previewSlideshowImage(uploader) {   
         //ensure a file was selected 
-        if(uploader.files[0].size > 150000){
+        if(uploader.files[0].size > 300000){
             alert("file too large");
             $("#uploadSlideshowPhoto").val("");
             return;

@@ -121,7 +121,7 @@ $("document").ready(()=>{
 
     function previewProfileImage(uploader, destination) {   
         //ensure a file was selected 
-        if(uploader.files[0].size > 150000){
+        if(uploader.files[0].size > 300000){
             alert("file too large");
             $("#uploadProfilePicture").val("");
             return;
