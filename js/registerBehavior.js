@@ -1,27 +1,22 @@
+//registerBehavior.js - handles the registration process
 $("document").ready(()=>{
-
     let region;
     let province;
     let cityMunicipality;
     let barangay;
-
     let brgyCode;
     let cityMunCode;
     let provCode;
     let regCode;
-
     $("#returnToLogin").click(()=>{
         window.location.href = "../pages/login.html";
     });
-
     $("#passwordMessage").mouseenter(()=>{
         $("#passWord").attr("type", "text");
     });
-
     $("#passwordMessage").mouseleave(()=>{
         $("#passWord").attr("type", "password");
     });
-
     //confirmation on registration
     $("#confirm").click(()=>{
         //check inputs first before opening otp confirmation panel
@@ -80,19 +75,15 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log('error' + error));
     });
-
     $(".otpConfirmationContainer").mousedown(()=>{
         $(".otpConfirmationContainer").css({display: "none"});
     });
-
     $(".otpConfirm").mousedown(()=>{
         window.event.stopPropagation();
     });
-
     $("#exit").click(()=>{
         $(".otpConfirmationContainer").css({display: "none"});
     });
-
     //sending of OTP code
     $("#sendOtp").click(()=>{
         //generate otp and send to database (otp is session variable)
@@ -117,7 +108,6 @@ $("document").ready(()=>{
         $("#sendOtp").attr("disabled", "true");
         let counter = 15;
         const dsC = setInterval(()=>{
-            
             $("#sendOtp").text("Send(" + counter + ")");
             counter--;
             if(counter < 0){
@@ -128,7 +118,6 @@ $("document").ready(()=>{
             }
         },1000);
     });
-
     //generate random characters
     let makeid = (length)=>{
         let result           = '';
@@ -140,7 +129,6 @@ $("document").ready(()=>{
        }
        return result;
     };
-    
     //registration allowed on correct OTP
     $("#confirmOtp").click(()=>{
         if($("#otp").val() == ""){
@@ -200,11 +188,9 @@ $("document").ready(()=>{
             $("#otp").css({border: "1px solid red"});
         }
     });
-
     $("#backToLogin").click(()=>{
         window.location.replace("login.html");//send back to login page
     });
-
     //populate gets data from database, fill updates the options in page
     //region
     let populateRegion = ()=>{
@@ -218,17 +204,13 @@ $("document").ready(()=>{
         .then(data=>fillRegion(data))
         .catch(error=>console.log('error' + error));
     };
-    
     let fillRegion = (data)=>{
         region = data;//global variable region
-
         $("#region").empty();
-
         const optionini = document.createElement("option");
         optionini.setAttribute("value", "-select-");
         optionini.innerText = "-select-";
         $("#region").append(optionini);
-
         for(let i in data){
             const option = document.createElement("option");
             option.setAttribute("value", data[i].description);
@@ -248,17 +230,13 @@ $("document").ready(()=>{
         .then(data=>fillProvince(data))
         .catch(error=>console.log('error' + error));
     };
-
     let fillProvince = (data)=>{
         province = data;//global variable province
-
         $("#province").empty();
-
         const optionini = document.createElement("option");
         optionini.setAttribute("value", "-select-");
         optionini.innerText = "-select-";
         $("#province").append(optionini);
-
         for(let i in data){
             const option = document.createElement("option");
             option.setAttribute("value", data[i].description);
@@ -278,16 +256,13 @@ $("document").ready(()=>{
         .then(data=>fillCityMunicipality(data))
         .catch(error=>console.log('error' + error));
     };
-
     let fillCityMunicipality = (data)=>{
         cityMunicipality = data;//global variable cityMunicipality
         $("#cityMunicipality").empty();
-
         const optionini = document.createElement("option");
         optionini.setAttribute("value", "-select-");
         optionini.innerText = "-select-";
         $("#cityMunicipality").append(optionini);
-
         for(let i in data){
             const option = document.createElement("option");
             option.setAttribute("value", data[i].description);
@@ -307,7 +282,6 @@ $("document").ready(()=>{
         .then(data=>fillBarangay(data))
         .catch(error=>console.log('error' + error));
     };
-
     let fillBarangay = (data)=>{
         barangay = data;//global variable barangay
         $("#barangay").empty();
@@ -337,7 +311,6 @@ $("document").ready(()=>{
         $("#barangay").empty();
         $("#region").css({"border": "1px solid #ccccc4"});
     });
-
     $("#province").change(()=>{     //populate region options when province changes
         for(let i in province){
             if(province[i].description == $("#province").val()){
@@ -349,7 +322,6 @@ $("document").ready(()=>{
         $("#barangay").empty();
         $("#province").css({"border": "1px solid #ccccc4"});
     });
-
     $("#cityMunicipality").change(()=>{     //populate barangay options when city/municipality changes
         for(let i in cityMunicipality){
             if(cityMunicipality[i].description == $("#cityMunicipality").val()){
@@ -360,7 +332,6 @@ $("document").ready(()=>{
         }
         $("#cityMunicipality").css({"border": "1px solid #ccccc4"});
     });
-
     $("#barangay").change(()=>{
         for(let i in barangay){
             if(barangay[i].description == $("#barangay").val()){
@@ -370,9 +341,7 @@ $("document").ready(()=>{
         }
         $("#barangay").css({"border": "1px solid #ccccc4"});
     });
-
     //input sanitize and validate
-
     let sanitize = (string)=>{
         const map = {
             '&': '',
@@ -416,7 +385,6 @@ $("document").ready(()=>{
     $("#gender").keyup(()=>{
         $("#gender").val(sanitize($("#gender").val()));
     });
-
     let validateInput = ()=>{
         let valid = true;
         if($("#userName").val().length === 0){
@@ -454,12 +422,8 @@ $("document").ready(()=>{
         }
         return valid;
     };
-    
-
     //initial functions call
     populateRegion();
-
-    
 });
 
 

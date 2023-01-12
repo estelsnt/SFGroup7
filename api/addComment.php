@@ -1,3 +1,4 @@
+//addcomment.php - api for inserting comments in pages
 <?php
     include 'connection.php';
     if($conn->connect_error){

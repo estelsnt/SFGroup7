@@ -1,3 +1,4 @@
+//removeOrderPost.php - api to delete order post
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,3 +1,4 @@
+//populateBarangay.php - api to get the list of barangay given city or municipality code
 <?php
     include 'connection.php';
     if($conn->connect_error){

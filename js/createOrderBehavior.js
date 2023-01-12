@@ -1,12 +1,11 @@
+//createOrderBehavior.js - controls the creating of post in orders
 $("document").ready(()=>{
-
     let allowedToPost = true;
     let serviceCategories;
     let services;
     let selectedServiceCategory;
     let selectedService;
     let newServiceFlag = true;
-    
     //check if user is verified and restrict posting to 1
     let checkUserVerified = ()=>{
         $(".loading").css({display: "block"});
@@ -45,9 +44,7 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of user verification: " + error));
     };
-
     checkUserVerified();
-
     //get the users previous order posts
     let getUserPosts = ()=>{
         $(".loading").css({display: "block"});
@@ -77,7 +74,6 @@ $("document").ready(()=>{
         for(let i in data){
             const d = new Date(data[i].serviceOrderDateTime);
             $(".posts").append(`
-            
             <div class="servicePostNormal">
                 <div class="postHeading">
                     <p class="postDate">`+ d.toDateString() +`</p>
@@ -91,16 +87,12 @@ $("document").ready(()=>{
                 </div>
                 <img src="`+data[i].picture+`" class="postPicture" id="postPicture`+data[i].servicePostingID+`">
                 <div class="footer">
-
                 </div>
             </div>
-
             `);
         }
     };
-
     getUserPosts();
-
     //load services categories
     let loadServiceCategories = ()=>{
         clearInputFieldsPosting();
@@ -123,7 +115,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of service categories: " + error));
     };
-
     //on category and service change
     $("#serviceCategory").change(()=>{
         $("#service").empty();
@@ -161,7 +152,6 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on retrieval of services: " + error));
         }
     });
-
     $("#service").change(()=>{
         for(let i = 0; i < services.length; i++){
             if($("#service :selected").text() == services[i].serviceName){
@@ -170,7 +160,6 @@ $("document").ready(()=>{
         }
         console.log(selectedService);
     });
-
     //picture upload
     function previewPostImage(uploader) {   
         //ensure a file was selected
@@ -189,11 +178,9 @@ $("document").ready(()=>{
             reader.readAsDataURL( imageFile );
         }
     }
-    
     $("#uploadPostPicture").change(function(){
         previewPostImage(this);
     });
-
     //create new order
     $("#createNewOrder").click(()=>{
         //check if user is not verified (limited to 1 post)
@@ -208,7 +195,6 @@ $("document").ready(()=>{
         loadServiceCategories();
         $(".createPostNormalContainer").css({display: "block"});
     });
-
     //creating new order post
     $("#create").click(()=>{
         if(!inputCheck()){
@@ -294,7 +280,6 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on inserting post: " + error));
         }
     });
-
     let inputCheck = ()=>{
         let flag = true;
         if($("#serviceCategory").val() == ""){
@@ -314,7 +299,6 @@ $("document").ready(()=>{
         }
         return flag;
     };
-
     //clear input fields
     let clearInputFieldsPosting = ()=>{
         $("#serviceCategory").val("");
@@ -322,24 +306,19 @@ $("document").ready(()=>{
         $("#specifyService").val("");
         $("#serviceDescription").val("");
     };
-
     //closing the container
     $(".createPostNormalContainer").mousedown(()=>{
         $(".createPostNormalContainer").css({display: "none"});
     });
-
     $(".createPostNormal").mousedown(()=>{
         window.event.stopPropagation();
     });
-
     $("#createPostClose").click(()=>{
         $(".createPostNormalContainer").css({display: "none"});
     });
-
     $(".home-button").click(()=>{
         window.location = "../pages/dashboard.html";
     });
-    
     //get notifications (realtime)
     let getNotification = ()=>{
         fetch('../api/getNotificationAll.php', {
@@ -370,11 +349,8 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on checking notification: " + error));
     };
-
     getNotification();
-
 });
-
 let deletePostNormal = (id)=>{
     $(".loading").css({display: "block"});
     fetch('../api/removeOrderPost.php', {

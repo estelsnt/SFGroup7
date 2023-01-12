@@ -1,3 +1,4 @@
+//populateCityMun.php - api to get city and municipalities given province code
 <?php
     include 'connection.php';
     if($conn->connect_error){

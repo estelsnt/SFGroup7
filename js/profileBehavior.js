@@ -1,30 +1,24 @@
+//profileBehavior.js - controls the profile page
 $("document").ready(()=>{
-
     let userData;
     let addressData;
- 
     let region;
     let province;
     let cityMunicipality;
     let barangay;
-
     let brgyCode;
     let cityMunCode;
     let provCode;
     let regCode;
-    //
     const pageProtection = ()=>{
         if(sessionStorage.getItem("id") == undefined){
             window.location = "../pages/login.html";
         }
     }
-
     pageProtection();
-
     $(".verify").click(()=>{
         $(".userVerificationContainer").css({display: "block"});
     });
-
     let checkUserVerified = ()=>{
         $(".loading").css({display: "block"});
         fetch('../api/checkVerifiedUser.php', {
@@ -55,9 +49,7 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of user verification: " + error));
     };
-
     checkUserVerified();
-
    let loadUserData = (id)=>{
         $(".loading").css({display: "block"});
         fetch('../api/getUserData.php', {
@@ -105,20 +97,16 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on user data fetch: " + error));
    };
-
    loadUserData(sessionStorage.getItem("id"));
-
     $("#backButton").click(()=>{
         window.location.href = "../pages/dashboard.html";
     });
-
     $(".logout").click(()=>{
         window.sessionStorage.clear();
         window.location.reload(true);
         window.location = "../index.html";
 
     });
-
     function previewProfileImage(uploader, destination) {   
         //ensure a file was selected 
         if(uploader.files[0].size > 300000){
@@ -146,19 +134,15 @@ $("document").ready(()=>{
             reader.readAsDataURL( imageFile );
         }
     }
-    
     $("#uploadProfilePicture").change(function(){
         previewProfileImage(this, "profile");
     });
-
     $("#uploadID1").change(function(){
         previewProfileImage(this, "id1");
     });
-
     $("#uploadID2").change(function(){
         previewProfileImage(this, "id2");
     })
-
     $("#confirmVerification").click(()=>{
         if($("#id1").attr('src') == "../images/id-card.png" && $("#id2").attr('src') == "../images/id-card.png"){
             $("#confirmVerification").text("upload alteast 1 picture");
@@ -191,12 +175,10 @@ $("document").ready(()=>{
             .catch(error=>console.log("may error sa pag insert ng id: " + error));
         }
     });
-
     //the code below is the codes for registration
     $("#passwordMessage").mouseenter(()=>{
         $("#passWord").attr("type", "text");
     });
-
     $("#passwordMessage").mouseleave(()=>{
         $("#passWord").attr("type", "password");
     });
@@ -257,26 +239,20 @@ $("document").ready(()=>{
             updateUserData();
         }
     });
-
     $(".otpConfirmationContainer").mousedown(()=>{
         $(".otpConfirmationContainer").css({display: "none"});
     });
-
     $(".otpConfirm").mousedown(()=>{
         window.event.stopPropagation();
     });
-
     $("#exit").click(()=>{
         $(".otpConfirmationContainer").css({display: "none"});
     });
-
     //sending of OTP code
     $("#sendOtp").click(()=>{
         //generate otp and send to database (otp is session variable)
         sessionStorage.setItem("otp",makeid(5));//otp is set to 1 for now
         //once otp is created insert it to database for sms sending
-
-        //
         $("#sendOtp").attr("disabled", "true");
         let counter = 15;
         const dsC = setInterval(()=>{
@@ -291,7 +267,6 @@ $("document").ready(()=>{
             }
         },1000);
     });
-
     let makeid = (length)=>{
         let result           = '';
         let characters       = '0123456789';
@@ -302,7 +277,6 @@ $("document").ready(()=>{
        }
        return result;
     };
-
     //registration allowed on correct OTP
     $("#otp").keyup(()=>{
         if($("#otp").val() == sessionStorage.getItem("otp")){
@@ -315,7 +289,6 @@ $("document").ready(()=>{
             }, 3000);
         }
     });
-
     let updateUserData = ()=>{
         $(".loading").css({display: "block"});
         fetch('../api/updateUserData.php', {
@@ -366,24 +339,19 @@ $("document").ready(()=>{
             location.reload();
         });
     };
-
     //logout
     $("#backToLogin").click(()=>{
         window.location.reload(true);//send back to login page
     });
-
     $(".userVerificationContainer").click(()=>{
         $(".userVerificationContainer").css({display: "none"});
     });
-
     $(".userVerification").click(()=>{
         window.event.stopPropagation();
     });
-
     $("#verificationClose").click(()=>{
         $(".userVerificationContainer").css({display: "none"});
     });
-
     //populate gets data from database, fill updates the options in page
     //region
     let populateRegion = ()=>{
@@ -397,17 +365,13 @@ $("document").ready(()=>{
         .then(data=>fillRegion(data))
         .catch(error=>console.log('error' + error));
     };
-    
     let fillRegion = (data)=>{
         region = data;//global variable region
-
         $("#region").empty();
-
         const optionini = document.createElement("option");
         optionini.setAttribute("value", "-select-");
         optionini.innerText = "-select-";
         $("#region").append(optionini);
-
         for(let i in data){
             const option = document.createElement("option");
             option.setAttribute("value", data[i].description);
@@ -427,17 +391,13 @@ $("document").ready(()=>{
         .then(data=>fillProvince(data))
         .catch(error=>console.log('error' + error));
     };
-
     let fillProvince = (data)=>{
         province = data;//global variable province
-
         $("#province").empty();
-
         const optionini = document.createElement("option");
         optionini.setAttribute("value", "-select-");
         optionini.innerText = "-select-";
         $("#province").append(optionini);
-
         for(let i in data){
             const option = document.createElement("option");
             option.setAttribute("value", data[i].description);
@@ -457,16 +417,13 @@ $("document").ready(()=>{
         .then(data=>fillCityMunicipality(data))
         .catch(error=>console.log('error' + error));
     };
-
     let fillCityMunicipality = (data)=>{
         cityMunicipality = data;//global variable cityMunicipality
         $("#cityMunicipality").empty();
-
         const optionini = document.createElement("option");
         optionini.setAttribute("value", "-select-");
         optionini.innerText = "-select-";
         $("#cityMunicipality").append(optionini);
-
         for(let i in data){
             const option = document.createElement("option");
             option.setAttribute("value", data[i].description);
@@ -486,7 +443,6 @@ $("document").ready(()=>{
         .then(data=>fillBarangay(data))
         .catch(error=>console.log('error' + error));
     };
-
     let fillBarangay = (data)=>{
         barangay = data;//global variable barangay
         $("#barangay").empty();
@@ -516,7 +472,6 @@ $("document").ready(()=>{
         $("#barangay").empty();
         $("#region").css({"border": "1px solid #ccccc4"});
     });
-
     $("#province").change(()=>{     //populate region options when province changes
         for(let i in province){
             if(province[i].description == $("#province").val()){
@@ -528,7 +483,6 @@ $("document").ready(()=>{
         $("#barangay").empty();
         $("#province").css({"border": "1px solid #ccccc4"});
     });
-
     $("#cityMunicipality").change(()=>{     //populate barangay options when city/municipality changes
         for(let i in cityMunicipality){
             if(cityMunicipality[i].description == $("#cityMunicipality").val()){
@@ -539,7 +493,6 @@ $("document").ready(()=>{
         }
         $("#cityMunicipality").css({"border": "1px solid #ccccc4"});
     });
-
     $("#barangay").change(()=>{
         for(let i in barangay){
             if(barangay[i].description == $("#barangay").val()){
@@ -549,9 +502,7 @@ $("document").ready(()=>{
         }
         $("#barangay").css({"border": "1px solid #ccccc4"});
     });
-
     //input sanitize and validate
-
     let sanitize = (string)=>{
         const map = {
             '&': '',
@@ -595,7 +546,6 @@ $("document").ready(()=>{
     $("#gender").keyup(()=>{
         $("#gender").val(sanitize($("#gender").val()));
     });
-
     let validateInput = ()=>{
         let valid = true;
         if($("#userName").val().length === 0){
@@ -653,7 +603,6 @@ $("document").ready(()=>{
            $("#barangay").val(addressData[0].brgy.brgyDesc);
         }, 5000);
     };
-
     //customer service controls
     $("#customerService").click(()=>{
         $(".sendMessageContainer").css({display: "block"});
@@ -661,15 +610,12 @@ $("document").ready(()=>{
     $("#closeSendMessage").click(()=>{   //closes the search panel on exit button clicked
         $(".sendMessageContainer").css({display: "none"});
     });
-
     $(".sendMessageContainer").mousedown(()=>{       //closes the search panel on click outside the search panel
         $(".sendMessageContainer").css({display: "none"});
     });
-
     $(".sendMessage").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
         window.event.stopPropagation();
     });
-
     //sending message to customer support
     $("#sendMessageButton").click(()=>{
         let CSID = 1; // id for customer support
@@ -764,7 +710,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on checking contact: " + error));  
     });
-
 });
 
 

@@ -1,3 +1,4 @@
+//getComments.php - api for retrieving comments in page
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,3 +1,4 @@
+//removePremiumPageListItem.php - api to delete an item on list
 <?php
     include 'connection.php';
     if($conn->connect_error){

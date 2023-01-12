@@ -1,3 +1,4 @@
+//getBusinessPageInfo.php - api for retrieving page info
 <?php
     include 'connection.php';
     if($conn->connect_error){

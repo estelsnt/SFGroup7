@@ -1,12 +1,14 @@
+//checkRating.php - api to check if user already rated the page
 <?php
     include 'connection.php';
     if($conn->connect_error){
         die($conn->connect_error);
     }
     $id = $_GET['id'];
+    $pid = $GET['pid'];
     $sql = "SELECT ratingID 
             FROM ratings
-            WHERE userID = '{$id}';
+            WHERE userID = '{$id}' AND pID = '{$pid}';
     ";
     $result = $conn->query($sql);
     if($result->num_rows > 0){

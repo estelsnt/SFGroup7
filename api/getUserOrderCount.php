@@ -1,3 +1,4 @@
+//getUserOrderCount.php - api to get the orders posted by user
 <?php
     include 'connection.php';
     if($conn->connect_error){

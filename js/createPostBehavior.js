@@ -1,14 +1,12 @@
+//createPostBehavior.js - controls the creation of posts
 $("document").ready(()=>{
-
     let allowedToPost = true;
     let serviceCategories;
     let services;
     let selectedServiceCategory;
     let selectedService;
     let newServiceFlag = true;
-
     let subscription = "20";
-
     //check premiumpage access
     let checkPremiumPage = ()=>{
         $(".loading").css({display: "block"});
@@ -45,11 +43,8 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of premium post"));
     };
-    
     checkPremiumPage();
-    
     //paypal sandbox api
-
     paypal.Buttons({
         createOrder: (data, actions)=>{
             if($("#businessName").val() == ""){
@@ -103,9 +98,6 @@ $("document").ready(()=>{
             })
         }
     }).render('#paypalButtonContainer');
-
-
-
     $("#redeem").click(()=>{
         if($("#businessName").val() == ""){
             $("#businessName").css({border: "1px solid red"});
@@ -114,7 +106,6 @@ $("document").ready(()=>{
         $("#redeem").css({display: "none"});
         $("#redeemInput").css({display: "block"});
     });
-    
     $("#redeemInput").keyup(()=>{
         if($("#redeemInput").val() == "capstone2022"){
             $(".loading").css({display: "block"});
@@ -146,20 +137,15 @@ $("document").ready(()=>{
             .catch(error=>console.log("critical error on inserting premium post"));
         }
     });
-
     $("#m1").click(()=>{
         subscription = "20";
     });
-
     $("#m12").click(()=>{
         subscription = "200"
     });
-
     $("#businessName").keyup(()=>{
         $("#businessName").css({border: "1px solid grey"});
     });
-
-
     //get the users previous posts
     let getUserPosts = ()=>{
         $(".loading").css({display: "block"});
@@ -192,7 +178,6 @@ $("document").ready(()=>{
         for(let i in data){
             const d = new Date(data[i].servicePostDateTime);
             $(".posts").append(`
-            
             <div class="servicePostNormal">
                 <div class="postHeading">
                     <p class="postDate">`+ d.toDateString() +`</p>
@@ -221,9 +206,7 @@ $("document").ready(()=>{
             `);
         }
     };
-
     getUserPosts();
-
     let loadServiceCategories = ()=>{
         clearInputFieldsPosting();
         $(".loading").css({display: "block"});
@@ -245,7 +228,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of service categories: " + error));
     };
-
     $("#serviceCategory").change(()=>{
         $("#service").empty();
         for(let i = 0; i < serviceCategories.length; i++){
@@ -282,7 +264,6 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on retrieval of services: " + error));
         }
     });
-
     $("#service").change(()=>{
         for(let i = 0; i < services.length; i++){
             if($("#service :selected").text() == services[i].serviceName){
@@ -291,7 +272,6 @@ $("document").ready(()=>{
         }
         console.log(selectedService);
     });
-
     //picture upload
     function previewPostImage(uploader) {   
         //ensure a file was selected
@@ -312,11 +292,9 @@ $("document").ready(()=>{
             reader.readAsDataURL( imageFile );
         }
     }
-    
     $("#uploadPostPicture").change(function(){
         previewPostImage(this);
     });
-
     //creating post
     $("#create").click(()=>{
         if(!inputCheck()){
@@ -403,7 +381,6 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on inserting post: " + error));
         }
     });
-
     let inputCheck = ()=>{
         let flag = true;
         if($("#serviceCategory").val() == ""){
@@ -426,7 +403,6 @@ $("document").ready(()=>{
         }
         return flag;
     };
-
     let clearInputFieldsPosting = ()=>{
         $("#serviceCategory").val("");
         $("#service").val("");
@@ -472,9 +448,7 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of user verification: " + error));
     };
-
     checkUserVerified()
-
     $("#createNewPostNormal").click(()=>{
         //check if user is not verified (limited to 1 post)
         if(!allowedToPost){
@@ -492,11 +466,9 @@ $("document").ready(()=>{
     $(".createPostNormalContainer").mousedown(()=>{
         $(".createPostNormalContainer").css({display: "none"});
     });
-
     $(".createPostNormal").mousedown(()=>{
         window.event.stopPropagation();
     });
-
     $("#createPostClose").click(()=>{
         $(".createPostNormalContainer").css({display: "none"});
     });
@@ -504,15 +476,12 @@ $("document").ready(()=>{
     $("#createPostPremiumClose").click(()=>{
         $(".createPostPremiumContainer").css({display: "none"});
     });
-
     $(".createPostPremiumContainer").mousedown(()=>{
         $(".createPostPremiumContainer").css({display: "none"});
     });
-    
     $(".createPostPremium").mousedown(()=>{
         window.event.stopPropagation();
     });
-
     $("#createNewPostPremium").click(()=>{
         $(".createPostPremiumContainer").css({display: "block"});
     });
@@ -522,12 +491,9 @@ $("document").ready(()=>{
         console.log("hey");
         location.href = "../pages/createBusinessPage.html";
     });
-    
-
     $(".home-button").click(()=>{
         window.location = "../pages/dashboard.html";
     });
-
     //get notifications (realtime)
     let getNotification = ()=>{
         fetch('../api/getNotificationAll.php', {
@@ -558,22 +524,17 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on checking notification: " + error));
     };
-
     getNotification();
 });
-
 let createPremiumPost = () =>{
     $(".createPostPremiumContainer").css({display: "block"});
 }
-
 let editPremiumPost = () =>{
     location.href = "../pages/createBusinessPage.html";
 }
-
 let setPicture = (upl, id)=>{
     console.log(id);
     console.log(upl);
-    
     if (upl.files && upl.files[0]) {
         var imageFile = upl.files[0];
         var reader = new FileReader();    
@@ -584,9 +545,7 @@ let setPicture = (upl, id)=>{
         }    
         reader.readAsDataURL( imageFile );
     }
-
 };
-
 let savePostNormal = (id)=>{
     $(".loading").css({display: "block"});
     fetch('../api/updateServicePost.php', {
@@ -608,7 +567,6 @@ let savePostNormal = (id)=>{
     })
     .catch(error=>console.log("error on editing post: " + error));
 };
-
 let deletePostNormal = (id)=>{
     $(".loading").css({display: "block"});
     fetch('../api/removeServicePost.php', {
@@ -627,7 +585,6 @@ let deletePostNormal = (id)=>{
     })
     .catch(error=>console.log("error on editing post: " + error));
 };
-
 let toggleEditPricing = (item)=>{
     if($("#postPricing"+item).prop("readonly")){
         $("#postPricing"+item).attr("readonly", false);
@@ -637,7 +594,6 @@ let toggleEditPricing = (item)=>{
         $("#postPricing"+item).css({"border" : "1px solid #ccccc4"});
     }
 };
-
 let toggleEditDescription = (item)=>{
     if($("#postDescription"+item).prop("readonly")){
         $("#postDescription"+item).attr("readonly", false);

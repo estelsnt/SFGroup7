@@ -1,3 +1,4 @@
+//updateServicePost.php - api to edit a post
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,3 +1,4 @@
+//getRatings.php - api to get the ratings in pages
 <?php
     include 'connection.php';
     if($conn->connect_error){

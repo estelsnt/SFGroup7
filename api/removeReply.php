@@ -1,3 +1,4 @@
+//removeReply.php - api to delete a reply in a comment
 <?php
     include 'connection.php';
     if($conn->connect_error){

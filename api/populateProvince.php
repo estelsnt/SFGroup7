@@ -1,3 +1,4 @@
+//populateProvince.php - api to get list of provinces given region code
 <?php
     include 'connection.php';
     if($conn->connect_error){

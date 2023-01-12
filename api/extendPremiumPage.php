@@ -1,3 +1,4 @@
+//extendPremiumPage.php - api for extension of premium subscription
 <?php
     include 'connection.php';
     if($conn->connect_error){

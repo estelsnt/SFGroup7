@@ -1,3 +1,4 @@
+//addOTP.php - api for inserting JS generated otp code to database
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,3 +1,4 @@
+//sendMessage.php - api for sending chat
 <?php
     include 'connection.php';
     if($conn->connect_error){

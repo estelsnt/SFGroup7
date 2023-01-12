@@ -1,3 +1,4 @@
+//notify.php - api for sending notification on contact
 <?php
     include 'connection.php';
     if($conn->connect_error){
