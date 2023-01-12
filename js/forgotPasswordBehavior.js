@@ -1,9 +1,8 @@
+//forgotPasswordBehavior.js - controls the retrieval of account
 $("document").ready(()=>{
-    
     $(".backToLogin").click(()=>{
         window.location = "login.html";
     });
-
     $("#send").click(()=>{
         spamProtect();
         //check contact number
@@ -40,11 +39,9 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log('error' + error));
     });
-
     let spamProtect = ()=>{
         localStorage.setItem("atst", new Date());
     };
-
     let chkp = ()=>{
         if(localStorage.getItem("atst") == null){
             clearInterval(chki);
@@ -65,6 +62,5 @@ $("document").ready(()=>{
             
         }
     };
-
     let chki = setInterval(chkp, 1000);
 });

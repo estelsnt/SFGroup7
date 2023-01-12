@@ -1,11 +1,9 @@
+//loginBehavior - controls the login page
 $("document").ready(()=>{
-
     $("#backToFrontPage").click(()=>{
         window.location = "../index.html";
     });
-
     sessionStorage.clear();
-    
     $("#login").click(()=>{
         if(checkInput()){
             $("#login").attr("disabled", true);
@@ -37,7 +35,6 @@ $("document").ready(()=>{
             $("#loginMessage").text("enter username and password*");
         }
     });
-
     let checkInput = ()=>{
         let flag = true;
         if($("#userName").val() === "" || $("#passWord").val() === ""){
@@ -45,7 +42,6 @@ $("document").ready(()=>{
         }
         return flag;
     };
-
     let sanitize = (string)=>{
         const map = {
             '&': '',
@@ -58,15 +54,12 @@ $("document").ready(()=>{
         const reg = /[&<>"'/]/ig;
         return string.replace(reg, (match)=>(map[match]));
     }
-
     $("#userName").keyup(()=>{
         $("#userName").val(sanitize( $("#userName").val()));
         $("#loginMessage").text("");
     });
-
     $("#passWord").keyup(()=>{
         $("#passWord").val(sanitize( $("#passWord").val()));
         $("#loginMessage").text("");
     });
-
 });

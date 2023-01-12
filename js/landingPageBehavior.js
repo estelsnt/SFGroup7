@@ -1,7 +1,7 @@
+//landing page behavior.js - controls the landing page
 $("document").ready(()=>{
     let businessPages;
     let slideshowTracker = 0;
-
     let getPages = ()=>{
         fetch('api/getPostsPremium.php?cov=&loc=&service=', {
             method: 'GET',
@@ -19,7 +19,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of premium posts: " + error));
     };
-
     let beginSlideshow = ()=>{
         console.log(businessPages);
         if(slideshowTracker == (businessPages.length)){
@@ -39,6 +38,5 @@ $("document").ready(()=>{
             });
         });
     };
-
     getPages();
 });

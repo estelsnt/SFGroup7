@@ -1,3 +1,4 @@
+//getPostPremium.php - api for retrieval of premium posts
 <?php
     include 'connection.php';
     if($conn->connect_error){
@@ -6,7 +7,6 @@
     $cov = $_GET["cov"];
     $loc = $_GET["loc"];
     $service = $_GET["service"];
-
     $sql = "SELECT
             premiumpost.pID,
             premiumpost.userID,
@@ -31,7 +31,6 @@
             JOIN refprovince ON refprovince.provCode = useraddress.provCode
             JOIN refregion ON refregion.regCode = useraddress.regCode
             WHERE (premiumpost.title LIKE '%".$service."%' OR premiumpost.description LIKE '%".$service."%') AND premiumpost.postDuration >= NOW()";
-            
     switch($cov){
         case "barangay":
             $sql .= " AND refbrgy.brgyDesc = '"."$loc'";
@@ -46,7 +45,6 @@
             $sql .= " AND refregion.regDesc = '"."$loc'";
         break;
     }
-
     $result = $conn ->query($sql);
     $d = [];
     if($result->num_rows > 0){

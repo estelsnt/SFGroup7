@@ -1,3 +1,4 @@
+//getChat.php - api for retrieving messages
 <?php
     include 'connection.php';
     if($conn->connect_error){

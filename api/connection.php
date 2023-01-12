@@ -1,3 +1,4 @@
+//connection.php - declares the database connection for all php files
 <?php
     //infinityfree
     //$conn = mysqli_connect('185.27.134.33', 'epiz_32096924', 'pwDH2i7trXNN', 'epiz_32096924_cdis');

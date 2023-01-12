@@ -1,25 +1,19 @@
-//dashboard events listener
+//dashboardBehavior.js - controls the dashboard
 $("document").ready(()=>{
-
     let userAddress;
     let postNormal;
     let postOrder;
     let postPremium;
-
     let postLimit = 10;
     let postNormalCount = 0, postOrderCount  = 0, postPremiumCount = 0;
     let postNormalLastIndex = 0, postOrderLastIndex = 0, postPremiumLastIndex = 0;
-
     let limit = 0;
-
     const pageProtection = ()=>{
         if(sessionStorage.getItem("id") == undefined){
             window.location = "../pages/login.html";
         }
     }
-
     pageProtection();
-
     //posts
     //business service offers (posts api needs coverage location and service, for all posts pass empty string)
     let loadPremiumPost = (cov, loc, service)=>{
@@ -45,7 +39,6 @@ $("document").ready(()=>{
                 if(postPremiumCount >= postLimit){
                     return;
                 }
-
                 //premiumpost card
                 let post = document.createElement("div");
                 let postHeader = document.createElement("div");
@@ -56,7 +49,6 @@ $("document").ready(()=>{
                 let location = document.createElement("span");
                 let messageButton = document.createElement("button");
                 let rating = document.createElement("ul");
-
                 post.setAttribute("class", "post " + posts[postPremiumLastIndex].verified + " premiumPostContainer")
                 postHeader.setAttribute("class", "postHeader");
                 businessTitle.setAttribute("class", "businessTitle");
@@ -68,12 +60,10 @@ $("document").ready(()=>{
                 messageButton.setAttribute("class", "messageButton");
                 messageButton.setAttribute("onclick", "visitPage(" + posts[postPremiumLastIndex].pID + ")");
                 rating.setAttribute("class", "rating");
-
                 businessTitle.innerHTML = posts[postPremiumLastIndex].title;
                 description.innerHTML = posts[postPremiumLastIndex].description;
                 location.innerHTML = posts[postPremiumLastIndex].location;
                 messageButton.innerHTML = "Visit page";
-
                 if(posts[postPremiumLastIndex].rating > 0){
                     for(let i = 0; i < posts[postPremiumLastIndex].stars; i++){ 
                         rating.innerHTML += `<li><img src="../images/star active.png"></li>`;
@@ -90,7 +80,6 @@ $("document").ready(()=>{
                                         <li><img src="../images/star inactive.png"></li>
                                         <li>No rating</li>`;
                 }
-                
                 postHeader.append(businessTitle);
                 postContent.append(description);
                 postContent.append(location);
@@ -114,7 +103,6 @@ $("document").ready(()=>{
             return;
         }
     };
-
     //normal service offers (posts api needs coverage location and service, for all posts pass empty string)
     let loadNormalPost = (cov, loc, service)=>{
         $(".loading").css({display: "block"});
@@ -167,7 +155,6 @@ $("document").ready(()=>{
             return;
         }
     };
-
     //service orders
     let loadOrderPost = (cov, loc, service)=>{
         $(".loading").css({display: "block"});
@@ -219,14 +206,12 @@ $("document").ready(()=>{
             return;
         }
     };
-
     $(".loadMore").click(()=>{
         postLimit += 5;
         displayPremiumPost(postPremium);
         displayNormalPost(postNormal);
         displayOrderPost(postOrder);
     });
-
     let getUserAddress = ()=>{
         fetch('../api/getUserAddress.php', {
             method: 'POST',
@@ -248,42 +233,32 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of user address: " + error));
     };
-
     getUserAddress();
-    
     $(".heading").click(()=>{   //heading scroll to top when clicked
         window.scrollTo(0, 0);
     });
-
     $(".search-button").click(()=>{     //display the search panel when search icon is clicked
         $("#searchContainer").css({display: "block"});
     });
-    
     $("#closeSearch").click(()=>{   //closes the search panel on exit button clicked
         $("#searchContainer").css({display: "none"});
     });
-
     $("#searchContainer").mousedown(()=>{       //closes the search panel on click outside the search panel
         $("#searchContainer").css({display: "none"});
     });
-
     $("#search").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
         window.event.stopPropagation();
     });
-
     //send message panel
     $("#closeSendMessage").click(()=>{   //closes the search panel on exit button clicked
         $(".sendMessageContainer").css({display: "none"});
     });
-
     $(".sendMessageContainer").mousedown(()=>{       //closes the search panel on click outside the search panel
         $(".sendMessageContainer").css({display: "none"});
     });
-
     $(".sendMessage").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
         window.event.stopPropagation();
     });
-
     let loadServiceCategories = ()=>{
         $(".loading").css({display: "block"});
         fetch('../api/getServiceCategories.php', {
@@ -304,9 +279,7 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of service categories: " + error));
     };
-
     loadServiceCategories();
-
     $("#serviceCategory").change(()=>{
         $("#service").empty();
         for(let i = 0; i < serviceCategories.length; i++){
@@ -343,7 +316,6 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on retrieval of services: " + error));
         }
     });
-
     $("#service").change(()=>{
         for(let i = 0; i < services.length; i++){
             if($("#service :selected").text() == services[i].serviceName){
@@ -352,7 +324,6 @@ $("document").ready(()=>{
         }
         console.log(selectedService);
     });
-
     //search and filter functions have arguments coverage location and service
     $("#search-button").click(()=>{
         let cov, loc, service;
@@ -389,13 +360,11 @@ $("document").ready(()=>{
                 $(".coverageIndicator").text("Coverage: " + userAddress[3].reg.regDesc);
             break;
         }
-
         if($("#serviceCategory").val() == "--Others--"){
             service = $("#specifyService").val();
         }else{
             service = $("#service").val();
         }
-
         switch($("#finds").val()){
             case "all":
                 $(".servicesIndicator").text("All posts");
@@ -415,11 +384,9 @@ $("document").ready(()=>{
         }
         $("#searchContainer").css({display: "none"});
     });
-
     $(".heading h1").click(()=>{
         location.reload();
     });
-
     //add add service owner to user contact
     $("#sendMessageButton").click(()=>{
         $(".loading").css({display: "block"});
@@ -511,7 +478,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on checking contact: " + error));
     });
-
     //notify contact
     let notify = ()=>{
         console.log("notify");
@@ -567,7 +533,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on checking notification: " + error));
     };
-
     //get notifications (realtime)
     let getNotification = ()=>{
         fetch('../api/getNotificationAll.php', {
@@ -598,16 +563,12 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on checking notification: " + error));
     };
-
     getNotification();
-
 });
-
 let visitPage = (id)=>{
     sessionStorage.setItem("toView", id);
     location.href = "businessPage.html";
 }; 
-
 //setting up contact
 let messageMe = (id, name, header)=>{
     if(sessionStorage.getItem("id") == id){

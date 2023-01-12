@@ -1,13 +1,10 @@
+//messagesBehavior.js - controls the messaging processes
 $("document").ready(()=>{
-
     let contacts;
     let chat;
-    
-
     $(".home-button").click(()=>{
         window.location = "../pages/dashboard.html";
     });
-
     //loading icon
     loading(1);
     //selecting contact to be loaded
@@ -17,10 +14,8 @@ $("document").ready(()=>{
     }else{
         $("#chatHeaderName").text(sessionStorage.getItem("activeContactName"));
     }
-    
     //get conversation
     let loadChat = ()=>{
-        
         if(sessionStorage.getItem('activeContact') == null){
             return;
         }
@@ -65,7 +60,6 @@ $("document").ready(()=>{
         });
         
     };
-
     let displayChat = (position, message, dateTime)=>{
         if(position == 0){
             $(".conversation").append(`
@@ -84,7 +78,6 @@ $("document").ready(()=>{
         }
         $(".conversation").scrollTop($(".conversation")[0].scrollHeight); 
     };
-
     //get contacts list
     let loadContacts = ()=>{
         fetch('../api/getContacts.php', {
@@ -114,7 +107,6 @@ $("document").ready(()=>{
             location.reload();
         });
     };
-    
     let displayContacts = (data)=>{
         $(".contacts").empty();
         if(data.userID == 0){
@@ -137,7 +129,6 @@ $("document").ready(()=>{
                 picture = data[i].user1Picture;
                 uid = data[i].user1ID;
             }
-
             //build the elements
             let contact = document.createElement("div");
             let pic = document.createElement("img");
@@ -150,26 +141,20 @@ $("document").ready(()=>{
             pic.setAttribute("class", "contactPicture");
             n.setAttribute("class", "contactName");
             notif.setAttribute("class", "notif");
-            
             n.innerText = name;
-
             if(data[i].notif != 0 && data[i].notif != null){
                 notif.innerText = data[i].notif;
                 n.append(notif);
             }
-
             contact.append(pic);
             contact.append(n);
-
             $(".contacts").append(contact);
         }
     };
-
     //sending message
     $("#chatSend").click(()=>{
         sendMessage($("#chatInput").val());
     });
-
     //enter key on textarea
     $("#chatInput").keypress((e)=>{
         if(e.keyCode == 13){
@@ -181,7 +166,6 @@ $("document").ready(()=>{
             sendMessage($("#chatInput").val());
         }
     });
-    
     //send message
     let sendMessage = (msg)=>{
         disableInput(true);
@@ -210,7 +194,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on sending message: " + error));
     };
-
     //notify user
     let notify = (nid)=>{
         //check if user and contact is already in notification table
@@ -259,7 +242,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on checking notification: " + error));
     };
-
     //sanitize input
     let mysql_real_escape_string = (str)=>{
         return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
@@ -287,7 +269,6 @@ $("document").ready(()=>{
             }
         });
     }
-
     //input disable/enable
     let disableInput = (state)=>{
         if(state){
@@ -298,7 +279,6 @@ $("document").ready(()=>{
             $("#chatInput").prop("disabled", false);
         }
     };
-
     //check of no contacts
     let checkContacts = ()=>{
         if($(".contacts").children().length == 0){
@@ -307,14 +287,12 @@ $("document").ready(()=>{
             $(".noContacts").css({display: "none"});
         }
     };
-
     //retrieve  contact list
     loadContacts();
     //realtime chat daw
     //setInterval(()=>{loadChat()}, 1000);
     loadChat();
 });
-
 let loading = (state)=>{
     if(state == 1){
         $(".loadingConversation").css({display: "block"});
@@ -322,10 +300,8 @@ let loading = (state)=>{
         $(".loadingConversation").css({display: "none"});
     }
 };
-
 //selecting user from contact
 let lastChatID = 0;
-
 let selectContact = (id, name)=>{
     loading(1);
     $("#chatSend").css({display: "block"});
@@ -338,7 +314,6 @@ let selectContact = (id, name)=>{
     clearNotification(id);
     location.reload();
 };
-
 //clear notification
 let clearNotification = (nid)=>{
     fetch('../api/clearNotification.php', {

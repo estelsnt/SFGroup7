@@ -1,3 +1,4 @@
+//checkContactNumber.php - api for authenticating contact number
 <?php
     include 'connection.php';
     if($conn->connect_error){

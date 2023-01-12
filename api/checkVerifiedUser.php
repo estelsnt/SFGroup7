@@ -1,3 +1,4 @@
+//checkVerifiedUser.php - api to check if user is verified
 <?php
     include 'connection.php';
     if($conn->connect_error){

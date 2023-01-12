@@ -1,3 +1,4 @@
+//checkContact.php - api to check a user's existence in contacts
 <?php
     include 'connection.php';
     if($conn->connect_error){

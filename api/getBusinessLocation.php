@@ -1,3 +1,4 @@
+//getBusinessLocation.php - api for retrieving business address
 <?php
     include 'connection.php';
     if($conn->connect_error){

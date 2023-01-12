@@ -1,10 +1,9 @@
+//createBusinessPageBehavior.js - controls the creating businesspage 
 $("document").ready(()=>{
-
     let slideshowImages;
     let pageInfo;
     //track the index of current image from slideshow image array
     let currentImg = 0;
-
     let subscription = "20";
     //load data
     let getPostdata = ()=>{
@@ -42,28 +41,22 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of this user posts"));
     };
-
     getPostdata();
-
     $("#businessName").keyup(()=>{
         $("#businessName").css({height: "0"});
         $("#businessName").css({height: $("#businessName").prop('scrollHeight') + "px"});
     });
-
     $("#businessDetails").keyup(()=>{
         $("#businessDetails").css({height: "0"});
         $("#businessDetails").css({height: $("#businessDetails").prop('scrollHeight') + "px"});
     });
-
     //always trigger keyup to resize textarea
     $("#businessName").keyup();
     $("#businessDetails").keyup();
-    
     //edit title
     $("#businessName").keyup(()=>{
         $("#editBusinessName").attr("src", "../images/check.png");
     });
-
     $("#editBusinessName").click(()=>{
         if($("#businessName").val() == pageInfo[0].title){
             $("#businessName").css({border: "1px solid gold"});
@@ -96,12 +89,10 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on retrieval of this user posts"));
         }
     });
-
     //edit description
     $("#businessDetails").keyup(()=>{
         $("#editBusinessDetails").attr("src", "../images/check.png");
     });
-
     $("#editBusinessDetails").click(()=>{
         if($("#businessDetails").val() == pageInfo[0].details){
             $("#businessDetails").css({border: "1px solid gold"});
@@ -134,7 +125,6 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on retrieval of this user posts"));
         }
     });
-
     //change header photo
     function previewProfileImage(uploader) {   
         //ensure a file was selected 
@@ -173,14 +163,11 @@ $("document").ready(()=>{
             reader.readAsDataURL( imageFile );
         }
     }
-    
     $("#uploadFeaturedPhoto").change(function(){
         previewProfileImage(this);
     });
-
     //list items
     getListItems();
-
     $("#addList").click(()=>{
         if($("#addListInput").val() != ""){
             let item = $("#addListInput").val();
@@ -204,7 +191,6 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on inserting list"));
         }
     });
-
     //slideshow
     function previewSlideshowImage(uploader) {   
         //ensure a file was selected 
@@ -240,12 +226,9 @@ $("document").ready(()=>{
             reader.readAsDataURL( imageFile );
         }
     }
-    
     $("#uploadSlideshowPhoto").change(function(){
         previewSlideshowImage(this);
     });
-
-
     let getSlideshowImage = ()=>{
         $(".loading").css({display: "block"});
         fetch('../api/getBusinessSlideshowPhotos.php', {
@@ -269,9 +252,7 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieving photo"));
     };
-  
     getSlideshowImage();
-
     $("#removeSlideshowImage").click(()=>{
         $(".loading").css({display: "block"});
         fetch('../api/removeBusinessSlideshowImage.php', {
@@ -289,7 +270,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on removing photo"));
     });
-
     $(".right").click(()=>{
         if(currentImg == slideshowImages.length -1){
             currentImg = 0;
@@ -298,7 +278,6 @@ $("document").ready(()=>{
         }
         $(".slideshowImage").attr("src", slideshowImages[currentImg].photo);
     });
-    
     $(".left").click(()=>{
         if(currentImg == 0){
             currentImg = slideshowImages.length - 1;
@@ -307,25 +286,20 @@ $("document").ready(()=>{
         }
         $(".slideshowImage").attr("src", slideshowImages[currentImg].photo);
     });
-
     //extend subscription
     $("#extend").click(()=>{
         $(".createPostPremiumContainer").css({display: "block"});
     });
-
     //controls
     $("#createPostPremiumClose").click(()=>{
         $(".createPostPremiumContainer").css({display: "none"});
     });
-
     $(".createPostPremiumContainer").mousedown(()=>{
         $(".createPostPremiumContainer").css({display: "none"});
     });
-    
     $(".createPostPremium").mousedown(()=>{
         window.event.stopPropagation();
     });
-
     //redeem
     $("#redeem").click(()=>{
         if($("#businessName").val() == ""){
@@ -335,7 +309,6 @@ $("document").ready(()=>{
         $("#redeem").css({display: "none"});
         $("#redeemInput").css({display: "block"});
     });
-
     $("#redeemInput").keyup(()=>{
         if($("#redeemInput").val() == "capstone2022"){
             //on successful transaction
@@ -367,15 +340,12 @@ $("document").ready(()=>{
             .catch(error=>console.log("critical error on extending premium post duration"));
         }
     });
-    
     $("#m1").click(()=>{
         subscription = "20";
     });
-
     $("#m12").click(()=>{
         subscription = "200"
     });
-
     paypal.Buttons({
         createOrder: (data, actions)=>{
             if($("#businessName").val() == ""){
@@ -431,14 +401,12 @@ $("document").ready(()=>{
             })
         }
     }).render('#paypalButtonContainer');
-
     //preview
     $("#preview").click(()=>{
         console.log("clc");
         sessionStorage.setItem("toView", sessionStorage.getItem("businessPage"));
         location.href = "businessPage.html";
     });
-
     //comments
     $("#submitComment").click(()=>{
         if($("#commentText").val() != ""){
@@ -465,7 +433,6 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on sending comment"));
         }
     });
-
     let getComments = ()=>{
         $(".loading").css({display: "block"});
         fetch('../api/getComments.php?id='+sessionStorage.getItem("businessPage"), {
@@ -481,7 +448,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieving comment"));
     };
-
     let displayComment = (data)=>{
         $(".comments").empty();
         if(data.pCommentsID == 0){
@@ -492,34 +458,28 @@ $("document").ready(()=>{
             let rComment = document.createElement("button");
             let commentName = document.createElement("p");
             let cText = document.createElement("p");
-
             let replyBox = document.createElement("div");
             let replyInput = document.createElement("textarea");
             let replyButton = document.createElement("button");
-
             comment.setAttribute("class", "comment");
             rComment.setAttribute("class", "removeComment");
             rComment.setAttribute("onclick", "removeComment("+data[i].pCommentsID+")");
             commentName.setAttribute("class", "commentName");
             cText.setAttribute("class", "cText");
-
             replyBox.setAttribute("class", "replyBox");
             replyInput.setAttribute("class", "replyInput");
             replyInput.setAttribute("placeholder", "write reply");
             replyInput.setAttribute("id", "replyInput" + data[i].pCommentsID);
             replyButton.setAttribute("class", "replyButton");
             replyButton.setAttribute("onclick", "addReply("+data[i].pCommentsID+")");
-
             commentName.innerText = data[i].name;
             cText.innerText = data[i].comment
             replyButton.innerText = "reply";
-
             comment.append(rComment);
             comment.append(commentName);
             comment.append(cText);
             replyBox.append(replyInput);
             replyBox.append(replyButton);
-
             fetch('../api/getCommentReply.php?id='+data[i].pCommentsID, {
                 method: 'GET',
                 headers: {
@@ -536,16 +496,13 @@ $("document").ready(()=>{
                     let rReply = document.createElement("button");
                     let replyName = document.createElement("p");
                     let cReply = document.createElement("p");
-                    
                     reply.setAttribute("class", "reply");
                     rReply.setAttribute("class", "removeReply");
                     rReply.setAttribute("onclick", "removeReply("+data1[j].pCommentReplyID+")");
                     replyName.setAttribute("class", "replyName")
                     cReply.setAttribute("class", "cReply");
-
                     replyName.innerText = data1[j].title;
                     cReply.innerText = data1[j].reply;
-
                     reply.append(rReply);
                     reply.append(replyName);
                     reply.append(cReply);
@@ -557,10 +514,8 @@ $("document").ready(()=>{
             comment.append(replyBox);
         }
     };
-
     getComments();
 });
-
 let getListItems = ()=>{
     $(".loading").css({display: "block"});
     fetch('../api/getPremiumPageListItems.php?id=' + sessionStorage.getItem("businessPage"), {
@@ -585,7 +540,6 @@ let getListItems = ()=>{
         }
     })
     .catch(error=>console.log("error on retrieving list list"));
-
     //get notifications (realtime)
     let getNotification = ()=>{
         fetch('../api/getNotificationAll.php', {
@@ -616,7 +570,6 @@ let getListItems = ()=>{
         })
         .catch(error=>console.log("error on checking notification: " + error));
     };
-
     //get ratings
     let getRatings = ()=>{
         $(".loading").css({display: "block"});
@@ -653,7 +606,6 @@ let getListItems = ()=>{
         })
         .catch(error=>console.log("error on retrieval of rating"));
     };
-
     //get rating info
     let getRatingInfo = ()=>{
         $(".loading").css({display: "block"});
@@ -680,12 +632,10 @@ let getListItems = ()=>{
         })
         .catch(error=>console.log("error on retrieval of rating"));
     };
-
     getNotification();
     getRatings();
     getRatingInfo();
 };
-
 let removeComment = (cid)=>{
     $(".loading").css({display: "block"});
     fetch('../api/removeComment.php', {
@@ -703,7 +653,6 @@ let removeComment = (cid)=>{
     })
     .catch(error=>console.log("error on removing comment"));
 };
-
 let removeReply = (cid)=>{
     $(".loading").css({display: "block"});
     fetch('../api/removeReply.php', {
@@ -721,7 +670,6 @@ let removeReply = (cid)=>{
     })
     .catch(error=>console.log("error on inserting reply"));
 };
-
 let addReply = (cid)=>{
     $(".loading").css({display: "block"});
     fetch('../api/addReply.php', {
@@ -741,7 +689,6 @@ let addReply = (cid)=>{
     })
     .catch(error=>console.log("error on inserting reply"));
 };
-
 let removeList = (id)=>{
     $(".loading").css({display: "block"});
     fetch('../api/removePremiumPageListItem.php', {

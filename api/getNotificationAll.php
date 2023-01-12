@@ -1,3 +1,4 @@
+//getNotificationALL.php - api for retrieving notifications from all contacts
 <?php
     include 'connection.php';
     if($conn->connect_error){

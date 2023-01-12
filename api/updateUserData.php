@@ -1,3 +1,4 @@
+//updateUserData.php - api to change user data
 <?php
     include 'connection.php';
     if($conn->connect_error){

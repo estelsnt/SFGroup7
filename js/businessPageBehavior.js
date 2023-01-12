@@ -1,14 +1,10 @@
+//businessPageBehavior.js - controls the business page
 $("document").ready(()=>{
     let id = sessionStorage.getItem("toView");
     let pageInfo;
     let slideshowImage;
     let currentImg = 0;
-
-    //message button
-    $("#contact").click(()=>{
-        console.log(pageInfo[0].userID);
-        console.log([pageInfo]);
-    });
+    
     //load data
     let getPostdata = ()=>{
         $(".loading").css({display: "block"});
@@ -37,7 +33,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of this user posts"));
     };
-
     //list items
     let getListItems = ()=>{
         $(".loading").css({display: "block"});
@@ -61,7 +56,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieving list list"));
     };
-
     //slideshow
     let getSlideshowImage = ()=>{
         $(".loading").css({display: "block"});
@@ -86,7 +80,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieving photo"));
     };
-
     $(".right").click(()=>{
         if(currentImg == slideshowImages.length -1){
             currentImg = 0;
@@ -95,7 +88,6 @@ $("document").ready(()=>{
         }
         $(".slideshowImage").attr("src", slideshowImages[currentImg].photo);
     });
-    
     $(".left").click(()=>{
         if(currentImg == 0){
             currentImg = slideshowImages.length - 1;
@@ -104,7 +96,6 @@ $("document").ready(()=>{
         }
         $(".slideshowImage").attr("src", slideshowImages[currentImg].photo);
     });
-
     //location
     let getLocation = ()=>{
         $(".loading").css({display: "block"});
@@ -124,7 +115,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieving location"));
     };
-
     //comments
     $("#submitComment").click(()=>{
         if($("#commentText").val() != ""){
@@ -151,7 +141,6 @@ $("document").ready(()=>{
             .catch(error=>console.log("error on sending comment"));
         }
     });
-
     let getComments = ()=>{
         $(".loading").css({display: "block"});
         fetch('../api/getComments.php?id='+id, {
@@ -167,24 +156,19 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieving comment"));
     };
-
     let displayComment = (data)=>{
         $(".comments").empty();
         for(let i in data){
             let comment = document.createElement("div");
             let commentName = document.createElement("p");
             let cText = document.createElement("p");
-
             comment.setAttribute("class", "comment");
             commentName.setAttribute("class", "commentName");
             cText.setAttribute("class", "cText");
-
             commentName.innerText = data[i].name;
             cText.innerText = data[i].comment
-
             comment.append(commentName);
             comment.append(cText);
-
             fetch('../api/getCommentReply.php?id='+data[i].pCommentsID, {
                 method: 'GET',
                 headers: {
@@ -200,46 +184,40 @@ $("document").ready(()=>{
                     let reply = document.createElement("div");
                     let replyName = document.createElement("p");
                     let cReply = document.createElement("p");
-
                     reply.setAttribute("class", "reply");
                     replyName.setAttribute("class", "replyName")
                     cReply.setAttribute("class", "cReply");
-
                     replyName.innerText = data1[j].title;
                     cReply.innerText = data1[j].reply;
-
                     reply.append(replyName);
                     reply.append(cReply);
                     comment.append(reply);
-                    
                 }
                 $(".comments").append(comment);
             })
             .catch(error=>{console.log("error on retrieving replies")});
         }
     };
-
     //contact button
     $("#contact").click(()=>{
+        if(sessionStorage.getItem("id") == pageInfo[0].userID){
+            return;
+        }
         console.log(pageInfo);
         sessionStorage.setItem("msgthis", pageInfo[0].userID);
         $(".cname").text(pageInfo[0].title);
         $(".pageOwner").text(pageInfo[0].ownerName);
         $(".sendMessageContainer").css({display: "block"});
     });
-
     $("#closeSendMessage").click(()=>{   //closes the search panel on exit button clicked
         $(".sendMessageContainer").css({display: "none"});
     });
-
     $(".sendMessageContainer").mousedown(()=>{       //closes the search panel on click outside the search panel
         $(".sendMessageContainer").css({display: "none"});
     });
-
     $(".sendMessage").mousedown(()=>{        //prevents the searchpanel close event propagation (doesnt close when search panel clicked)
         window.event.stopPropagation();
     });
-
     //get notifications (realtime)
     let getNotification = ()=>{
         fetch('../api/getNotificationAll.php', {
@@ -270,25 +248,21 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on checking notification: " + error));
     };
-
     //rating functions
     $("#rateThis").click(()=>{
         $(".ratingInput").css({display : "block"});
     });
-
     $("#s1").hover(()=>{
         $("#s1").attr("src", "../images/star active.png");
     }, ()=>{
         clearStars();
     });
-
     $("#s2").hover(()=>{
         $("#s1").attr("src", "../images/star active.png");
         $("#s2").attr("src", "../images/star active.png");
     }, ()=>{
         clearStars();
     });
-
     $("#s3").hover(()=>{
         $("#s1").attr("src", "../images/star active.png");
         $("#s2").attr("src", "../images/star active.png");
@@ -296,7 +270,6 @@ $("document").ready(()=>{
     }, ()=>{
         clearStars();
     });
-
     $("#s4").hover(()=>{
         $("#s1").attr("src", "../images/star active.png");
         $("#s2").attr("src", "../images/star active.png");
@@ -305,7 +278,6 @@ $("document").ready(()=>{
     }, ()=>{
         clearStars();
     });
-
     $("#s5").hover(()=>{
         $("#s1").attr("src", "../images/star active.png");
         $("#s2").attr("src", "../images/star active.png");
@@ -315,7 +287,6 @@ $("document").ready(()=>{
     }, ()=>{
         clearStars();
     });
-
     const clearStars = ()=>{
         $("#s1").attr("src", "../images/star inactive.png");
         $("#s2").attr("src", "../images/star inactive.png");
@@ -323,33 +294,27 @@ $("document").ready(()=>{
         $("#s4").attr("src", "../images/star inactive.png");
         $("#s5").attr("src", "../images/star inactive.png"); 
     };
-
     $("#s1").click(()=>{
         rating(1);
     });
-
     $("#s2").click(()=>{
         rating(2);
     });
-
     $("#s3").click(()=>{
         rating(3);
     });
-
     $("#s4").click(()=>{
         rating(4);
     });
-
     $("#s5").click(()=>{
         rating(5);
     });
-
     //set rating
     let rating = (stars) =>{
         console.log(stars);
         //check if user already rated this service
         $(".loading").css({display: "block"});
-        fetch('../api/checkRating.php?id=' + sessionStorage.getItem("id"), {
+        fetch('../api/checkRating.php?id=' + sessionStorage.getItem("id") + '&pid=' + id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -396,7 +361,6 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on checking ratings: " + error));
     };
-
     //get ratings
     let getRatings = ()=>{
         $(".loading").css({display: "block"});
@@ -433,9 +397,7 @@ $("document").ready(()=>{
         })
         .catch(error=>console.log("error on retrieval of rating"));
     };
-
     getNotification();
-
     //initial functions call
     getComments();
     getPostdata();
