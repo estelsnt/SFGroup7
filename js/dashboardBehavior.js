@@ -8,6 +8,7 @@ $("document").ready(()=>{
     let postNormalCount = 0, postOrderCount  = 0, postPremiumCount = 0;
     let postNormalLastIndex = 0, postOrderLastIndex = 0, postPremiumLastIndex = 0;
     let limit = 0;
+    let colPos = 1;
     const pageProtection = ()=>{
         if(sessionStorage.getItem("id") == undefined){
             window.location = "../pages/login.html";
@@ -88,9 +89,12 @@ $("document").ready(()=>{
                 post.append(postContent);
                 post.append(rating);
                 post.append(messageButton);
-                
-                $(".postsContainer").append(post);
-
+                //$(".postsContainer").append(post);
+                if(colPos > 3){
+                    colPos = 1;
+                }
+                $(".col"+colPos).append(post)
+                colPos++;
                 postPremiumLastIndex++;
                 postPremiumCount++;
             }
@@ -127,22 +131,32 @@ $("document").ready(()=>{
                 if(postNormalCount >= postLimit){
                     return;
                 }
-                $(".postsContainer").append(`
-                    <div class="post `+posts[postNormalLastIndex].verified+`">
-                        <div class="postHeader">
-                            <img src="`+posts[postNormalLastIndex].picture+`" class="profilePicture">
-                            <span class="name">`+posts[postNormalLastIndex].name+`</span>
-                        </div>
-                        <div class="postContent">
-                            <span class="service">`+posts[postNormalLastIndex].serviceName+`</span>
-                            <span class="description">`+posts[postNormalLastIndex].description+`</span>
-                            <span class="pricing">pricing: `+posts[postNormalLastIndex].pricing+`</span>
-                            <span class="location">`+posts[postNormalLastIndex].location+`</span>
-                        </div>
-                        <img src="`+posts[postNormalLastIndex].postPicture+`" class="postPicture">
-                        <button class="messageButton" onclick="messageMe(`+posts[postNormalLastIndex].userID+`, '`+posts[postNormalLastIndex].name+ `', '`+posts[postNormalLastIndex].serviceName+`')">Message me</button>
-                    </div>
-                `);
+                //offering
+                let postCard = `<div class="post `+posts[postNormalLastIndex].verified+`">
+                                     <div class="postHeader">
+                                        <img src="`+posts[postNormalLastIndex].picture+`" class="profilePicture">
+                                        <span class="name">`+posts[postNormalLastIndex].name+`</span>
+                                    </div>
+                                    <div class="postContent">
+                                        <span class="service">`+posts[postNormalLastIndex].serviceName+`</span>
+                                        <span class="description" id="desc`+posts[postNormalLastIndex].servicePostingID+`">`+posts[postNormalLastIndex].description+`</span>`;
+                                        if(posts[postNormalLastIndex].description.length > 100){
+                                            postCard += `<span class="seeMore" onclick="seeMore('desc`+posts[postNormalLastIndex].servicePostingID+`')" id="seeMoredesc`+posts[postNormalLastIndex].servicePostingID+`">....see more</span>`;
+                                        }
+                                        postCard += `<span class="pricing">pricing: `+posts[postNormalLastIndex].pricing+`</span>
+                                        <span class="location">`+posts[postNormalLastIndex].location+`</span>
+                                    </div>`;
+                                    if(posts[postNormalLastIndex].postPicture.slice(0, 50) != "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXQA"){
+                                        postCard += `<img src="`+posts[postNormalLastIndex].postPicture+`" class="postPicture">`;
+                                    }
+                                    postCard += `<button class="messageButton" onclick="messageMe(`+posts[postNormalLastIndex].userID+`, '`+posts[postNormalLastIndex].name+ `', '`+posts[postNormalLastIndex].serviceName+`')">Message me</button>
+                                </div>`;
+                //$(".postsContainer").append(postCard);
+                if(colPos > 3){
+                    colPos = 1;
+                }
+                $(".col"+colPos).append(postCard)
+                colPos++;
                 postNormalLastIndex++;
                 postNormalCount++;
             }
@@ -179,21 +193,31 @@ $("document").ready(()=>{
                 if(postOrderCount >= postLimit){
                     return;
                 }
-                $(".postsContainer").append(`
-                    <div class="post `+posts[postOrderLastIndex].verified+`">
-                        <div class="postHeader">
-                            <img src="`+posts[postOrderLastIndex].picture+`" class="profilePicture">
-                            <span class="name">`+posts[postOrderLastIndex].name+`</span>
-                        </div>
-                        <div class="postContent">
-                            <span>Is looking for: <b>`+posts[postOrderLastIndex].serviceName+`</b></span>
-                            <span class="description">`+posts[postOrderLastIndex].description+`</span>
-                            <span class="location">`+posts[postOrderLastIndex].location+`</span>
-                        </div>
-                        <img src="`+posts[postOrderLastIndex].postPicture+`" class="postPicture">
-                        <button class="messageButton" onclick="messageMe(`+posts[postOrderLastIndex].userID+`,'`+posts[postOrderLastIndex].name+`', '`+posts[postOrderLastIndex].serviceName+`')">Message me</button>
-                    </div>
-                `);
+                //looking for
+                let postCard = `<div class="post `+posts[postOrderLastIndex].verified+`">
+                <div class="postHeader">
+                    <img src="`+posts[postOrderLastIndex].picture+`" class="profilePicture">
+                    <span class="name">`+posts[postOrderLastIndex].name+`</span>
+                </div>
+                <div class="postContent">
+                    <span>Is looking for: <b>`+posts[postOrderLastIndex].serviceName+`</b></span>
+                    <span class="description" id="desc2`+posts[postOrderLastIndex].serviceOrderID+`">`+posts[postOrderLastIndex].description+`</span>`
+                    if(posts[postOrderLastIndex].description.length > 100){
+                        postCard += `<span class="seeMore" onclick="seeMore2('desc2`+posts[postOrderLastIndex].serviceOrderID+`')" id="seeMoredesc2`+posts[postOrderLastIndex].serviceOrderID+`">....see more</span>`;
+                    }
+                    postCard += ` <span class="location">`+posts[postOrderLastIndex].location+`</span>
+                    </div>`
+                    if(posts[postOrderLastIndex].postPicture.slice(0, 50) != "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXQA"){
+                        postCard += `<img src="`+posts[postOrderLastIndex].postPicture+`" class="postPicture">`;
+                    }
+                    postCard += `<button class="messageButton" onclick="messageMe(`+posts[postOrderLastIndex].userID+`,'`+posts[postOrderLastIndex].name+`', '`+posts[postOrderLastIndex].serviceName+`')">Message me</button>
+                    </div>`
+                //$(".postsContainer").append(postCard);
+                if(colPos > 3){
+                    colPos = 1;
+                }
+                $(".col"+colPos).append(postCard)
+                colPos++;
                 postOrderLastIndex++;
                 postOrderCount++;
             }
@@ -579,4 +603,14 @@ let messageMe = (id, name, header)=>{
     $(".cname").text(name);
     $("#headerText").text(header);
     console.log("reciever id: " + id + "name: " + name);
+};
+//see more description
+let seeMore = (postid)=>{
+    $("#"+postid).css({maxHeight: "300px"});
+    $("#seeMore"+postid).css({display: "none"});
+};
+let seeMore2 = (postid)=>{
+    console.log(postid)
+    $("#"+postid).css({maxHeight: "300px"});
+    $("#seeMore"+postid).css({display: "none"});
 };

@@ -269,7 +269,7 @@ html, body{
     flex-direction: column;
     background-color:beige;
     padding: 10px 10px 20px 10px;
-    margin: 10px;
+    margin: 20px 10px;
     min-width: 200px;
     max-width: 300px;
     min-height: 250px;
@@ -299,6 +299,19 @@ html, body{
 .postContent{
     display: flex;
     flex-direction: column;
+}
+
+.postContent .description{
+    max-height: 70px;
+    overflow-y: hidden;
+    word-break: break-all;
+}
+
+.postContent .seeMore{
+    color: #0073ff;
+    font-size: 0.8em;
+    cursor: pointer;
+    margin-left: 20px;
 }
 
 .postContent span{
@@ -559,6 +572,18 @@ html, body{
     margin: 40vh 45vw;
 }
 
+.col{
+    max-width: 350px;
+   
+}
+@media (max-width: 1040px) {
+    .col3{
+        display: flex;
+        min-width: 100vw;
+        justify-content: center;
+        align-items: flex-start;
+    }
+}
 @media (max-width: 870px) {
     .heading #menu{
         display: block;
@@ -596,6 +621,10 @@ html, body{
         width: 70vw;
         left: 15vw;
     }
+    .col3{
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 @media (max-width: 485px) {
@@ -609,5 +638,11 @@ html, body{
     }
     .main{
         justify-content: center;
+    }
+}
+
+@media (min-width: 350px) {
+    .post{
+        min-width: 300px;
     }
 }
