@@ -29,7 +29,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+    max-width: 200px;
 }
 
 #postNormal #createNewPostNormal{

@@ -1,4 +1,3 @@
-//getPostsNormal.php - api for retrieving posts
 <?php
     include 'connection.php';
     if($conn->connect_error){

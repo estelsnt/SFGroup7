@@ -1,4 +1,3 @@
-//updateBusinessDescription.php - api to update business description
 <?php
     include 'connection.php';
     if($conn->connect_error){

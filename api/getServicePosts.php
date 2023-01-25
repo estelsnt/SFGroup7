@@ -1,4 +1,3 @@
-//getServicePosts.php - api to retrieve services posted
 <?php
     include 'connection.php';
     if($conn->connect_error){

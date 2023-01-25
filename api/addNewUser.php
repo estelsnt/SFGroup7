@@ -1,4 +1,3 @@
-//addNewUser.php - api for inserting new user
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,4 +1,3 @@
-//getUserData.php - api to retrieve user data
 <?php
     include 'connection.php';
     if($conn->connect_error){

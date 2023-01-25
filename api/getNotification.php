@@ -1,4 +1,3 @@
-//getNotification.php - api for retrieving notifications
 <?php
     include 'connection.php';
     if($conn->connect_error){

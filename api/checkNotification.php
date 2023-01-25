@@ -1,4 +1,3 @@
-//checkNotification.php - api to check for new notifications
 <?php
     include 'connection.php';
     if($conn->connect_error){

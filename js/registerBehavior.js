@@ -422,6 +422,14 @@ $("document").ready(()=>{
         }
         return valid;
     };
+    $("#iAgree").click(()=>{
+        if($("#iAgree").is(":checked")){
+            console.log("checked");
+            $("#confirm").attr("disabled", false);
+        }else{
+            $("#confirm").attr("disabled", true);
+        }
+    });
     //initial functions call
     populateRegion();
 });

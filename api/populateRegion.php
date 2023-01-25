@@ -1,4 +1,3 @@
-//populateRegion.php - api to get the list of regions
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,4 +1,3 @@
-//updateUserAddress.php - api to chage user address
 <?php
     include 'connection.php';
     if($conn->connect_error){

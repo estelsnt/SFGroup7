@@ -1,4 +1,3 @@
-//getOrderPosts.php - api for retrieving all order posts
 <?php
     include 'connection.php';
     if($conn->connect_error){

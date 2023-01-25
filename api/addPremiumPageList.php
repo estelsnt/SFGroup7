@@ -1,4 +1,3 @@
-//addPremiumPage.php - api for inserting list data on page
 <?php
     include 'connection.php';
     if($conn->connect_error){

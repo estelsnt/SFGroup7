@@ -1,4 +1,3 @@
-//getUserPostCount.php - api to get the number of posts by user
 <?php
     include 'connection.php';
     if($conn->connect_error){

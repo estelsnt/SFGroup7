@@ -1,4 +1,3 @@
-//uploadUserVerification.php - api for uploading ids for verification
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,4 +1,3 @@
-//getUserAddress.php - api to retrieve user complete address
 <?php
     include 'connection.php';
     if($conn->connect_error){

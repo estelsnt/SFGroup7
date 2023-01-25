@@ -1,4 +1,3 @@
-//getPostPremium.php - api for retrieval of premium posts
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,4 +1,3 @@
-//retrievePassword.php - api for recovering account
 <?php
     include 'connection.php';
     if($conn->connect_error){

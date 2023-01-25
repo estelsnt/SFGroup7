@@ -1,4 +1,3 @@
-//removeBusinessSlideshowImage.php - api to delete picture in slideshow
 <?php
     include 'connection.php';
     if($conn->connect_error){

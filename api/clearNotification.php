@@ -1,4 +1,3 @@
-//clearNotification.php - api to clear notifications
 <?php
     include 'connection.php';
     if($conn->connect_error){

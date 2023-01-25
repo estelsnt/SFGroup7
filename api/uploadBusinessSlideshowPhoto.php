@@ -1,4 +1,3 @@
-//uploadBusinessSlideshowPhoto.php - api for uploading photo in slideshow
 <?php
     include 'connection.php';
     if($conn->connect_error){

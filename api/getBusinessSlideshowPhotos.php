@@ -1,4 +1,3 @@
-//getBusinessSlideshowPhotos.php - api to retrieve slideshow images
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,6 +1,6 @@
 //createPostBehavior.js - controls the creation of posts
+let allowedToPost = true;
 $("document").ready(()=>{
-    let allowedToPost = true;
     let serviceCategories;
     let services;
     let selectedServiceCategory;
@@ -410,7 +410,7 @@ $("document").ready(()=>{
         $("#servicePricing").val("");
         $("#serviceDescription").val("");
     };
-    //check if user is verified and restrict posting to 1
+    //check if user is verified and restrict posting for unverified users
     let checkUserVerified = ()=>{
         $(".loading").css({display: "block"});
         fetch('../api/checkVerifiedUser.php', {
@@ -429,21 +429,24 @@ $("document").ready(()=>{
                 $("#getVerified").css({display: "none"});
             }
             else{
-                $(".loading").css({display: "block"});
-                fetch('../api/getUserPostCount.php?id='+sessionStorage.getItem("id"), {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res=>{return res.json()})
-                .then(data=>{
-                    $(".loading").css({display: "none"});
-                    if(data[0].posts == "1"){
-                        allowedToPost = false;
-                    }
-                })
-                .catch(error=>console.log("error on retrieval of user number of post: " + error));
+                allowedToPost = false;
+                //this part was implemented on december 2022
+                //this restrict the user for posting more than 1 post for non verified users
+                // $(".loading").css({display: "block"});
+                // fetch('../api/getUserPostCount.php?id='+sessionStorage.getItem("id"), {
+                //     method: 'GET',
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     }
+                // })
+                // .then(res=>{return res.json()})
+                // .then(data=>{
+                //     $(".loading").css({display: "none"});
+                //     if(data[0].posts == "1"){
+                //         allowedToPost = false;
+                //     }
+                // })
+                // .catch(error=>console.log("error on retrieval of user number of post: " + error));
             }
         })
         .catch(error=>console.log("error on retrieval of user verification: " + error));
@@ -452,9 +455,9 @@ $("document").ready(()=>{
     $("#createNewPostNormal").click(()=>{
         //check if user is not verified (limited to 1 post)
         if(!allowedToPost){
-            $("#getVerified").text("limited to 1 post");
+            $("#getVerified").text("Upload credentials before posting your service");
             setTimeout(()=>{
-                $("#getVerified").text("Get verified! create more posts");
+                $("#getVerified").text("Get verified! to post your service");
             }, 2000);
             return;
         }
@@ -481,9 +484,6 @@ $("document").ready(()=>{
     });
     $(".createPostPremium").mousedown(()=>{
         window.event.stopPropagation();
-    });
-    $("#createNewPostPremium").click(()=>{
-        $(".createPostPremiumContainer").css({display: "block"});
     });
     //for creating premium post go to businesspage
     //this button is for testing
@@ -527,6 +527,13 @@ $("document").ready(()=>{
     getNotification();
 });
 let createPremiumPost = () =>{
+     if(!allowedToPost){
+        $("#learnMorePremium").text("Upload credentials before posting your service");
+        setTimeout(()=>{
+            $("#learnMorePremium").text("Advertise it in here. Learn more.");
+        }, 2000);
+        return;
+    }
     $(".createPostPremiumContainer").css({display: "block"});
 }
 let editPremiumPost = () =>{
