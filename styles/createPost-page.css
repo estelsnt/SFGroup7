@@ -425,6 +425,10 @@ body{
     max-width: 150px;
 }
 
+#postNormal, #postPremium{
+    min-width: 250px;
+}
+
 @media (max-width: 780px) {
     .createPostNormalContainer .createPostNormal{
         left: 5%;
