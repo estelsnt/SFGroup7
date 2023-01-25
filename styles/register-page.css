@@ -143,19 +143,6 @@ input, select{
     background-color: #fffff6;
 }
 
-.userAddressInfo #confirm{
-    font-size: 1.5em;
-    font-weight: bold;
-    padding: 10px 20px;
-    align-self: center;
-    margin-top: 40px;
-    border-radius: 20px;
-    border: hidden;
-    background-color: #ffab1e;
-    cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-}
-
 .userAddressInfo #confirm:hover{
     background-color: #ffb253;
 }
@@ -271,6 +258,41 @@ input, select{
     height: 5vh;
     width: 5vw;
     margin: 40vh 45vw;
+}
+
+.termsAndCondition{
+    margin: 5px auto 5px auto;
+}
+
+.termsAndCondition p{
+    text-align: justify;
+    font-size: 0.7em;
+    margin-left: 15px;
+    max-width: 350px;
+}
+
+#agreeLabel{
+    font-size: 0.8em;
+}
+
+#agreeContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#confirm{
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 10px 20px;
+    align-self: center;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    border-radius: 20px;
+    border: hidden;
+    background-color: #ffab1e;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
 @media (max-width: 1000px) {

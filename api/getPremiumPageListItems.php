@@ -1,4 +1,3 @@
-//getPremiumPageListItems.php - api to get the lists in pages
 <?php
     include 'connection.php';
     if($conn->connect_error){

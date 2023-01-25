@@ -1,4 +1,3 @@
-//getPostOrder.php - api for retrieval of orders posted
 <?php
     include 'connection.php';
     if($conn->connect_error){

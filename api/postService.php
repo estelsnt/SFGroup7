@@ -1,4 +1,3 @@
-//postService.php - api to post service
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,4 +1,3 @@
-//addToContact.php - api for adding user to contact
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,4 +1,3 @@
-//userAuthentication.php - api for authentication on logins
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,4 +1,3 @@
-//getServiceCategories.php - api to get list of service categories
 <?php
     include 'connection.php';
     if($conn->connect_error){

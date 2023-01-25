@@ -1,4 +1,3 @@
-//addReply.php - api for replying to pages
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -25,21 +25,23 @@ $("document").ready(()=>{
                 $("#getVerified").css({display: "none"});
             }
             else{
-                $(".loading").css({display: "block"});
-                fetch('../api/getUserOrderCount.php?id='+sessionStorage.getItem("id"), {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res=>{return res.json()})
-                .then(data=>{
-                    $(".loading").css({display: "none"});
-                    if(data[0].posts == "1"){
-                        allowedToPost = false;
-                    }
-                })
-                .catch(error=>console.log("error on retrieval of user number of post: " + error));
+                allowedToPost = false;
+                //this limits posting to 1 for non verified users. changed to posting restriction on non verified users
+                // $(".loading").css({display: "block"});
+                // fetch('../api/getUserOrderCount.php?id='+sessionStorage.getItem("id"), {
+                //     method: 'GET',
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     }
+                // })
+                // .then(res=>{return res.json()})
+                // .then(data=>{
+                //     $(".loading").css({display: "none"});
+                //     if(data[0].posts == "1"){
+                //         allowedToPost = false;
+                //     }
+                // })
+                // .catch(error=>console.log("error on retrieval of user number of post: " + error));
             }
         })
         .catch(error=>console.log("error on retrieval of user verification: " + error));
@@ -185,9 +187,9 @@ $("document").ready(()=>{
     $("#createNewOrder").click(()=>{
         //check if user is not verified (limited to 1 post)
         if(!allowedToPost){
-            $("#getVerified").text("limited to 1 post");
+            $("#getVerified").text("Upload credentials before posting your service");
             setTimeout(()=>{
-                $("#getVerified").text("Get verified! create more posts");
+                $("#getVerified").text("Get verified! to posts your service");
             }, 2000);
             return;
         }

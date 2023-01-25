@@ -1,4 +1,3 @@
-//addToNotification.php - api for adding user for notification
 <?php
     include 'connection.php';
     if($conn->connect_error){

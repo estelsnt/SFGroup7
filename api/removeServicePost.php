@@ -1,4 +1,3 @@
-//removeServicePost.php - api to delete a post
 <?php
     include 'connection.php';
     if($conn->connect_error){

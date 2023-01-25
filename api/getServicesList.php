@@ -1,4 +1,3 @@
-//getServicesList.php - api to retrieve services list
 <?php
     include 'connection.php';
     if($conn->connect_error){

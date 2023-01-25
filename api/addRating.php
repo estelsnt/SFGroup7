@@ -1,4 +1,3 @@
-//addRating.php - api for adding ratings to page
 <?php
     include 'connection.php';
     if($conn->connect_error){

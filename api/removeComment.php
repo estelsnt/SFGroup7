@@ -1,4 +1,3 @@
-//removeComment.php - api to delete a comment
 <?php
     include 'connection.php';
     if($conn->connect_error){

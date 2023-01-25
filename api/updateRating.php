@@ -1,4 +1,3 @@
-//updateRating.php - api to update a users rating
 <?php
     include 'connection.php';
     if($conn->connect_error){

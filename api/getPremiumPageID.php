@@ -1,4 +1,3 @@
-//getPremiumPageID.php - api to retrieve page id
 <?php
     include 'connection.php';
     if($conn->connect_error){

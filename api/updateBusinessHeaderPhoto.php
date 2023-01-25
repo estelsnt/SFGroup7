@@ -1,4 +1,3 @@
-//updateBusinesHeaderPhoto.php - api to update picture on page
 <?php
     include 'connection.php';
     if($conn->connect_error){

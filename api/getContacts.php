@@ -1,4 +1,3 @@
-//getContacts.php - api for retrieving contacts list
 <?php
     include 'connection.php';
     if($conn->connect_error){

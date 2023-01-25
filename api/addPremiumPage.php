@@ -1,4 +1,3 @@
-//addPremiumPage.php - api for inserting new premium post
 <?php
     include 'connection.php';
     if($conn->connect_error){

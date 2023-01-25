@@ -1,4 +1,3 @@
-//addNewService.php - api for inserting new service
 <?php
     include 'connection.php';
     if($conn->connect_error){

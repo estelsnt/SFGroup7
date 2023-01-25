@@ -1,4 +1,3 @@
-//checkRating.php - api to check if user already rated the page
 <?php
     include 'connection.php';
     if($conn->connect_error){

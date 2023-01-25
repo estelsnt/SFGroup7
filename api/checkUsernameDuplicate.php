@@ -1,4 +1,3 @@
-//checkUsernameDuplicate.php - api for checking duplication of username
 <?php
     include 'connection.php';
     if($conn->connect_error){

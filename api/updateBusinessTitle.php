@@ -1,4 +1,3 @@
-//updateBusinessTitle.php - api to change business name
 <?php
     include 'connection.php';
     if($conn->connect_error){

@@ -1,4 +1,3 @@
-//getCommentReply.php - api for retrieving replies in comment
 <?php
     include 'connection.php';
     if($conn->connect_error){

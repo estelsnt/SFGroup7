@@ -1,4 +1,3 @@
-//userDelete.php - api for deleting a user
 <?php
     include 'connection.php';
     if($conn->connect_error){
